@@ -60,6 +60,9 @@ public class PingService {
             input.close();
         } catch (IOException e) {
             LOGGER.error("while getting info from manifest:", e);
+        } catch (NullPointerException e) {
+            LOGGER.error("while trying to read manifest:", e);
+            return new JsonPingResp("dev", "test");
         } finally {
             if (reader != null) {
                 try {

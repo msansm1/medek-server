@@ -35,7 +35,7 @@ public class TestUtils {
                 .addPackage(MedekError.class.getPackage())
                 .addAsLibraries(libsConf)
                 .addAsResource("META-INF/persistence.xml")
-                .addAsResource("gui_errors_en.properties")
+                .addAsResource("messages_en.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"));
     }
