@@ -1,0 +1,70 @@
+package bzh.medek.server.persistence.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the trackartist database table.
+ * 
+ */
+@Entity
+@Table(name="TRACKARTIST")
+@NamedQuery(name="Trackartist.findAll", query="SELECT t FROM Trackartist t")
+public class Trackartist implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@EmbeddedId
+	private TrackartistPK id;
+
+	//bi-directional many-to-one association to Track
+	@ManyToOne
+	@JoinColumn(name="TRACK", nullable=false, insertable=false, updatable=false)
+	private Track trackBean;
+
+	//bi-directional many-to-one association to Artist
+	@ManyToOne
+	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
+	private Artist artistBean;
+
+	//bi-directional many-to-one association to Artisttype
+	@ManyToOne
+	@JoinColumn(name="TYPE")
+	private Artisttype artisttype;
+
+	public Trackartist() {
+	}
+
+	public TrackartistPK getId() {
+		return this.id;
+	}
+
+	public void setId(TrackartistPK id) {
+		this.id = id;
+	}
+
+	public Track getTrackBean() {
+		return this.trackBean;
+	}
+
+	public void setTrackBean(Track trackBean) {
+		this.trackBean = trackBean;
+	}
+
+	public Artist getArtistBean() {
+		return this.artistBean;
+	}
+
+	public void setArtistBean(Artist artistBean) {
+		this.artistBean = artistBean;
+	}
+
+	public Artisttype getArtisttype() {
+		return this.artisttype;
+	}
+
+	public void setArtisttype(Artisttype artisttype) {
+		this.artisttype = artisttype;
+	}
+
+}

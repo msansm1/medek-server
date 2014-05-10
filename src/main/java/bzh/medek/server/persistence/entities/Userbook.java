@@ -1,0 +1,78 @@
+package bzh.medek.server.persistence.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the userbook database table.
+ * 
+ */
+@Entity
+@Table(name="USERBOOK")
+@NamedQuery(name="Userbook.findAll", query="SELECT u FROM Userbook u")
+public class Userbook implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@EmbeddedId
+	private UserbookPK id;
+
+	@Column(name="`COMMENT`", length=100)
+	private String comment;
+
+	private Integer rating;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
+	private User userBean;
+
+	//bi-directional many-to-one association to Book
+	@ManyToOne
+	@JoinColumn(name="BOOK", nullable=false, insertable=false, updatable=false)
+	private Book bookBean;
+
+	public Userbook() {
+	}
+
+	public UserbookPK getId() {
+		return this.id;
+	}
+
+	public void setId(UserbookPK id) {
+		this.id = id;
+	}
+
+	public String getComment() {
+		return this.comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Integer getRating() {
+		return this.rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public User getUserBean() {
+		return this.userBean;
+	}
+
+	public void setUserBean(User userBean) {
+		this.userBean = userBean;
+	}
+
+	public Book getBookBean() {
+		return this.bookBean;
+	}
+
+	public void setBookBean(Book bookBean) {
+		this.bookBean = bookBean;
+	}
+
+}

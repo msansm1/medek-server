@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="medekserver">
+		<jta-data-source>java:jboss/datasources/medekserver</jta-data-source>
+		<class>bzh.medek.server.persistence.entities.Album</class>
+		<class>bzh.medek.server.persistence.entities.Albumartist</class>
+		<class>bzh.medek.server.persistence.entities.AlbumartistPK</class>
+		<class>bzh.medek.server.persistence.entities.Artist</class>
+		<class>bzh.medek.server.persistence.entities.Artisttype</class>
+		<class>bzh.medek.server.persistence.entities.Book</class>
+		<class>bzh.medek.server.persistence.entities.Bookartist</class>
+		<class>bzh.medek.server.persistence.entities.BookartistPK</class>
+		<class>bzh.medek.server.persistence.entities.Booktype</class>
+		<class>bzh.medek.server.persistence.entities.Collection</class>
+		<class>bzh.medek.server.persistence.entities.Database</class>
+		<class>bzh.medek.server.persistence.entities.Editor</class>
+		<class>bzh.medek.server.persistence.entities.Friend</class>
+		<class>bzh.medek.server.persistence.entities.FriendPK</class>
+		<class>bzh.medek.server.persistence.entities.Genre</class>
+		<class>bzh.medek.server.persistence.entities.Lang</class>
+		<class>bzh.medek.server.persistence.entities.Loan</class>
+		<class>bzh.medek.server.persistence.entities.Movie</class>
+		<class>bzh.medek.server.persistence.entities.Movieartist</class>
+		<class>bzh.medek.server.persistence.entities.MovieartistPK</class>
+		<class>bzh.medek.server.persistence.entities.Storygenre</class>
+		<class>bzh.medek.server.persistence.entities.Support</class>
+		<class>bzh.medek.server.persistence.entities.Track</class>
+		<class>bzh.medek.server.persistence.entities.Trackartist</class>
+		<class>bzh.medek.server.persistence.entities.TrackartistPK</class>
+		<class>bzh.medek.server.persistence.entities.Tvartist</class>
+		<class>bzh.medek.server.persistence.entities.TvartistPK</class>
+		<class>bzh.medek.server.persistence.entities.Tvshow</class>
+		<class>bzh.medek.server.persistence.entities.User</class>
+		<class>bzh.medek.server.persistence.entities.Useralbum</class>
+		<class>bzh.medek.server.persistence.entities.UseralbumPK</class>
+		<class>bzh.medek.server.persistence.entities.Userbook</class>
+		<class>bzh.medek.server.persistence.entities.UserbookPK</class>
+		<class>bzh.medek.server.persistence.entities.Usermovie</class>
+		<class>bzh.medek.server.persistence.entities.UsermoviePK</class>
+		<class>bzh.medek.server.persistence.entities.Usertv</class>
+		<class>bzh.medek.server.persistence.entities.UsertvPK</class>
+	</persistence-unit>
+</persistence>
