@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the friend database table.
+ * The primary key class for the FRIEND database table.
  * 
  */
 @Embeddable
@@ -12,10 +12,10 @@ public class FriendPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="USER", insertable=false, updatable=false, unique=true, nullable=false)
 	private int user;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="FRIEND", insertable=false, updatable=false, unique=true, nullable=false)
 	private int friend;
 
 	public FriendPK() {

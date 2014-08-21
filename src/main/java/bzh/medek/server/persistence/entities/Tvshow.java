@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the tvshow database table.
+ * The persistent class for the TVSHOW database table.
  * 
  */
 @Entity
@@ -18,29 +18,31 @@ public class Tvshow implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="COVER", length=45)
 	private String cover;
 
-	@Column(length=150)
+	@Column(name="DESCRIPTION", length=150)
 	private String description;
 
-	private Boolean isseriedone;
+	@Column(name="ISSERIEDONE")
+	private byte isseriedone;
 
-	@Column(length=5)
+	@Column(name="LENGTH", length=5)
 	private String length;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="RELEASEDATE")
 	private Date releasedate;
 
-	private Integer season;
+	private int season;
 
-	@Column(length=45)
+	@Column(name="SERIES", length=45)
 	private String series;
 
-	@Column(nullable=false, length=45)
+	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
 
 	//bi-directional many-to-one association to Loan
@@ -52,22 +54,40 @@ public class Tvshow implements Serializable {
 	private List<Tvartist> tvartists;
 
 	//bi-directional many-to-many association to Lang
-	@ManyToMany(mappedBy="tvshows1", fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+		name="TVLANG"
+		, joinColumns={
+			@JoinColumn(name="TVSHOW", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="LANG", nullable=false)
+			}
+		)
 	private List<Lang> langs1;
 
-	//bi-directional many-to-one association to Support
-	@ManyToOne
-	@JoinColumn(name="SUPPORT")
-	private Support supportBean;
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+		name="TVSUBTITLE"
+		, joinColumns={
+			@JoinColumn(name="TVSHOW", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="LANG", nullable=false)
+			}
+		)
+	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Storygenre
 	@ManyToOne
 	@JoinColumn(name="GENRE")
 	private Storygenre storygenre;
 
-	//bi-directional many-to-many association to Lang
-	@ManyToMany(mappedBy="tvshows2", fetch=FetchType.EAGER)
-	private List<Lang> langs2;
+	//bi-directional many-to-one association to Support
+	@ManyToOne
+	@JoinColumn(name="SUPPORT")
+	private Support supportBean;
 
 	//bi-directional many-to-one association to Usertv
 	@OneToMany(mappedBy="tvshowBean", fetch=FetchType.EAGER)
@@ -100,11 +120,11 @@ public class Tvshow implements Serializable {
 		this.description = description;
 	}
 
-	public Boolean getIsseriedone() {
+	public byte getIsseriedone() {
 		return this.isseriedone;
 	}
 
-	public void setIsseriedone(Boolean isseriedone) {
+	public void setIsseriedone(byte isseriedone) {
 		this.isseriedone = isseriedone;
 	}
 
@@ -124,11 +144,11 @@ public class Tvshow implements Serializable {
 		this.releasedate = releasedate;
 	}
 
-	public Integer getSeason() {
+	public int getSeason() {
 		return this.season;
 	}
 
-	public void setSeason(Integer season) {
+	public void setSeason(int season) {
 		this.season = season;
 	}
 
@@ -200,12 +220,12 @@ public class Tvshow implements Serializable {
 		this.langs1 = langs1;
 	}
 
-	public Support getSupportBean() {
-		return this.supportBean;
+	public List<Lang> getLangs2() {
+		return this.langs2;
 	}
 
-	public void setSupportBean(Support supportBean) {
-		this.supportBean = supportBean;
+	public void setLangs2(List<Lang> langs2) {
+		this.langs2 = langs2;
 	}
 
 	public Storygenre getStorygenre() {
@@ -216,12 +236,12 @@ public class Tvshow implements Serializable {
 		this.storygenre = storygenre;
 	}
 
-	public List<Lang> getLangs2() {
-		return this.langs2;
+	public Support getSupportBean() {
+		return this.supportBean;
 	}
 
-	public void setLangs2(List<Lang> langs2) {
-		this.langs2 = langs2;
+	public void setSupportBean(Support supportBean) {
+		this.supportBean = supportBean;
 	}
 
 	public List<Usertv> getUsertvs() {

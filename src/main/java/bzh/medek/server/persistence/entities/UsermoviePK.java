@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the usermovie database table.
+ * The primary key class for the USERMOVIE database table.
  * 
  */
 @Embeddable
@@ -12,10 +12,10 @@ public class UsermoviePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="USER", insertable=false, updatable=false, unique=true, nullable=false)
 	private int user;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="MOVIE", insertable=false, updatable=false, unique=true, nullable=false)
 	private int movie;
 
 	public UsermoviePK() {

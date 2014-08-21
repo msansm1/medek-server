@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the collection database table.
+ * The persistent class for the COLLECTION database table.
  * 
  */
 @Entity
@@ -17,10 +17,10 @@ public class Collection implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
+	@Column(name="NAME", nullable=false, length=45)
 	private String name;
 
 	//bi-directional many-to-one association to Book

@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the book database table.
+ * The persistent class for the BOOK database table.
  * 
  */
 @Entity
@@ -18,44 +18,48 @@ public class Book implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	private Integer booknb;
+	@Column(name="BOOKNB")
+	private int booknb;
 
-	@Column(length=45)
+	@Column(name="COVER", length=45)
 	private String cover;
 
-	@Column(length=150)
+	@Column(name="DESCRIPTION", length=150)
 	private String description;
 
-	private Boolean isseriedone;
+	@Column(name="ISSERIEDONE")
+	private byte isseriedone;
 
-	private Boolean issigned;
+	@Column(name="ISSIGNED")
+	private byte issigned;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="PUBLICATIONDATE")
 	private Date publicationdate;
 
-	@Column(length=45)
+	@Column(name="SERIES", length=45)
 	private String series;
 
-	@Column(nullable=false, length=45)
+	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
 
-	//bi-directional many-to-one association to Editor
+	//bi-directional many-to-one association to Booktype
 	@ManyToOne
-	@JoinColumn(name="EDITOR")
-	private Editor editorBean;
+	@JoinColumn(name="TYPE")
+	private Booktype booktype;
 
 	//bi-directional many-to-one association to Collection
 	@ManyToOne
 	@JoinColumn(name="COLLECTION")
 	private Collection collectionBean;
 
-	//bi-directional many-to-one association to Booktype
+	//bi-directional many-to-one association to Editor
 	@ManyToOne
-	@JoinColumn(name="TYPE")
-	private Booktype booktype;
+	@JoinColumn(name="EDITOR")
+	private Editor editorBean;
 
 	//bi-directional many-to-one association to Lang
 	@ManyToOne
@@ -90,11 +94,11 @@ public class Book implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getBooknb() {
+	public int getBooknb() {
 		return this.booknb;
 	}
 
-	public void setBooknb(Integer booknb) {
+	public void setBooknb(int booknb) {
 		this.booknb = booknb;
 	}
 
@@ -114,19 +118,19 @@ public class Book implements Serializable {
 		this.description = description;
 	}
 
-	public Boolean getIsseriedone() {
+	public byte getIsseriedone() {
 		return this.isseriedone;
 	}
 
-	public void setIsseriedone(Boolean isseriedone) {
+	public void setIsseriedone(byte isseriedone) {
 		this.isseriedone = isseriedone;
 	}
 
-	public Boolean getIssigned() {
+	public byte getIssigned() {
 		return this.issigned;
 	}
 
-	public void setIssigned(Boolean issigned) {
+	public void setIssigned(byte issigned) {
 		this.issigned = issigned;
 	}
 
@@ -154,12 +158,12 @@ public class Book implements Serializable {
 		this.title = title;
 	}
 
-	public Editor getEditorBean() {
-		return this.editorBean;
+	public Booktype getBooktype() {
+		return this.booktype;
 	}
 
-	public void setEditorBean(Editor editorBean) {
-		this.editorBean = editorBean;
+	public void setBooktype(Booktype booktype) {
+		this.booktype = booktype;
 	}
 
 	public Collection getCollectionBean() {
@@ -170,12 +174,12 @@ public class Book implements Serializable {
 		this.collectionBean = collectionBean;
 	}
 
-	public Booktype getBooktype() {
-		return this.booktype;
+	public Editor getEditorBean() {
+		return this.editorBean;
 	}
 
-	public void setBooktype(Booktype booktype) {
-		this.booktype = booktype;
+	public void setEditorBean(Editor editorBean) {
+		this.editorBean = editorBean;
 	}
 
 	public Lang getLangBean() {

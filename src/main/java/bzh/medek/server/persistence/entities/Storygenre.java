@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the storygenre database table.
+ * The persistent class for the STORYGENRE database table.
  * 
  */
 @Entity
@@ -17,11 +17,11 @@ public class Storygenre implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
-	private String genre;
+	@Column(name="NAME", nullable=false, length=45)
+	private String name;
 
 	//bi-directional many-to-one association to Book
 	@OneToMany(mappedBy="storygenre", fetch=FetchType.EAGER)
@@ -46,12 +46,12 @@ public class Storygenre implements Serializable {
 		this.id = id;
 	}
 
-	public String getGenre() {
-		return this.genre;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Book> getBooks() {

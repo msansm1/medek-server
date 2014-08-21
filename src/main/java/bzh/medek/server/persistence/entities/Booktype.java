@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the booktype database table.
+ * The persistent class for the BOOKTYPE database table.
  * 
  */
 @Entity
@@ -17,11 +17,11 @@ public class Booktype implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
-	private String type;
+	@Column(name="NAME", nullable=false, length=45)
+	private String name;
 
 	//bi-directional many-to-one association to Book
 	@OneToMany(mappedBy="booktype", fetch=FetchType.EAGER)
@@ -38,12 +38,12 @@ public class Booktype implements Serializable {
 		this.id = id;
 	}
 
-	public String getType() {
-		return this.type;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Book> getBooks() {

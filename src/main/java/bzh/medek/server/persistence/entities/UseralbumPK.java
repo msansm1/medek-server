@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the useralbum database table.
+ * The primary key class for the USERALBUM database table.
  * 
  */
 @Embeddable
@@ -12,10 +12,10 @@ public class UseralbumPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="USER", insertable=false, updatable=false, unique=true, nullable=false)
 	private int user;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="ALBUM", insertable=false, updatable=false, unique=true, nullable=false)
 	private int album;
 
 	public UseralbumPK() {

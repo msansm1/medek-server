@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the track database table.
+ * The persistent class for the TRACK database table.
  * 
  */
 @Entity
@@ -17,15 +17,16 @@ public class Track implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="LENGTH", length=45)
 	private String length;
 
-	private Integer number;
+	@Column(name="NUMBER")
+	private int number;
 
-	@Column(nullable=false, length=45)
+	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
 
 	//bi-directional many-to-one association to Album
@@ -56,11 +57,11 @@ public class Track implements Serializable {
 		this.length = length;
 	}
 
-	public Integer getNumber() {
+	public int getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 

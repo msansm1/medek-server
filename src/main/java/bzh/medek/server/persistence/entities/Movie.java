@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the movie database table.
+ * The persistent class for the MOVIE database table.
  * 
  */
 @Entity
@@ -18,52 +18,62 @@ public class Movie implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="COVER", length=45)
 	private String cover;
 
-	@Column(length=150)
+	@Column(name="DESCRIPTION", length=150)
 	private String description;
 
-	@Column(nullable=false)
+	@Column(name="ISCOLLECTOR", nullable=false)
 	private byte iscollector;
 
-	@Column(length=5)
+	@Column(name="LENGTH", length=5)
 	private String length;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="RELEASEDATE")
 	private Date releasedate;
 
-	@Column(nullable=false, length=45)
+	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
+
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(mappedBy="movies1", fetch=FetchType.EAGER)
+	private List<Lang> langs1;
 
 	//bi-directional many-to-one association to Loan
 	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
 	private List<Loan> loans;
 
-	//bi-directional many-to-one association to Support
-	@ManyToOne
-	@JoinColumn(name="SUPPORT")
-	private Support supportBean;
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+		name="MOVIELANG"
+		, joinColumns={
+			@JoinColumn(name="MOVIE", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="LANG", nullable=false)
+			}
+		)
+	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Storygenre
 	@ManyToOne
 	@JoinColumn(name="GENRE")
 	private Storygenre storygenre;
 
+	//bi-directional many-to-one association to Support
+	@ManyToOne
+	@JoinColumn(name="SUPPORT")
+	private Support supportBean;
+
 	//bi-directional many-to-one association to Movieartist
 	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
 	private List<Movieartist> movieartists;
-
-	//bi-directional many-to-many association to Lang
-	@ManyToMany(mappedBy="movies1", fetch=FetchType.EAGER)
-	private List<Lang> langs1;
-
-	//bi-directional many-to-many association to Lang
-	@ManyToMany(mappedBy="movies2", fetch=FetchType.EAGER)
-	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Usermovie
 	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
@@ -128,6 +138,14 @@ public class Movie implements Serializable {
 		this.title = title;
 	}
 
+	public List<Lang> getLangs1() {
+		return this.langs1;
+	}
+
+	public void setLangs1(List<Lang> langs1) {
+		this.langs1 = langs1;
+	}
+
 	public List<Loan> getLoans() {
 		return this.loans;
 	}
@@ -150,12 +168,12 @@ public class Movie implements Serializable {
 		return loan;
 	}
 
-	public Support getSupportBean() {
-		return this.supportBean;
+	public List<Lang> getLangs2() {
+		return this.langs2;
 	}
 
-	public void setSupportBean(Support supportBean) {
-		this.supportBean = supportBean;
+	public void setLangs2(List<Lang> langs2) {
+		this.langs2 = langs2;
 	}
 
 	public Storygenre getStorygenre() {
@@ -164,6 +182,14 @@ public class Movie implements Serializable {
 
 	public void setStorygenre(Storygenre storygenre) {
 		this.storygenre = storygenre;
+	}
+
+	public Support getSupportBean() {
+		return this.supportBean;
+	}
+
+	public void setSupportBean(Support supportBean) {
+		this.supportBean = supportBean;
 	}
 
 	public List<Movieartist> getMovieartists() {
@@ -186,22 +212,6 @@ public class Movie implements Serializable {
 		movieartist.setMovieBean(null);
 
 		return movieartist;
-	}
-
-	public List<Lang> getLangs1() {
-		return this.langs1;
-	}
-
-	public void setLangs1(List<Lang> langs1) {
-		this.langs1 = langs1;
-	}
-
-	public List<Lang> getLangs2() {
-		return this.langs2;
-	}
-
-	public void setLangs2(List<Lang> langs2) {
-		this.langs2 = langs2;
 	}
 
 	public List<Usermovie> getUsermovies() {

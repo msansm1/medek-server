@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the bookartist database table.
+ * The persistent class for the BOOKARTIST database table.
  * 
  */
 @Entity
@@ -17,11 +17,6 @@ public class Bookartist implements Serializable {
 	@EmbeddedId
 	private BookartistPK id;
 
-	//bi-directional many-to-one association to Book
-	@ManyToOne
-	@JoinColumn(name="BOOK", nullable=false, insertable=false, updatable=false)
-	private Book bookBean;
-
 	//bi-directional many-to-one association to Artist
 	@ManyToOne
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
@@ -32,6 +27,11 @@ public class Bookartist implements Serializable {
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
 
+	//bi-directional many-to-one association to Book
+	@ManyToOne
+	@JoinColumn(name="BOOK", nullable=false, insertable=false, updatable=false)
+	private Book bookBean;
+
 	public Bookartist() {
 	}
 
@@ -41,14 +41,6 @@ public class Bookartist implements Serializable {
 
 	public void setId(BookartistPK id) {
 		this.id = id;
-	}
-
-	public Book getBookBean() {
-		return this.bookBean;
-	}
-
-	public void setBookBean(Book bookBean) {
-		this.bookBean = bookBean;
 	}
 
 	public Artist getArtistBean() {
@@ -65,6 +57,14 @@ public class Bookartist implements Serializable {
 
 	public void setArtisttype(Artisttype artisttype) {
 		this.artisttype = artisttype;
+	}
+
+	public Book getBookBean() {
+		return this.bookBean;
+	}
+
+	public void setBookBean(Book bookBean) {
+		this.bookBean = bookBean;
 	}
 
 }

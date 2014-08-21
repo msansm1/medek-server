@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the artist database table.
+ * The persistent class for the ARTIST database table.
  * 
  */
 @Entity
@@ -17,25 +17,25 @@ public class Artist implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="BIOLINK", length=45)
 	private String biolink;
 
-	@Column(length=45)
+	@Column(name="FIRSTNAME", length=45)
 	private String firstname;
 
-	@Column(nullable=false, length=45)
+	@Column(name="NAME", nullable=false, length=45)
 	private String name;
 
-	@Column(length=45)
+	@Column(name="NATIONALITY", length=45)
 	private String nationality;
 
-	@Column(length=45)
+	@Column(name="PICTURE", length=45)
 	private String picture;
 
-	@Column(nullable=false)
+	@Column(name="TYPE", nullable=false)
 	private int type;
 
 	//bi-directional many-to-one association to Albumartist

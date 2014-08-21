@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the user database table.
+ * The persistent class for the USER database table.
  * 
  */
 @Entity
@@ -17,22 +17,22 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="EMAIL", length=45)
 	private String email;
 
-	@Column(length=45)
+	@Column(name="FIRSTNAME", length=45)
 	private String firstname;
 
-	@Column(length=45)
+	@Column(name="LASTNAME", length=45)
 	private String lastname;
 
-	@Column(nullable=false, length=15)
+	@Column(name="LOGIN", nullable=false, length=15)
 	private String login;
 
-	@Column(nullable=false, length=45)
+	@Column(name="PASSWORD", nullable=false, length=45)
 	private String password;
 
 	//bi-directional many-to-one association to Friend

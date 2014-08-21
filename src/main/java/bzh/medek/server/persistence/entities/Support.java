@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the support database table.
+ * The persistent class for the SUPPORT database table.
  * 
  */
 @Entity
@@ -17,11 +17,11 @@ public class Support implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
-	private String support;
+	@Column(name="NAME", nullable=false, length=45)
+	private String name;
 
 	//bi-directional many-to-one association to Album
 	@OneToMany(mappedBy="supportBean", fetch=FetchType.EAGER)
@@ -46,12 +46,12 @@ public class Support implements Serializable {
 		this.id = id;
 	}
 
-	public String getSupport() {
-		return this.support;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setSupport(String support) {
-		this.support = support;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Album> getAlbums() {

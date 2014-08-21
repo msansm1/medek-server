@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the useralbum database table.
+ * The persistent class for the USERALBUM database table.
  * 
  */
 @Entity
@@ -20,17 +20,18 @@ public class Useralbum implements Serializable {
 	@Column(name="`COMMENT`", length=100)
 	private String comment;
 
-	private Integer rating;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
-	private User userBean;
+	@Column(name="RATING")
+	private int rating;
 
 	//bi-directional many-to-one association to Album
 	@ManyToOne
 	@JoinColumn(name="ALBUM", nullable=false, insertable=false, updatable=false)
 	private Album albumBean;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
+	private User userBean;
 
 	public Useralbum() {
 	}
@@ -51,20 +52,12 @@ public class Useralbum implements Serializable {
 		this.comment = comment;
 	}
 
-	public Integer getRating() {
+	public int getRating() {
 		return this.rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
-	}
-
-	public User getUserBean() {
-		return this.userBean;
-	}
-
-	public void setUserBean(User userBean) {
-		this.userBean = userBean;
 	}
 
 	public Album getAlbumBean() {
@@ -73,6 +66,14 @@ public class Useralbum implements Serializable {
 
 	public void setAlbumBean(Album albumBean) {
 		this.albumBean = albumBean;
+	}
+
+	public User getUserBean() {
+		return this.userBean;
+	}
+
+	public void setUserBean(User userBean) {
+		this.userBean = userBean;
 	}
 
 }

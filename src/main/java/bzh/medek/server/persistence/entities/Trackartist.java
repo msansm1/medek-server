@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the trackartist database table.
+ * The persistent class for the TRACKARTIST database table.
  * 
  */
 @Entity
@@ -17,11 +17,6 @@ public class Trackartist implements Serializable {
 	@EmbeddedId
 	private TrackartistPK id;
 
-	//bi-directional many-to-one association to Track
-	@ManyToOne
-	@JoinColumn(name="TRACK", nullable=false, insertable=false, updatable=false)
-	private Track trackBean;
-
 	//bi-directional many-to-one association to Artist
 	@ManyToOne
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
@@ -32,6 +27,11 @@ public class Trackartist implements Serializable {
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
 
+	//bi-directional many-to-one association to Track
+	@ManyToOne
+	@JoinColumn(name="TRACK", nullable=false, insertable=false, updatable=false)
+	private Track trackBean;
+
 	public Trackartist() {
 	}
 
@@ -41,14 +41,6 @@ public class Trackartist implements Serializable {
 
 	public void setId(TrackartistPK id) {
 		this.id = id;
-	}
-
-	public Track getTrackBean() {
-		return this.trackBean;
-	}
-
-	public void setTrackBean(Track trackBean) {
-		this.trackBean = trackBean;
 	}
 
 	public Artist getArtistBean() {
@@ -65,6 +57,14 @@ public class Trackartist implements Serializable {
 
 	public void setArtisttype(Artisttype artisttype) {
 		this.artisttype = artisttype;
+	}
+
+	public Track getTrackBean() {
+		return this.trackBean;
+	}
+
+	public void setTrackBean(Track trackBean) {
+		this.trackBean = trackBean;
 	}
 
 }

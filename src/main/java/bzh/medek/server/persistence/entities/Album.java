@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the album database table.
+ * The persistent class for the ALBUM database table.
  * 
  */
 @Entity
@@ -18,32 +18,34 @@ public class Album implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(length=45)
+	@Column(name="COVER", length=45)
 	private String cover;
 
-	@Column(nullable=false)
+	@Column(name="ISSIGNED", nullable=false)
 	private byte issigned;
 
-	private Integer nbtracks;
+	@Column(name="NBTRACKS")
+	private int nbtracks;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="RELEASEDATE")
 	private Date releasedate;
 
-	@Column(nullable=false, length=45)
+	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
-
-	//bi-directional many-to-one association to Support
-	@ManyToOne
-	@JoinColumn(name="SUPPORT")
-	private Support supportBean;
 
 	//bi-directional many-to-one association to Genre
 	@ManyToOne
 	@JoinColumn(name="GENRE")
 	private Genre genreBean;
+
+	//bi-directional many-to-one association to Support
+	@ManyToOne
+	@JoinColumn(name="SUPPORT")
+	private Support supportBean;
 
 	//bi-directional many-to-one association to Albumartist
 	@OneToMany(mappedBy="albumBean", fetch=FetchType.EAGER)
@@ -88,11 +90,11 @@ public class Album implements Serializable {
 		this.issigned = issigned;
 	}
 
-	public Integer getNbtracks() {
+	public int getNbtracks() {
 		return this.nbtracks;
 	}
 
-	public void setNbtracks(Integer nbtracks) {
+	public void setNbtracks(int nbtracks) {
 		this.nbtracks = nbtracks;
 	}
 
@@ -112,20 +114,20 @@ public class Album implements Serializable {
 		this.title = title;
 	}
 
-	public Support getSupportBean() {
-		return this.supportBean;
-	}
-
-	public void setSupportBean(Support supportBean) {
-		this.supportBean = supportBean;
-	}
-
 	public Genre getGenreBean() {
 		return this.genreBean;
 	}
 
 	public void setGenreBean(Genre genreBean) {
 		this.genreBean = genreBean;
+	}
+
+	public Support getSupportBean() {
+		return this.supportBean;
+	}
+
+	public void setSupportBean(Support supportBean) {
+		this.supportBean = supportBean;
 	}
 
 	public List<Albumartist> getAlbumartists() {

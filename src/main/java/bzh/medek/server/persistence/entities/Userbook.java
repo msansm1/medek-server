@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the userbook database table.
+ * The persistent class for the USERBOOK database table.
  * 
  */
 @Entity
@@ -20,17 +20,18 @@ public class Userbook implements Serializable {
 	@Column(name="`COMMENT`", length=100)
 	private String comment;
 
-	private Integer rating;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
-	private User userBean;
+	@Column(name="RATING")
+	private int rating;
 
 	//bi-directional many-to-one association to Book
 	@ManyToOne
 	@JoinColumn(name="BOOK", nullable=false, insertable=false, updatable=false)
 	private Book bookBean;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
+	private User userBean;
 
 	public Userbook() {
 	}
@@ -51,20 +52,12 @@ public class Userbook implements Serializable {
 		this.comment = comment;
 	}
 
-	public Integer getRating() {
+	public int getRating() {
 		return this.rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
-	}
-
-	public User getUserBean() {
-		return this.userBean;
-	}
-
-	public void setUserBean(User userBean) {
-		this.userBean = userBean;
 	}
 
 	public Book getBookBean() {
@@ -73,6 +66,14 @@ public class Userbook implements Serializable {
 
 	public void setBookBean(Book bookBean) {
 		this.bookBean = bookBean;
+	}
+
+	public User getUserBean() {
+		return this.userBean;
+	}
+
+	public void setUserBean(User userBean) {
+		this.userBean = userBean;
 	}
 
 }

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the tvartist database table.
+ * The persistent class for the TVARTIST database table.
  * 
  */
 @Entity
@@ -17,11 +17,6 @@ public class Tvartist implements Serializable {
 	@EmbeddedId
 	private TvartistPK id;
 
-	//bi-directional many-to-one association to Tvshow
-	@ManyToOne
-	@JoinColumn(name="TVSHOW", nullable=false, insertable=false, updatable=false)
-	private Tvshow tvshowBean;
-
 	//bi-directional many-to-one association to Artist
 	@ManyToOne
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
@@ -32,6 +27,11 @@ public class Tvartist implements Serializable {
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
 
+	//bi-directional many-to-one association to Tvshow
+	@ManyToOne
+	@JoinColumn(name="TVSHOW", nullable=false, insertable=false, updatable=false)
+	private Tvshow tvshowBean;
+
 	public Tvartist() {
 	}
 
@@ -41,14 +41,6 @@ public class Tvartist implements Serializable {
 
 	public void setId(TvartistPK id) {
 		this.id = id;
-	}
-
-	public Tvshow getTvshowBean() {
-		return this.tvshowBean;
-	}
-
-	public void setTvshowBean(Tvshow tvshowBean) {
-		this.tvshowBean = tvshowBean;
 	}
 
 	public Artist getArtistBean() {
@@ -65,6 +57,14 @@ public class Tvartist implements Serializable {
 
 	public void setArtisttype(Artisttype artisttype) {
 		this.artisttype = artisttype;
+	}
+
+	public Tvshow getTvshowBean() {
+		return this.tvshowBean;
+	}
+
+	public void setTvshowBean(Tvshow tvshowBean) {
+		this.tvshowBean = tvshowBean;
 	}
 
 }

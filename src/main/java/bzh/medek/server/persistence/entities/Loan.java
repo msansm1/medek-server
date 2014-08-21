@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the loan database table.
+ * The persistent class for the LOAN database table.
  * 
  */
 @Entity
@@ -17,28 +17,24 @@ public class Loan implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="ENDDATE")
 	private Date enddate;
 
-	@Column(length=45)
+	@Column(name="NAME", length=45)
 	private String name;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable=false)
+	@Column(name="STARTDATE", nullable=false)
 	private Date startdate;
 
-	//bi-directional many-to-one association to User
+	//bi-directional many-to-one association to Album
 	@ManyToOne
-	@JoinColumn(name="USER", nullable=false)
-	private User user1;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="FRIEND")
-	private User user2;
+	@JoinColumn(name="ALBUM")
+	private Album albumBean;
 
 	//bi-directional many-to-one association to Book
 	@ManyToOne
@@ -50,15 +46,20 @@ public class Loan implements Serializable {
 	@JoinColumn(name="MOVIE")
 	private Movie movieBean;
 
-	//bi-directional many-to-one association to Album
-	@ManyToOne
-	@JoinColumn(name="ALBUM")
-	private Album albumBean;
-
 	//bi-directional many-to-one association to Tvshow
 	@ManyToOne
 	@JoinColumn(name="TVSHOW")
 	private Tvshow tvshowBean;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="FRIEND")
+	private User user1;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="USER", nullable=false)
+	private User user2;
 
 	public Loan() {
 	}
@@ -95,20 +96,12 @@ public class Loan implements Serializable {
 		this.startdate = startdate;
 	}
 
-	public User getUser1() {
-		return this.user1;
+	public Album getAlbumBean() {
+		return this.albumBean;
 	}
 
-	public void setUser1(User user1) {
-		this.user1 = user1;
-	}
-
-	public User getUser2() {
-		return this.user2;
-	}
-
-	public void setUser2(User user2) {
-		this.user2 = user2;
+	public void setAlbumBean(Album albumBean) {
+		this.albumBean = albumBean;
 	}
 
 	public Book getBookBean() {
@@ -127,20 +120,28 @@ public class Loan implements Serializable {
 		this.movieBean = movieBean;
 	}
 
-	public Album getAlbumBean() {
-		return this.albumBean;
-	}
-
-	public void setAlbumBean(Album albumBean) {
-		this.albumBean = albumBean;
-	}
-
 	public Tvshow getTvshowBean() {
 		return this.tvshowBean;
 	}
 
 	public void setTvshowBean(Tvshow tvshowBean) {
 		this.tvshowBean = tvshowBean;
+	}
+
+	public User getUser1() {
+		return this.user1;
+	}
+
+	public void setUser1(User user1) {
+		this.user1 = user1;
+	}
+
+	public User getUser2() {
+		return this.user2;
+	}
+
+	public void setUser2(User user2) {
+		this.user2 = user2;
 	}
 
 }

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the movieartist database table.
+ * The persistent class for the MOVIEARTIST database table.
  * 
  */
 @Entity
@@ -22,15 +22,15 @@ public class Movieartist implements Serializable {
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
 	private Artist artistBean;
 
-	//bi-directional many-to-one association to Movie
-	@ManyToOne
-	@JoinColumn(name="MOVIE", nullable=false, insertable=false, updatable=false)
-	private Movie movieBean;
-
 	//bi-directional many-to-one association to Artisttype
 	@ManyToOne
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
+
+	//bi-directional many-to-one association to Movie
+	@ManyToOne
+	@JoinColumn(name="MOVIE", nullable=false, insertable=false, updatable=false)
+	private Movie movieBean;
 
 	public Movieartist() {
 	}
@@ -51,20 +51,20 @@ public class Movieartist implements Serializable {
 		this.artistBean = artistBean;
 	}
 
-	public Movie getMovieBean() {
-		return this.movieBean;
-	}
-
-	public void setMovieBean(Movie movieBean) {
-		this.movieBean = movieBean;
-	}
-
 	public Artisttype getArtisttype() {
 		return this.artisttype;
 	}
 
 	public void setArtisttype(Artisttype artisttype) {
 		this.artisttype = artisttype;
+	}
+
+	public Movie getMovieBean() {
+		return this.movieBean;
+	}
+
+	public void setMovieBean(Movie movieBean) {
+		this.movieBean = movieBean;
 	}
 
 }

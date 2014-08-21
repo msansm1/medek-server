@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the albumartist database table.
+ * The persistent class for the ALBUMARTIST database table.
  * 
  */
 @Entity

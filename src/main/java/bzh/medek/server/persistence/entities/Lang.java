@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * The persistent class for the lang database table.
+ * The persistent class for the LANG database table.
  * 
  */
 @Entity
@@ -17,11 +17,11 @@ public class Lang implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
-	private String lang;
+	@Column(name="NAME", nullable=false, length=45)
+	private String name;
 
 	//bi-directional many-to-one association to Book
 	@OneToMany(mappedBy="langBean", fetch=FetchType.EAGER)
@@ -30,9 +30,9 @@ public class Lang implements Serializable {
 	//bi-directional many-to-many association to Movie
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
-		name="movielang"
+		name="MOVIESUBTITLE"
 		, joinColumns={
-			@JoinColumn(name="LANG", nullable=false)
+			@JoinColumn(name="SUBTITLE", nullable=false)
 			}
 		, inverseJoinColumns={
 			@JoinColumn(name="MOVIE", nullable=false)
@@ -41,42 +41,15 @@ public class Lang implements Serializable {
 	private List<Movie> movies1;
 
 	//bi-directional many-to-many association to Movie
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="moviesubtitle"
-		, joinColumns={
-			@JoinColumn(name="SUBTITLE", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="MOVIE", nullable=false)
-			}
-		)
+	@ManyToMany(mappedBy="langs2", fetch=FetchType.EAGER)
 	private List<Movie> movies2;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="tvlang"
-		, joinColumns={
-			@JoinColumn(name="LANG", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="TVSHOW", nullable=false)
-			}
-		)
+	@ManyToMany(mappedBy="langs1", fetch=FetchType.EAGER)
 	private List<Tvshow> tvshows1;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="tvsubtitle"
-		, joinColumns={
-			@JoinColumn(name="SUBTITLE", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="TVSHOW", nullable=false)
-			}
-		)
+	@ManyToMany(mappedBy="langs2", fetch=FetchType.EAGER)
 	private List<Tvshow> tvshows2;
 
 	public Lang() {
@@ -90,12 +63,12 @@ public class Lang implements Serializable {
 		this.id = id;
 	}
 
-	public String getLang() {
-		return this.lang;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setLang(String lang) {
-		this.lang = lang;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Book> getBooks() {

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the bookartist database table.
+ * The primary key class for the BOOKARTIST database table.
  * 
  */
 @Embeddable
@@ -12,10 +12,10 @@ public class BookartistPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="BOOK", insertable=false, updatable=false, unique=true, nullable=false)
 	private int book;
 
-	@Column(insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="ARTIST", insertable=false, updatable=false, unique=true, nullable=false)
 	private int artist;
 
 	public BookartistPK() {

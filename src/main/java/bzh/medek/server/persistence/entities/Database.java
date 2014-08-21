@@ -5,21 +5,21 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the database database table.
+ * The persistent class for the `DATABASE` database table.
  * 
  */
 @Entity
-@Table(name="DATABASE")
+@Table(name="`DATABASE`")
 @NamedQuery(name="Database.findAll", query="SELECT d FROM Database d")
 public class Database implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="ID", unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
+	@Column(name="VERSION", nullable=false, length=45)
 	private String version;
 
 	public Database() {

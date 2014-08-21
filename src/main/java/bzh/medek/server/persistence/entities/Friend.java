@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the friend database table.
+ * The persistent class for the FRIEND database table.
  * 
  */
 @Entity
@@ -17,20 +17,20 @@ public class Friend implements Serializable {
 	@EmbeddedId
 	private FriendPK id;
 
-	@Column(nullable=false)
+	@Column(name="ISACCEPTED", nullable=false)
 	private byte isaccepted;
 
-	@Column(nullable=false)
+	@Column(name="ISSHAREDCOLLECTION", nullable=false)
 	private byte issharedcollection;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="FRIEND", nullable=false, insertable=false, updatable=false)
 	private User user1;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="FRIEND", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
 	private User user2;
 
 	public Friend() {
