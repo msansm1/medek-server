@@ -15,7 +15,7 @@
 			<property name="managementPort">9991</property>
 			<property name="username">root</property>
 			<property name="password">test123@</property>
-        <property name="jbossHome">F:\dev\servers\wildfly-8.1.0.CR1</property>
+        <property name="jbossHome">F:\dev\servers\wildfly-8.1.0.Final</property>
 		</configuration>
 	</container>
  
