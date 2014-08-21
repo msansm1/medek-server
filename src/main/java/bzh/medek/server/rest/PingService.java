@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.ejb.Stateless;
 import javax.servlet.ServletContext;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -17,8 +21,12 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.JsonResponse;
 import bzh.medek.server.json.ping.JsonPingResp;
 
-@Path(value = "/server")
-public class PingService {
+@Stateless
+@ApplicationPath("/services")
+@Path(value = "/ping")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class PingService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(PingService.class);
 
@@ -32,8 +40,6 @@ public class PingService {
      * @return
      */
     @GET
-    @Path(value = "/ping")
-    @Produces(MediaType.APPLICATION_JSON)
     public JsonResponse ping(@Context ServletContext servletContext) {
         String serverRev = "";
         String appVersion = "";
