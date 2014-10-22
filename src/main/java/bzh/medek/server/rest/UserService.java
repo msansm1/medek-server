@@ -1,5 +1,6 @@
 package bzh.medek.server.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -8,7 +9,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,8 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
-import bzh.medek.server.json.JsonResponse;
-import bzh.medek.server.json.JsonSimpleResponse;
+import bzh.medek.server.json.user.JsonUser;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.User;
 
@@ -43,10 +42,14 @@ public class UserService extends Application {
      * @return
      */
     @GET
-    public List<User> getAll() {
-    	List<User> u = userDao.getUsers();
-    	LOGGER.info("find "+u.size()+" users in the database");
-    	return u;
+    public List<JsonUser> getAll() {
+    	List<User> users = userDao.getUsers();
+    	LOGGER.info("find "+users.size()+" users in the database");
+    	ArrayList<JsonUser> lu = new ArrayList<JsonUser>();
+    	for (User u:users) {
+    		lu.add(new JsonUser(u.getId(), u.getLogin(), u.getEmail()));
+    	}
+    	return lu;
     }
 
     /**
@@ -57,38 +60,34 @@ public class UserService extends Application {
      */
     @GET
     @Path(value = "/{id}")
-    public User getOne(@PathParam(value = "id") Integer id) {
+    public JsonUser getOne(@PathParam(value = "id") Integer id) {
     	User u = userDao.getUser(id);
     	LOGGER.info("find "+u.getLogin()+" user in the database");
-    	return u;
+    	return new JsonUser(u.getId(), u.getLogin(), u.getEmail());
     }
 
     /**
-     *  POST /users : create one user
+     *  POST /users : create / update one user
      * 
-     * @param id
+     * @param JsonUser user
      * @return
      */
     @POST
-    public JsonResponse createOne() {
-    	return new JsonSimpleResponse();
+    public JsonUser createUpdateOne(JsonUser user) {
+    	JsonUser juser = user;
+    	if (user.getId() == null) {
+	    	User u = new User();
+	    	u.setEmail(user.getMail());
+	    	u.setLogin(user.getLogin());
+	    	userDao.saveUser(u);
+	    	juser.setId(u.getId());
+    	} else {
+        	User u = userDao.getUser(user.getId());
+        	u.setEmail(user.getMail());
+        	u.setLogin(user.getLogin());
+        	userDao.updateUser(u);
+    	}
+    	return juser;
     }
-
-
-    /**
-     *  PUT /users/{id} : update one user
-     * 
-     * @param id
-     * @return
-     */
-    @PUT
-    @Path(value = "/{id}")
-    public User updateOne(@PathParam(value = "id") Integer id) {
-    	User u = userDao.getUser(id);
-    	LOGGER.info("find "+u.getLogin()+" user in the database to update");
-    	return u;
-    }
-    
-	
 	
 }
