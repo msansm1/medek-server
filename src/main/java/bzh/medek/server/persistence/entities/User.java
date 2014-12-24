@@ -18,7 +18,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="EMAIL", length=45)
 	private String email;
@@ -36,45 +36,45 @@ public class User implements Serializable {
 	private String password;
 
 	//bi-directional many-to-one association to Friend
-	@OneToMany(mappedBy="user1", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user1")
 	private List<Friend> friends1;
 
 	//bi-directional many-to-one association to Friend
-	@OneToMany(mappedBy="user2", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user2")
 	private List<Friend> friends2;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="user1", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user1")
 	private List<Loan> loans1;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="user2", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user2")
 	private List<Loan> loans2;
 
 	//bi-directional many-to-one association to Useralbum
-	@OneToMany(mappedBy="userBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="userBean")
 	private List<Useralbum> useralbums;
 
 	//bi-directional many-to-one association to Userbook
-	@OneToMany(mappedBy="userBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="userBean")
 	private List<Userbook> userbooks;
 
 	//bi-directional many-to-one association to Usermovie
-	@OneToMany(mappedBy="userBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="userBean")
 	private List<Usermovie> usermovies;
 
 	//bi-directional many-to-one association to Usertv
-	@OneToMany(mappedBy="userBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="userBean")
 	private List<Usertv> usertvs;
 
 	public User() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

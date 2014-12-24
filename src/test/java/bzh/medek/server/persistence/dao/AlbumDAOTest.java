@@ -49,7 +49,7 @@ public class AlbumDAOTest {
     public void saveAlbumTest() {
     	album.setTitle("test album");
         album.setCover("YOUHOU");
-        album.setIssigned(Byte.valueOf("0").byteValue());
+        album.setIssigned(false);
         dao.saveAlbum(album);
         Assert.assertNotNull("Album is not created", album.getId());
     }

@@ -18,39 +18,43 @@ public class Artisttype implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="NAME", nullable=false, length=45)
 	private String name;
 
 	//bi-directional many-to-one association to Albumartist
-	@OneToMany(mappedBy="artisttype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artisttype")
 	private List<Albumartist> albumartists;
 
+	//bi-directional many-to-one association to Artist
+	@OneToMany(mappedBy="artisttype")
+	private List<Artist> artists;
+
 	//bi-directional many-to-one association to Bookartist
-	@OneToMany(mappedBy="artisttype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artisttype")
 	private List<Bookartist> bookartists;
 
 	//bi-directional many-to-one association to Movieartist
-	@OneToMany(mappedBy="artisttype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artisttype")
 	private List<Movieartist> movieartists;
 
 	//bi-directional many-to-one association to Trackartist
-	@OneToMany(mappedBy="artisttype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artisttype")
 	private List<Trackartist> trackartists;
 
 	//bi-directional many-to-one association to Tvartist
-	@OneToMany(mappedBy="artisttype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artisttype")
 	private List<Tvartist> tvartists;
 
 	public Artisttype() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -82,6 +86,28 @@ public class Artisttype implements Serializable {
 		albumartist.setArtisttype(null);
 
 		return albumartist;
+	}
+
+	public List<Artist> getArtists() {
+		return this.artists;
+	}
+
+	public void setArtists(List<Artist> artists) {
+		this.artists = artists;
+	}
+
+	public Artist addArtist(Artist artist) {
+		getArtists().add(artist);
+		artist.setArtisttype(this);
+
+		return artist;
+	}
+
+	public Artist removeArtist(Artist artist) {
+		getArtists().remove(artist);
+		artist.setArtisttype(null);
+
+		return artist;
 	}
 
 	public List<Bookartist> getBookartists() {

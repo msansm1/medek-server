@@ -19,7 +19,7 @@ public class Movie implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="COVER", length=45)
 	private String cover;
@@ -28,7 +28,7 @@ public class Movie implements Serializable {
 	private String description;
 
 	@Column(name="ISCOLLECTOR", nullable=false)
-	private byte iscollector;
+	private Boolean iscollector;
 
 	@Column(name="LENGTH", length=5)
 	private String length;
@@ -41,15 +41,15 @@ public class Movie implements Serializable {
 	private String title;
 
 	//bi-directional many-to-many association to Lang
-	@ManyToMany(mappedBy="movies1", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="movies1")
 	private List<Lang> langs1;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="movieBean")
 	private List<Loan> loans;
 
 	//bi-directional many-to-many association to Lang
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name="MOVIELANG"
 		, joinColumns={
@@ -62,31 +62,31 @@ public class Movie implements Serializable {
 	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Storygenre
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="GENRE")
 	private Storygenre storygenre;
 
 	//bi-directional many-to-one association to Support
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SUPPORT")
 	private Support supportBean;
 
 	//bi-directional many-to-one association to Movieartist
-	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="movieBean")
 	private List<Movieartist> movieartists;
 
 	//bi-directional many-to-one association to Usermovie
-	@OneToMany(mappedBy="movieBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="movieBean")
 	private List<Usermovie> usermovies;
 
 	public Movie() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -106,11 +106,11 @@ public class Movie implements Serializable {
 		this.description = description;
 	}
 
-	public byte getIscollector() {
+	public Boolean getIscollector() {
 		return this.iscollector;
 	}
 
-	public void setIscollector(byte iscollector) {
+	public void setIscollector(Boolean iscollector) {
 		this.iscollector = iscollector;
 	}
 

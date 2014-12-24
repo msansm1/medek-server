@@ -19,7 +19,7 @@ public class Tvshow implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="COVER", length=45)
 	private String cover;
@@ -28,7 +28,7 @@ public class Tvshow implements Serializable {
 	private String description;
 
 	@Column(name="ISSERIEDONE")
-	private byte isseriedone;
+	private Boolean isseriedone;
 
 	@Column(name="LENGTH", length=5)
 	private String length;
@@ -46,15 +46,15 @@ public class Tvshow implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="tvshowBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="tvshowBean")
 	private List<Loan> loans;
 
 	//bi-directional many-to-one association to Tvartist
-	@OneToMany(mappedBy="tvshowBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="tvshowBean")
 	private List<Tvartist> tvartists;
 
 	//bi-directional many-to-many association to Lang
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name="TVLANG"
 		, joinColumns={
@@ -67,7 +67,7 @@ public class Tvshow implements Serializable {
 	private List<Lang> langs1;
 
 	//bi-directional many-to-many association to Lang
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name="TVSUBTITLE"
 		, joinColumns={
@@ -80,27 +80,27 @@ public class Tvshow implements Serializable {
 	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Storygenre
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="GENRE")
 	private Storygenre storygenre;
 
 	//bi-directional many-to-one association to Support
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SUPPORT")
 	private Support supportBean;
 
 	//bi-directional many-to-one association to Usertv
-	@OneToMany(mappedBy="tvshowBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="tvshowBean")
 	private List<Usertv> usertvs;
 
 	public Tvshow() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -120,11 +120,11 @@ public class Tvshow implements Serializable {
 		this.description = description;
 	}
 
-	public byte getIsseriedone() {
+	public Boolean getIsseriedone() {
 		return this.isseriedone;
 	}
 
-	public void setIsseriedone(byte isseriedone) {
+	public void setIsseriedone(Boolean isseriedone) {
 		this.isseriedone = isseriedone;
 	}
 

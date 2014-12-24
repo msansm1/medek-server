@@ -18,23 +18,23 @@ public class Booktype implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="NAME", nullable=false, length=45)
 	private String name;
 
 	//bi-directional many-to-one association to Book
-	@OneToMany(mappedBy="booktype", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="booktype")
 	private List<Book> books;
 
 	public Booktype() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

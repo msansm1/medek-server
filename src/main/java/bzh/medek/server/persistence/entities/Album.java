@@ -19,16 +19,16 @@ public class Album implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="COVER", length=45)
 	private String cover;
 
 	@Column(name="ISSIGNED", nullable=false)
-	private byte issigned;
+	private Boolean issigned;
 
 	@Column(name="NBTRACKS")
-	private int nbtracks;
+	private Integer nbtracks;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="RELEASEDATE")
@@ -38,39 +38,39 @@ public class Album implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Genre
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="GENRE")
 	private Genre genreBean;
 
 	//bi-directional many-to-one association to Support
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SUPPORT")
 	private Support supportBean;
 
 	//bi-directional many-to-one association to Albumartist
-	@OneToMany(mappedBy="albumBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="albumBean")
 	private List<Albumartist> albumartists;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="albumBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="albumBean")
 	private List<Loan> loans;
 
 	//bi-directional many-to-one association to Track
-	@OneToMany(mappedBy="albumBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="albumBean")
 	private List<Track> tracks;
 
 	//bi-directional many-to-one association to Useralbum
-	@OneToMany(mappedBy="albumBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="albumBean")
 	private List<Useralbum> useralbums;
 
 	public Album() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -82,19 +82,19 @@ public class Album implements Serializable {
 		this.cover = cover;
 	}
 
-	public byte getIssigned() {
+	public Boolean getIssigned() {
 		return this.issigned;
 	}
 
-	public void setIssigned(byte issigned) {
+	public void setIssigned(Boolean issigned) {
 		this.issigned = issigned;
 	}
 
-	public int getNbtracks() {
+	public Integer getNbtracks() {
 		return this.nbtracks;
 	}
 
-	public void setNbtracks(int nbtracks) {
+	public void setNbtracks(Integer nbtracks) {
 		this.nbtracks = nbtracks;
 	}
 

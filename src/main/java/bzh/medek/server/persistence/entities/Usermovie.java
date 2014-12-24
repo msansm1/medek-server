@@ -21,15 +21,15 @@ public class Usermovie implements Serializable {
 	private String comment;
 
 	@Column(name="RATING")
-	private int rating;
+	private Integer rating;
 
 	//bi-directional many-to-one association to Movie
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="MOVIE", nullable=false, insertable=false, updatable=false)
 	private Movie movieBean;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
 	private User userBean;
 
@@ -52,11 +52,11 @@ public class Usermovie implements Serializable {
 		this.comment = comment;
 	}
 
-	public int getRating() {
+	public Integer getRating() {
 		return this.rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 

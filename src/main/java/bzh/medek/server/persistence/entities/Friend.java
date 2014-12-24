@@ -18,18 +18,18 @@ public class Friend implements Serializable {
 	private FriendPK id;
 
 	@Column(name="ISACCEPTED", nullable=false)
-	private byte isaccepted;
+	private Boolean isaccepted;
 
 	@Column(name="ISSHAREDCOLLECTION", nullable=false)
-	private byte issharedcollection;
+	private Boolean issharedcollection;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="FRIEND", nullable=false, insertable=false, updatable=false)
 	private User user1;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER", nullable=false, insertable=false, updatable=false)
 	private User user2;
 
@@ -44,19 +44,19 @@ public class Friend implements Serializable {
 		this.id = id;
 	}
 
-	public byte getIsaccepted() {
+	public Boolean getIsaccepted() {
 		return this.isaccepted;
 	}
 
-	public void setIsaccepted(byte isaccepted) {
+	public void setIsaccepted(Boolean isaccepted) {
 		this.isaccepted = isaccepted;
 	}
 
-	public byte getIssharedcollection() {
+	public Boolean getIssharedcollection() {
 		return this.issharedcollection;
 	}
 
-	public void setIssharedcollection(byte issharedcollection) {
+	public void setIssharedcollection(Boolean issharedcollection) {
 		this.issharedcollection = issharedcollection;
 	}
 

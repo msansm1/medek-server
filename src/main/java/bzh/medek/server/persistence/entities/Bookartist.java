@@ -18,17 +18,17 @@ public class Bookartist implements Serializable {
 	private BookartistPK id;
 
 	//bi-directional many-to-one association to Artist
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
 	private Artist artistBean;
 
 	//bi-directional many-to-one association to Artisttype
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
 
 	//bi-directional many-to-one association to Book
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="BOOK", nullable=false, insertable=false, updatable=false)
 	private Book bookBean;
 

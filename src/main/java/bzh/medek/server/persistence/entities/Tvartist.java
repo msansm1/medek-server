@@ -18,17 +18,17 @@ public class Tvartist implements Serializable {
 	private TvartistPK id;
 
 	//bi-directional many-to-one association to Artist
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ARTIST", nullable=false, insertable=false, updatable=false)
 	private Artist artistBean;
 
 	//bi-directional many-to-one association to Artisttype
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="TYPE")
 	private Artisttype artisttype;
 
 	//bi-directional many-to-one association to Tvshow
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="TVSHOW", nullable=false, insertable=false, updatable=false)
 	private Tvshow tvshowBean;
 

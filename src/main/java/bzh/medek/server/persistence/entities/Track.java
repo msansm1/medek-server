@@ -18,34 +18,34 @@ public class Track implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="LENGTH", length=45)
 	private String length;
 
 	@Column(name="NUMBER")
-	private int number;
+	private Integer number;
 
 	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
 
 	//bi-directional many-to-one association to Album
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ALBUM", nullable=false)
 	private Album albumBean;
 
 	//bi-directional many-to-one association to Trackartist
-	@OneToMany(mappedBy="trackBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="trackBean")
 	private List<Trackartist> trackartists;
 
 	public Track() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -57,11 +57,11 @@ public class Track implements Serializable {
 		this.length = length;
 	}
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 

@@ -18,7 +18,7 @@ public class Artist implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="BIOLINK", length=45)
 	private String biolink;
@@ -35,37 +35,39 @@ public class Artist implements Serializable {
 	@Column(name="PICTURE", length=45)
 	private String picture;
 
-	@Column(name="TYPE", nullable=false)
-	private int type;
-
 	//bi-directional many-to-one association to Albumartist
-	@OneToMany(mappedBy="artistBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artistBean")
 	private List<Albumartist> albumartists;
 
+	//bi-directional many-to-one association to Artisttype
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="TYPE", nullable=false)
+	private Artisttype artisttype;
+
 	//bi-directional many-to-one association to Bookartist
-	@OneToMany(mappedBy="artistBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artistBean")
 	private List<Bookartist> bookartists;
 
 	//bi-directional many-to-one association to Movieartist
-	@OneToMany(mappedBy="artistBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artistBean")
 	private List<Movieartist> movieartists;
 
 	//bi-directional many-to-one association to Trackartist
-	@OneToMany(mappedBy="artistBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artistBean")
 	private List<Trackartist> trackartists;
 
 	//bi-directional many-to-one association to Tvartist
-	@OneToMany(mappedBy="artistBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="artistBean")
 	private List<Tvartist> tvartists;
 
 	public Artist() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -109,14 +111,6 @@ public class Artist implements Serializable {
 		this.picture = picture;
 	}
 
-	public int getType() {
-		return this.type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
 	public List<Albumartist> getAlbumartists() {
 		return this.albumartists;
 	}
@@ -137,6 +131,14 @@ public class Artist implements Serializable {
 		albumartist.setArtistBean(null);
 
 		return albumartist;
+	}
+
+	public Artisttype getArtisttype() {
+		return this.artisttype;
+	}
+
+	public void setArtisttype(Artisttype artisttype) {
+		this.artisttype = artisttype;
 	}
 
 	public List<Bookartist> getBookartists() {

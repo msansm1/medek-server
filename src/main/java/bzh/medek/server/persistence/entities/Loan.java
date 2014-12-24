@@ -18,7 +18,7 @@ public class Loan implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="ENDDATE")
@@ -32,43 +32,43 @@ public class Loan implements Serializable {
 	private Date startdate;
 
 	//bi-directional many-to-one association to Album
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ALBUM")
 	private Album albumBean;
 
 	//bi-directional many-to-one association to Book
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="BOOK")
 	private Book bookBean;
 
 	//bi-directional many-to-one association to Movie
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="MOVIE")
 	private Movie movieBean;
 
 	//bi-directional many-to-one association to Tvshow
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="TVSHOW")
 	private Tvshow tvshowBean;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="FRIEND")
 	private User user1;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER", nullable=false)
 	private User user2;
 
 	public Loan() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

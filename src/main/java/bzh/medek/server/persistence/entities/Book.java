@@ -19,10 +19,10 @@ public class Book implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="BOOKNB")
-	private int booknb;
+	private Integer booknb;
 
 	@Column(name="COVER", length=45)
 	private String cover;
@@ -31,10 +31,10 @@ public class Book implements Serializable {
 	private String description;
 
 	@Column(name="ISSERIEDONE")
-	private byte isseriedone;
+	private Boolean isseriedone;
 
 	@Column(name="ISSIGNED")
-	private byte issigned;
+	private Boolean issigned;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="PUBLICATIONDATE")
@@ -47,58 +47,58 @@ public class Book implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Booktype
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="TYPE")
 	private Booktype booktype;
 
 	//bi-directional many-to-one association to Collection
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="COLLECTION")
 	private Collection collectionBean;
 
 	//bi-directional many-to-one association to Editor
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="EDITOR")
 	private Editor editorBean;
 
 	//bi-directional many-to-one association to Lang
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="LANG")
 	private Lang langBean;
 
 	//bi-directional many-to-one association to Storygenre
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="GENRE")
 	private Storygenre storygenre;
 
 	//bi-directional many-to-one association to Bookartist
-	@OneToMany(mappedBy="bookBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="bookBean")
 	private List<Bookartist> bookartists;
 
 	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="bookBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="bookBean")
 	private List<Loan> loans;
 
 	//bi-directional many-to-one association to Userbook
-	@OneToMany(mappedBy="bookBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="bookBean")
 	private List<Userbook> userbooks;
 
 	public Book() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getBooknb() {
+	public Integer getBooknb() {
 		return this.booknb;
 	}
 
-	public void setBooknb(int booknb) {
+	public void setBooknb(Integer booknb) {
 		this.booknb = booknb;
 	}
 
@@ -118,19 +118,19 @@ public class Book implements Serializable {
 		this.description = description;
 	}
 
-	public byte getIsseriedone() {
+	public Boolean getIsseriedone() {
 		return this.isseriedone;
 	}
 
-	public void setIsseriedone(byte isseriedone) {
+	public void setIsseriedone(Boolean isseriedone) {
 		this.isseriedone = isseriedone;
 	}
 
-	public byte getIssigned() {
+	public Boolean getIssigned() {
 		return this.issigned;
 	}
 
-	public void setIssigned(byte issigned) {
+	public void setIssigned(Boolean issigned) {
 		this.issigned = issigned;
 	}
 

@@ -18,17 +18,17 @@ public class Lang implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(name="NAME", nullable=false, length=45)
 	private String name;
 
 	//bi-directional many-to-one association to Book
-	@OneToMany(mappedBy="langBean", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="langBean")
 	private List<Book> books;
 
 	//bi-directional many-to-many association to Movie
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name="MOVIESUBTITLE"
 		, joinColumns={
@@ -41,25 +41,25 @@ public class Lang implements Serializable {
 	private List<Movie> movies1;
 
 	//bi-directional many-to-many association to Movie
-	@ManyToMany(mappedBy="langs2", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="langs2")
 	private List<Movie> movies2;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(mappedBy="langs1", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="langs1")
 	private List<Tvshow> tvshows1;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(mappedBy="langs2", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="langs2")
 	private List<Tvshow> tvshows2;
 
 	public Lang() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
