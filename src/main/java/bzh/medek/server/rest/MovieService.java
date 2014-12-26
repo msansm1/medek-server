@@ -73,7 +73,7 @@ public class MovieService extends Application {
      * @return
      */
     @POST
-    public JsonMovie createOne(JsonMovie movie) {
+    public JsonMovie createUpdateOne(JsonMovie movie) {
     	JsonMovie jmovie = movie;
     	if (movie.getId() == null) {
     		Movie m = new Movie();

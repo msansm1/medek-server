@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'myprofile' | translate }}</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-6 text-right">
+			<label>{{ 'firstname' | translate }}</label>
+		</div>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="user.firstname"></input>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 text-right">
+			<label>{{ 'lastname' | translate }}</label>
+		</div>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="user.lastname"></input>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 text-right">
+			<label>{{ 'email' | translate }}</label>
+		</div>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="user.mail"></input>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+</div>

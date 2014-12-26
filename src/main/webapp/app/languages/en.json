@@ -1,0 +1,27 @@
+{
+	"login": "Login",
+	"password": "Password",
+	"language": "Language",
+	
+	"welcome": "Welcome",
+	"logout": "Logout",
+	"administration": "Administration",
+	
+	"myprofile": "My profile",
+	"firstname": "First name",
+	"lastname": "Last name",
+	"email": "Email",
+	"ok": "OK",
+	"cancel": "Cancel",
+	
+	"books": "Books",
+	"albums": "Albums",
+	"movies": "Movies",
+	"series": "Series",
+	
+	"title": "Title",
+	"year": "Year",
+	
+	"realisator": "Realisator",
+	"author": "Author"
+}

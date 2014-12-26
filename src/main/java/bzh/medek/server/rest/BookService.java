@@ -1,5 +1,6 @@
 package bzh.medek.server.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -8,7 +9,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,8 +17,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
-import bzh.medek.server.json.JsonResponse;
-import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.persistence.dao.BookDAO;
 import bzh.medek.server.persistence.entities.Book;
@@ -44,10 +42,14 @@ public class BookService extends Application {
      * @return
      */
     @GET
-    public List<Book> getAll() {
-    	List<Book> b = bookDao.getBooks();
-    	LOGGER.info("find "+b.size()+" books in the database");
-    	return b;
+    public List<JsonBook> getAll() {
+    	List<Book> books = bookDao.getBooks();
+    	LOGGER.info("find "+books.size()+" books in the database");
+    	ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
+    	for (Book b : books) {
+    		lb.add(new JsonBook(b.getId(), b.getTitle(), "", ""));
+    	}
+    	return lb;
     }
 
     /**
@@ -65,32 +67,25 @@ public class BookService extends Application {
     }
 
     /**
-     *  POST /books : create one book
+     *  POST /movies : create / update one movie
      * 
      * @param id
      * @return
      */
     @POST
-    public JsonResponse createOne(JsonBook book) {
-    	Book b = new Book();
-    	b.setTitle(book.getName());
-    	return new JsonSimpleResponse();
-    }
-
-
-    /**
-     *  PUT /books/{id} : update one book
-     * 
-     * @param id
-     * @return
-     */
-    @PUT
-    @Path(value = "/{id}")
-    public Book updateOne(@PathParam(value = "id") Integer id, JsonBook book) {
-    	Book b = bookDao.getBook(id);
-    	b.setTitle(book.getName());
-    	LOGGER.info("find "+b.getTitle()+" book in the database to update");
-    	return b;
+    public JsonBook createUpdateOne(JsonBook jb) {
+    	JsonBook jbook = jb;
+    	if (jb.getId() == null) {
+    		Book b = new Book();
+    		b.setTitle(jb.getName());
+    		bookDao.saveBook(b);
+	    	jbook.setId(b.getId());
+    	} else {
+    		Book b = bookDao.getBook(jb.getId());
+    		b.setTitle(jb.getName());
+    		bookDao.updateBook(b);
+    	}
+    	return jbook;
     }
     
 	

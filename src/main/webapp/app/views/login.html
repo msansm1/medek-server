@@ -1,0 +1,34 @@
+<div class="container text-center">
+	<br />
+	<br />
+	<br />
+	<br />
+	<form novalidate="novalidate" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="inputLogin">{{ 'login' | translate }}</label>
+			<div class="controls">
+				<input type="text" id="inputLogin" ng-model="user.login"
+					placeholder="login" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">{{ 'password' | translate }}</label>
+			<div class="controls">
+				<input type="password" id="inputPassword" ng-model="user.password"
+					placeholder="password" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputLang">{{ 'language' | translate }}</label>
+			<div class="controls">
+				<select ng-model="language" ng-change="changeLanguage()" 
+					ng-options="language.key as language.name for language in languages"></select>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<a ng-click="submitLogin()" class="btn btn-small btn-primary">{{ 'login' | translate }}</a>
+			</div>
+		</div>
+	</form>
+</div>

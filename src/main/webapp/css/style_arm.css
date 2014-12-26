@@ -1,0 +1,40 @@
+.bg-titlebar {
+	background-color: #EAEAF2;
+}
+
+.titlebar {
+	padding-bottom: 6px;
+	padding-top: 6px;
+}
+
+.fixedtoolbar {
+    position:static;
+    top:0;
+    z-index:999;
+    padding-left: 0px;
+    padding-right: 30px;
+    margin-left: -15px;
+	background-color: #FFF;
+}
+
+.bg-sectiontitle {
+	background-color: #F0F0F3;
+}
+
+.sectiontitle {
+	padding-bottom: 4px;
+	padding-top: 4px;
+}
+
+.btn-admin {
+	padding: 7px 15px;
+	background-color: #F5F5F5;
+}
+
+.img_userdetail {
+	padding-bottom: 3px;
+}
+
+.form_dropdownlabel {
+	vertical-align: middle;
+}

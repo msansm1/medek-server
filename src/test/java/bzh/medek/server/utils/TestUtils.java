@@ -13,7 +13,7 @@ import bzh.medek.server.json.JsonClientMsg;
 import bzh.medek.server.json.ping.JsonPingResp;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.Album;
-import bzh.medek.server.rest.PingService;
+import bzh.medek.server.rest.BookService;
 
 
 public class TestUtils {
@@ -28,7 +28,7 @@ public class TestUtils {
         return ShrinkWrap.create(WebArchive.class, warName+".war")
                 .addPackage(Album.class.getPackage())
                 .addPackage(UserDAO.class.getPackage())
-                .addPackage(PingService.class.getPackage())
+                .addPackage(BookService.class.getPackage())
                 .addPackage(JsonClientMsg.class.getPackage())
                 .addPackage(ClientMessage.class.getPackage())
                 .addPackage(JsonPingResp.class.getPackage())
