@@ -4,15 +4,15 @@ angular.module('medekApp.services').service('AuthService', [
 '$location',
 function($http, $rootScope, $location) {
     this.login = function(login, password) {
-        return $http.post('services/auth/login',  {
+        return $http.post('medek-server/services/auth/login',  {
             login : login,
             password : password
         }).then(
                 function(response) {
                     $rootScope.isConnected = true;
                     $rootScope.user = response.data;
-                    $http.defaults.headers.common = {'authtoken': response.data.token};
-                    $location.path('/projects');
+                    $http.defaults.headers.common = {'securtoken': response.data.token};
+                    $location.path('/medek-server/home');
                     $location.replace();
                 }, function(reason) {
                     $rootScope.isConnected = false; 
@@ -20,7 +20,7 @@ function($http, $rootScope, $location) {
     };
 
     this.lostpwd = function(mail) {
-        return $http.post('services/auth/lostpasswd', {
+        return $http.post('medek-server/services/auth/lostpasswd', {
             mail : mail
         }).then(
                 function(response) {

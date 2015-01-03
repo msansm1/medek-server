@@ -1,26 +1,26 @@
-<div class="row text-center">
-	<div class="col-xs-4 text-center hidden-xs hidden-sm">
-			<img src="img/logo_ericsson.png" />
+<header class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">
+				<img alt="Medek logo" src="img/logo_app.png" >
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a href="medek-server/home">{{ 'home' | translate }}</a></li>
+                <li class="divider"></li>
+		        <li ng-class="{ active: isActive('/medek-server/albums')}"><a href="medek-server/albums">{{ 'albums' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/medek-server/books')}"><a href="medek-server/books">{{ 'books' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/medek-server/movies')}"><a href="medek-server/movies">{{ 'movies' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/medek-server/series')}"><a href="medek-server/series">{{ 'series' | translate }}</a></li>
+	        </ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><p class="navbar-text">{{ user.login }}</p></li>
+                <li><p class="navbar-text"> </p></li>
+			</ul>
+		</div>
 	</div>
-	<div class="col-xs-2 text-center">
-			<img src="img/logo_arm.png" />
-	</div>
-	<div class="col-xs-4 text-center hidden-xs hidden-sm">
-			<img src="img/logo_ericsson.png" />
-	</div>
-	<div class="col-xs-2 identity_frame text-right">
-		{{ 'welcome' | translate }}<br />
-		<button class="btn btn-link btn-xs" ng-click="openProfile()">{{ user.firstname }}</button><br />
-		<button class="btn btn-link btn-xs" ng-click="openProfile()">{{ user.lastname }}</button><br />
-		<a ui-sref="login" class="text-center">{{ 'logout' | translate }}</a>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-10" ncy-breadcrumb></div>
-	<div class="col-md-2 btn-admin hidden-xs hidden-sm text-center" ng-if="user.admin">
-		<button type="button" class="btn btn-primary btn-xs text-center" ng-click="goToAdmin()">{{ 'administration' | translate }}</button>
-	</div>
-</div>
+</header>
 <div>
 	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 </div>

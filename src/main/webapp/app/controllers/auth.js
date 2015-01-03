@@ -1,5 +1,5 @@
 
-angular.module('armApp.controllers').controller('AuthController',[
+angular.module('medekApp.controllers').controller('AuthController',[
 '$scope',
 '$rootScope',
 '$translate',

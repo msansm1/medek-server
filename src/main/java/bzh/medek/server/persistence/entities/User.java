@@ -35,6 +35,9 @@ public class User implements Serializable {
 	@Column(name="PASSWORD", nullable=false, length=45)
 	private String password;
 
+	@Column(name="TOKEN", length=60)
+	private String token;
+
 	//bi-directional many-to-one association to Friend
 	@OneToMany(mappedBy="user1")
 	private List<Friend> friends1;
@@ -116,6 +119,14 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getToken() {
+		return this.token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public List<Friend> getFriends1() {
