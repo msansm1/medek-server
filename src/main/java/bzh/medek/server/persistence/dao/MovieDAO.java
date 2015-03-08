@@ -3,7 +3,9 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
+import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.entities.Movie;
 
 /**
@@ -36,5 +38,14 @@ public class MovieDAO extends Dao {
 
 	public Movie getMovie(Integer id) {
 		return em.find(Movie.class, id);
+	}
+
+	public List<JsonMovie> getUsersMovies(Integer id) {
+		TypedQuery<JsonMovie> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.movie.JsonMovie(b.id, b.title"
+						+ "from Movie m where m.usermovies.id.user=:param1",
+						JsonMovie.class);
+		q.setParameter("param1", id);
+		return q.getResultList();
 	}
 }

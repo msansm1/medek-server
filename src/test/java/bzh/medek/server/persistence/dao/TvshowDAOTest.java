@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.persistence.entities.Tvshow;
 
 /**
@@ -31,9 +32,11 @@ public class TvshowDAOTest {
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "tvshowdao.war")
         		.addClass(TvshowDAO.class)
+        		.addClass(JsonShow.class)
                 .addClass(Dao.class)
                 .addPackage(Tvshow.class.getPackage())
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         LOGGER.info(war.toString(Formatters.VERBOSE));

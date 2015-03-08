@@ -15,6 +15,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.persistence.entities.Track;
 
 /**
@@ -31,9 +33,12 @@ public class TrackDAOTest {
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "trackdao.war")
         		.addClass(TrackDAO.class)
+        		.addClass(AlbumDAO.class)
+        		.addClass(JsonAlbum.class)
                 .addClass(Dao.class)
                 .addPackage(Track.class.getPackage())
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         LOGGER.info(war.toString(Formatters.VERBOSE));
@@ -43,12 +48,19 @@ public class TrackDAOTest {
 
     @Inject
     private TrackDAO dao;
+    @Inject
+    private AlbumDAO albumDao;
 
     final Track track = new Track();
 
     public void saveTrackTest() {
+    	Album a = new Album();
+    	a.setTitle("testa");
+    	a.setIssigned(false);
+    	albumDao.saveAlbum(a);
     	track.setTitle("test track");
         track.setLength("2:30");
+        track.setAlbumBean(a);
         dao.saveTrack(track);
         Assert.assertNotNull("Track is not created", track.getId());
     }

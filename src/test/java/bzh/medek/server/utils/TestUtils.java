@@ -9,8 +9,13 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 import bzh.medek.server.conf.ClientMessage;
 import bzh.medek.server.error.MedekError;
+import bzh.medek.server.interceptor.RestRequestFilter;
 import bzh.medek.server.json.JsonClientMsg;
-import bzh.medek.server.json.ping.JsonPingResp;
+import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.book.JsonBook;
+import bzh.medek.server.json.movie.JsonMovie;
+import bzh.medek.server.json.tvshow.JsonShow;
+import bzh.medek.server.json.user.JsonUser;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.rest.BookService;
@@ -31,12 +36,18 @@ public class TestUtils {
                 .addPackage(BookService.class.getPackage())
                 .addPackage(JsonClientMsg.class.getPackage())
                 .addPackage(ClientMessage.class.getPackage())
-                .addPackage(JsonPingResp.class.getPackage())
+                .addPackage(JsonAlbum.class.getPackage())
+                .addPackage(JsonBook.class.getPackage())
+                .addPackage(JsonMovie.class.getPackage())
+                .addPackage(JsonShow.class.getPackage())
+                .addPackage(JsonUser.class.getPackage())
                 .addPackage(MedekError.class.getPackage())
+                .addPackage(Constants.class.getPackage())
+                .addPackage(RestRequestFilter.class.getPackage())
                 .addAsLibraries(libsConf)
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("messages_en.properties")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"));
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 }

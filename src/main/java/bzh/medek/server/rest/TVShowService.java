@@ -91,5 +91,17 @@ public class TVShowService extends Application {
     	}
     	return jshow;
     }
+
+    /**
+     *  GET /shows/user/{id} : retrieve shows for one user
+     * 
+     * @param id - user ID
+     * @return
+     */
+    @GET
+    @Path(value = "/user/{id}")
+    public List<JsonShow> getUserShows(@PathParam(value = "id") Integer id) {
+    	return showDao.getUsersTvshows(id);
+    }
 	
 }

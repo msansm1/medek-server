@@ -87,7 +87,17 @@ public class BookService extends Application {
     	}
     	return jbook;
     }
+
+    /**
+     *  GET /books/user/{id} : retrieve books for one user
+     * 
+     * @param id - user ID
+     * @return
+     */
+    @GET
+    @Path(value = "/user/{id}")
+    public List<JsonBook> getUserBooks(@PathParam(value = "id") Integer id) {
+    	return bookDao.getUsersBooks(id);
+    }
     
-	
-	
 }

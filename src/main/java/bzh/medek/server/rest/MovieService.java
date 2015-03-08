@@ -87,7 +87,17 @@ public class MovieService extends Application {
     	}
     	return jmovie;
     }
+
+    /**
+     *  GET /movies/user/{id} : retrieve movie for one user
+     * 
+     * @param id - user ID
+     * @return
+     */
+    @GET
+    @Path(value = "/user/{id}")
+    public List<JsonMovie> getUserMovies(@PathParam(value = "id") Integer id) {
+    	return movieDao.getUsersMovies(id);
+    }
     
-	
-	
 }

@@ -3,7 +3,9 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
+import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.persistence.entities.Book;
 
 /**
@@ -36,5 +38,15 @@ public class BookDAO extends Dao {
 
 	public Book getBook(Integer id) {
 		return em.find(Book.class, id);
+	}
+
+	public List<JsonBook> getUsersBooks(Integer id) {
+		TypedQuery<JsonBook> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.book.JsonBook(b.id, b.name, "
+						+ "b.author, b.editor)"
+						+ "from Book b where b.userbooks.id.user=:param1",
+						JsonBook.class);
+		q.setParameter("param1", id);
+		return q.getResultList();
 	}
 }

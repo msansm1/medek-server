@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.persistence.entities.Artist;
+import bzh.medek.server.persistence.entities.Artisttype;
 
 /**
  * Tests for artist DAO
@@ -31,9 +32,11 @@ public class ArtistDAOTest {
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "artistdao.war")
         		.addClass(ArtistDAO.class)
+        		.addClass(ArtisttypeDAO.class)
                 .addClass(Dao.class)
                 .addPackage(Artist.class.getPackage())
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         LOGGER.info(war.toString(Formatters.VERBOSE));
@@ -43,12 +46,18 @@ public class ArtistDAOTest {
 
     @Inject
     private ArtistDAO dao;
+    @Inject
+    private ArtisttypeDAO atdao;
 
     final Artist artist = new Artist();
 
     public void saveArtistTest() {
+    	Artisttype at = new Artisttype();
+    	at.setName("at");
+    	atdao.saveArtisttype(at);
     	artist.setFirstname("toto");
         artist.setName("tata");
+        artist.setArtisttype(at);
         dao.saveArtist(artist);
         Assert.assertNotNull("Artist is not created", artist.getId());
     }

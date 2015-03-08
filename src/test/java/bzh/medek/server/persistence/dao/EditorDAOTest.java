@@ -33,7 +33,8 @@ public class EditorDAOTest {
         		.addClass(EditorDAO.class)
                 .addClass(Dao.class)
                 .addPackage(Editor.class.getPackage())
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         LOGGER.info(war.toString(Formatters.VERBOSE));

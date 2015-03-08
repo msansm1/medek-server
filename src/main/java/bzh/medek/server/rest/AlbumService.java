@@ -88,7 +88,17 @@ public class AlbumService extends Application {
     	}
     	return ja;
     }
+
+    /**
+     *  GET /albums/user/{id} : retrieve albums for one user
+     * 
+     * @param id - user ID
+     * @return
+     */
+    @GET
+    @Path(value = "/user/{id}")
+    public List<JsonAlbum> getUserAlbums(@PathParam(value = "id") Integer id) {
+    	return albumDao.getUsersAlbums(id);
+    }
     
-	
-	
 }

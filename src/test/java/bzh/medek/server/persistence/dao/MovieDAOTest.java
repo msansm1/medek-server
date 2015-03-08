@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.entities.Movie;
 
 /**
@@ -31,9 +32,11 @@ public class MovieDAOTest {
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "moviedao.war")
         		.addClass(MovieDAO.class)
+        		.addClass(JsonMovie.class)
                 .addClass(Dao.class)
                 .addPackage(Movie.class.getPackage())
-                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("load.sql", "load.sql")
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         LOGGER.info(war.toString(Formatters.VERBOSE));
@@ -49,6 +52,7 @@ public class MovieDAOTest {
     public void saveMovieTest() {
     	movie.setTitle("test movie");
         movie.setCover("YOUHOU");
+        movie.setIscollector(false);
         dao.saveMovie(movie);
         Assert.assertNotNull("Movie is not created", movie.getId());
     }
