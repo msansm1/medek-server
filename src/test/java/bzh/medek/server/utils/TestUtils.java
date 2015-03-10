@@ -12,6 +12,7 @@ import bzh.medek.server.error.MedekError;
 import bzh.medek.server.interceptor.RestRequestFilter;
 import bzh.medek.server.json.JsonClientMsg;
 import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.auth.JsonLogin;
 import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.json.tvshow.JsonShow;
@@ -44,10 +45,10 @@ public class TestUtils {
                 .addPackage(MedekError.class.getPackage())
                 .addPackage(Constants.class.getPackage())
                 .addPackage(RestRequestFilter.class.getPackage())
+                .addPackage(JsonLogin.class.getPackage())
                 .addAsLibraries(libsConf)
                 .addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-                .addAsResource("messages_en.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 }

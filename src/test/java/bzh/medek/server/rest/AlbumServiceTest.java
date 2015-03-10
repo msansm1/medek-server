@@ -21,13 +21,13 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import bzh.medek.server.json.user.JsonUser;
+import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.utils.Constants;
 import bzh.medek.server.utils.TestConstants;
 import bzh.medek.server.utils.TestUtils;
 
 /**
- * Test class for user REST service
+ * Test class for album REST service
  * 
  * @author msansm1
  *
@@ -35,12 +35,12 @@ import bzh.medek.server.utils.TestUtils;
 @RunWith(Arquillian.class)
 //Run the tests of the class as a client
 @RunAsClient
-public class UserServiceTest {
-    private static final Logger LOGGER = Logger.getLogger(UserServiceTest.class);
+public class AlbumServiceTest {
+    private static final Logger LOGGER = Logger.getLogger(AlbumServiceTest.class);
 
-    private static final String APP_NAME = "userservice";
+    private static final String APP_NAME = "albumservice";
 
-    private static final String svc_root = "/services/users";
+    private static final String svc_root = "/services/albums";
 
     // testable = false => it's for testing as a client (we don't test inside
     // the app)
@@ -53,7 +53,7 @@ public class UserServiceTest {
     }
 
     /**
-     * Test for /services/users GET Test OK
+     * Test for /services/albums GET Test OK
      * 
      * @throws Exception
      */
@@ -63,15 +63,15 @@ public class UserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonUser> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
-        assertFalse("No user found", response.isEmpty());
+        assertFalse("No album found", response.isEmpty());
     }
 
     /**
-     * Test for /services/users/{id} GET Test OK
+     * Test for /services/albums/{id} GET Test OK
      * 
      * @throws Exception
      */
@@ -80,15 +80,15 @@ public class UserServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
+        JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .get(JsonUser.class);
-        assertEquals("msansm1", response.getLogin());
+                .get(JsonAlbum.class);
+        assertEquals("And justice for all", response.getTitle());
     }
 
     /**
-     * Test for /services/users POST Test OK
+     * Test for /services/albums POST Test OK
      * creation
      * 
      * @throws Exception
@@ -97,17 +97,17 @@ public class UserServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonUser user = new JsonUser(null, "testrest", "test@rest.bzh");
+        JsonAlbum album = new JsonAlbum(null, "la ouache", null);
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+        JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonUser.class);
-        assertEquals("testrest", response.getLogin());
+                .post(Entity.entity(album, MediaType.APPLICATION_JSON), JsonAlbum.class);
+        assertEquals("la ouache", response.getTitle());
     }
 
     /**
-     * Test for /services/users POST Test OK
+     * Test for /services/albums POST Test OK
      * update
      * 
      * @throws Exception
@@ -116,13 +116,32 @@ public class UserServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonUser user = new JsonUser(1, "msansm1", "test@test.bzh");
+        JsonAlbum album = new JsonAlbum(1, "Master of puppets", null);
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+        JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonUser.class);
-        assertEquals("msansm1", response.getLogin());
+                .post(Entity.entity(album, MediaType.APPLICATION_JSON), JsonAlbum.class);
+        assertEquals("Master of puppets", response.getTitle());
+    }
+
+    /**
+     * Test for /services/albums/user/{id} GET Test OK
+     * update
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(4)
+    public void callGetUserAlbums() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No user album found", response.isEmpty());
     }
 
 	

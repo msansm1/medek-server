@@ -1,0 +1,10 @@
+.deploymentMethodHasToBeStaticAndPublic=warning
+eclipse.preferences.version=1
+enableArquillianValidator=true
+org.jboss.tools.arquillian.core.deploymentArchiveCannotBeCreated=warning
+org.jboss.tools.arquillian.core.importIsNotIncludedInAnyDeployment=ignore
+org.jboss.tools.arquillian.core.invalidArchiveName=warning
+org.jboss.tools.arquillian.core.missingDeploymentMethod=warning
+org.jboss.tools.arquillian.core.missingTestMethod=warning
+org.jboss.tools.arquillian.core.typeIsNotIncludedInAnyDeployment=ignore
+testArquillianContainer=true

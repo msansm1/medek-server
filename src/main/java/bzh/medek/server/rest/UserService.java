@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.user.JsonUser;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.User;
+import bzh.medek.server.utils.Crypt;
 
 @Stateless
 @ApplicationPath("/services")
@@ -79,6 +80,7 @@ public class UserService extends Application {
 	    	User u = new User();
 	    	u.setEmail(user.getMail());
 	    	u.setLogin(user.getLogin());
+	    	u.setPassword(Crypt.crypt(user.getLogin(), "password"));
 	    	userDao.saveUser(u);
 	    	juser.setId(u.getId());
     	} else {

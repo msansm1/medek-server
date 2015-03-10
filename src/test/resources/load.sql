@@ -8,7 +8,7 @@ DELETE FROM `ARTIST` WHERE 1;
 DELETE FROM `ARTISTTYPE` WHERE 1;
 
 
-INSERT INTO `USER` (`ID`, `LOGIN`, `FIRSTNAME`, `LASTNAME`, `PASSWORD`, `EMAIL`, `TOKEN`) VALUES (1, 'ronan', 'ronan', 'barbot', 'f37ef64605f2046e69e5989a4bc7b3d4b9a64dc4', 'ronan@barbot.fr', '0277d058-f407-47d0-9e1c-797376e7da1a');
+INSERT INTO `USER` (`ID`, `LOGIN`, `FIRSTNAME`, `LASTNAME`, `PASSWORD`, `EMAIL`, `TOKEN`) VALUES (1, 'msansm1', 'msansm1', 'bzh', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'msansm1@test.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a'), (2, 'testarq', 'test', 'arq', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'test@arq.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a34');
 
 INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`, `ISSIGNED`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', NULL, 8, NULL, 0);
 

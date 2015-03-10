@@ -78,6 +78,7 @@ public class AlbumService extends Application {
     	if (album.getId() == null) {
     		Album a = new Album();
     		a.setTitle(album.getTitle());
+    		a.setIssigned(false);
     		albumDao.saveAlbum(a);
 	    	ja.setId(a.getId());
     	} else {
