@@ -42,9 +42,9 @@ public class BookDAO extends Dao {
 
 	public List<JsonBook> getUsersBooks(Integer id) {
 		TypedQuery<JsonBook> q = em.createQuery(
-				"SELECT NEW bzh.medek.server.json.book.JsonBook(b.id, b.name, "
-						+ "b.author, b.editor)"
-						+ "from Book b where b.userbooks.id.user=:param1",
+				"SELECT NEW bzh.medek.server.json.book.JsonBook(b.id, b.title)"
+						+ "from Book b, Userbook ub, User u "
+						+ "where b.id=ub.id.book and ub.id.user=u.id and u.id=:param1",
 						JsonBook.class);
 		q.setParameter("param1", id);
 		return q.getResultList();

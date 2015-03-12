@@ -60,10 +60,10 @@ public class BookService extends Application {
      */
     @GET
     @Path(value = "/{id}")
-    public Book getOne(@PathParam(value = "id") Integer id) {
+    public JsonBook getOne(@PathParam(value = "id") Integer id) {
     	Book b = bookDao.getBook(id);
     	LOGGER.info("find "+b.getTitle()+" book in the database");
-    	return b;
+    	return new JsonBook(b.getId(), b.getTitle(), "", "");
     }
 
     /**
@@ -78,6 +78,7 @@ public class BookService extends Application {
     	if (jb.getId() == null) {
     		Book b = new Book();
     		b.setTitle(jb.getName());
+    		b.setBooknb(1);
     		bookDao.saveBook(b);
 	    	jbook.setId(b.getId());
     	} else {

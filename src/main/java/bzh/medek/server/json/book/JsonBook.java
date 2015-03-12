@@ -10,6 +10,14 @@ public class JsonBook {
 		super();
 	}
 
+	public JsonBook(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.author = "";
+		this.editor = "";
+	}
+
 	public JsonBook(Integer id, String name, String author, String editor) {
 		super();
 		this.id = id;

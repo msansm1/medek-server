@@ -43,7 +43,8 @@ public class AlbumDAO extends Dao {
 		TypedQuery<JsonAlbum> q = em.createQuery(
 				"SELECT NEW bzh.medek.server.json.album.JsonAlbum(a.id, a.title, "
 						+ "a.cover)"
-						+ "from Album a where a.useralbums.id.user=:param1",
+						+ "from Album a, Useralbum ua, User u "
+						+ "where a.id=ua.id.album and ua.id.user=u.id and u.id=:param1",
 				JsonAlbum.class);
 		q.setParameter("param1", id);
 		return q.getResultList();
