@@ -131,7 +131,7 @@ public class AlbumServiceTest {
      * @throws Exception
      */
     @Test
-    @InSequence(4)
+    @InSequence(5)
     public void callGetUserAlbums() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 

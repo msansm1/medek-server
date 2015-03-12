@@ -78,6 +78,7 @@ public class MovieService extends Application {
     	if (movie.getId() == null) {
     		Movie m = new Movie();
     		m.setTitle(movie.getTitle());
+    		m.setIscollector(false);
     		movieDao.saveMovie(m);
 	    	jmovie.setId(m.getId());
     	} else {

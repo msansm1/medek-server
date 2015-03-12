@@ -42,8 +42,9 @@ public class MovieDAO extends Dao {
 
 	public List<JsonMovie> getUsersMovies(Integer id) {
 		TypedQuery<JsonMovie> q = em.createQuery(
-				"SELECT NEW bzh.medek.server.json.movie.JsonMovie(b.id, b.title"
-						+ "from Movie m where m.usermovies.id.user=:param1",
+				"SELECT NEW bzh.medek.server.json.movie.JsonMovie(m.id, m.title) "
+						+ "from Movie m, Usermovie um, User u "
+						+ "where m.id=um.id.movie and um.id.user=u.id and u.id=:param1",
 						JsonMovie.class);
 		q.setParameter("param1", id);
 		return q.getResultList();
