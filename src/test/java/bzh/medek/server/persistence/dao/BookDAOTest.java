@@ -92,5 +92,11 @@ public class BookDAOTest {
         List<Book> l = dao.getBooks();
         Assert.assertNotNull("No Book found", l);
     }
+
+    @Test
+    public void getUserBooksTest() {
+        List<JsonBook> l = dao.getUsersBooks(1);
+        Assert.assertNotNull("No user Book found", l);
+    }
     
 }

@@ -23,7 +23,7 @@ import bzh.medek.server.persistence.entities.Tvshow;
 
 @Stateless
 @ApplicationPath("/services")
-@Path(value = "/shows")
+@Path(value = "/tvshows")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TVShowService extends Application {

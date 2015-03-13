@@ -92,5 +92,11 @@ public class TvshowDAOTest {
         List<Tvshow> l = dao.getTvshows();
         Assert.assertNotNull("No Tvshow found", l);
     }
+
+    @Test
+    public void getUserTvshowsTest() {
+        List<JsonShow> l = dao.getUsersTvshows(1);
+        Assert.assertNotNull("No Tvshow found", l);
+    }
     
 }

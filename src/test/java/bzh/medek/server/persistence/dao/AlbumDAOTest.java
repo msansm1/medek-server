@@ -93,5 +93,11 @@ public class AlbumDAOTest {
         List<Album> l = dao.getAlbums();
         Assert.assertNotNull("No Album found", l);
     }
+
+    @Test
+    public void getUserAlbumsTest() {
+        List<JsonAlbum> l = dao.getUsersAlbums(1);
+        Assert.assertFalse("No user Album found", l.isEmpty());
+    }
     
 }

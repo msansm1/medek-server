@@ -93,5 +93,11 @@ public class MovieDAOTest {
         List<Movie> l = dao.getMovies();
         Assert.assertNotNull("No Movie found", l);
     }
+
+    @Test
+    public void getUserMoviesTest() {
+        List<JsonMovie> l = dao.getUsersMovies(1);
+        Assert.assertNotNull("No user Movie found", l);
+    }
     
 }

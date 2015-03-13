@@ -1,9 +1,16 @@
 package bzh.medek.server.json.album;
 
+import java.util.List;
+
 public class JsonAlbum {
 	private Integer id;
 	private String title;
 	private String cover;
+	private String releaseDate;
+	private String genre;
+	private Integer nbTracks;
+	private String support;
+	private List<JsonTrack> tracks;
 	
 	public JsonAlbum() {
 		super();

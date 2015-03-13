@@ -77,13 +77,13 @@ public class BookService extends Application {
     	JsonBook jbook = jb;
     	if (jb.getId() == null) {
     		Book b = new Book();
-    		b.setTitle(jb.getName());
+    		b.setTitle(jb.getTitle());
     		b.setBooknb(1);
     		bookDao.saveBook(b);
 	    	jbook.setId(b.getId());
     	} else {
     		Book b = bookDao.getBook(jb.getId());
-    		b.setTitle(jb.getName());
+    		b.setTitle(jb.getTitle());
     		bookDao.updateBook(b);
     	}
     	return jbook;

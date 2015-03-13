@@ -43,7 +43,8 @@ public class TvshowDAO extends Dao {
 		TypedQuery<JsonShow> q = em.createQuery(
 				"SELECT NEW bzh.medek.server.json.tvshow.JsonShow(tv.id, tv.title, "
 						+ "tv.cover, tv.description)"
-						+ "from Tvshow tv where tv.usertvs.id.user=:param1",
+						+ "from Tvshow tv, Usertv ut, User u "
+						+ "where tv.id=ut.id.tvshow and ut.id.user=u.id and u.id=:param1",
 				JsonShow.class);
 		q.setParameter("param1", id);
 		return q.getResultList();
