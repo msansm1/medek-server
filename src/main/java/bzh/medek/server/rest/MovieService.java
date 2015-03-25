@@ -17,8 +17,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
+import bzh.medek.server.json.JsonLang;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.dao.MovieDAO;
+import bzh.medek.server.persistence.dao.StorygenreDAO;
+import bzh.medek.server.persistence.dao.SupportDAO;
+import bzh.medek.server.persistence.entities.Lang;
 import bzh.medek.server.persistence.entities.Movie;
 
 @Stateless
@@ -32,6 +36,10 @@ public class MovieService extends Application {
     
     @Inject
     MovieDAO movieDao;
+    @Inject
+    SupportDAO supportDAO;
+    @Inject
+    StorygenreDAO storygenreDAO;
 	
 	public MovieService () {
 	}
@@ -47,7 +55,9 @@ public class MovieService extends Application {
     	LOGGER.info("find "+movies.size()+" movies in the database");
     	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
     	for (Movie m : movies) {
-    		lm.add(new JsonMovie(m.getId(), m.getTitle()));
+    		lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
+    				m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
+    				m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector()));
     	}
     	return lm;
     }
@@ -61,9 +71,20 @@ public class MovieService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonMovie getOne(@PathParam(value = "id") Integer id) {
-    	Movie b = movieDao.getMovie(id);
-    	LOGGER.info("find "+b.getTitle()+" movie in the database");
-    	return new JsonMovie(b.getId(), b.getTitle());
+    	JsonMovie jm = movieDao.getJsonMovie(id);
+    	LOGGER.info("find "+jm.getTitle()+" movie in the database");
+    	Movie m = movieDao.getMovie(id);
+    	List<JsonLang> ll = new ArrayList<JsonLang>();
+    	for (Lang l:m.getLangs2()) {
+    		ll.add(new JsonLang(l.getId(), l.getName()));
+    	}
+    	jm.setLangs(ll);
+    	List<JsonLang> ls = new ArrayList<JsonLang>();
+    	for (Lang l:m.getLangs1()) {
+    		ls.add(new JsonLang(l.getId(), l.getName()));
+    	}
+    	jm.setSubtitles(ls);
+    	return jm;
     }
 
     /**
@@ -78,12 +99,23 @@ public class MovieService extends Application {
     	if (movie.getId() == null) {
     		Movie m = new Movie();
     		m.setTitle(movie.getTitle());
-    		m.setIscollector(false);
+    		m.setDescription(movie.getDescription());
+    		m.setReleasedate(movie.getReleaseDate());
+    		m.setLength(movie.getLength());
+    		m.setIscollector(movie.getIsCollector());
+    		m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
+    		m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
     		movieDao.saveMovie(m);
 	    	jmovie.setId(m.getId());
     	} else {
         	Movie m = movieDao.getMovie(movie.getId());
     		m.setTitle(movie.getTitle());
+    		m.setDescription(movie.getDescription());
+    		m.setReleasedate(movie.getReleaseDate());
+    		m.setLength(movie.getLength());
+    		m.setIscollector(movie.getIsCollector());
+    		m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
+    		m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
     		movieDao.updateMovie(m);
     	}
     	return jmovie;

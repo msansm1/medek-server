@@ -3,6 +3,7 @@ package bzh.medek.server.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -97,7 +98,7 @@ public class MovieServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonMovie movie = new JsonMovie(null, "Apocalypse now");
+        JsonMovie movie = new JsonMovie(null, "Apocalypse now", "", new Date(), "", "", 1, "", 1, "", false);
         		
         JsonMovie response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
@@ -116,7 +117,7 @@ public class MovieServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonMovie movie = new JsonMovie(1, "Totorro");
+        JsonMovie movie = new JsonMovie(1, "Totorro", "", new Date(), "", "", 1, "", 1, "", false);
 
         JsonMovie response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
