@@ -1,0 +1,14 @@
+<div class="row">
+	<div class="col-md-2">
+		<div ng-include="'app/views/movie/moviemenu.html'"></div>
+	</div>
+	<div class="col-md-8 mainlist">
+		<form>
+		    <input type="text" class="form-control listitem-search" id="filter" placeholder="Search">
+		</form>
+		<div ng-repeat="movie in movies" ng-include="'app/views/movie/moviedetails.html'"></div>
+	</div>
+	<div class="col-md-8 itempanel">
+		<div ui-view />
+	</div>
+</div>

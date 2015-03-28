@@ -7,15 +7,25 @@
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="medek-server/home">{{ 'home' | translate }}</a></li>
+				<li><a href="/home">{{ 'home' | translate }}</a></li>
                 <li class="divider"></li>
-		        <li ng-class="{ active: isActive('/medek-server/albums')}"><a href="medek-server/albums">{{ 'albums' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/medek-server/books')}"><a href="medek-server/books">{{ 'books' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/medek-server/movies')}"><a href="medek-server/movies">{{ 'movies' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/medek-server/series')}"><a href="medek-server/series">{{ 'series' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/albums')}"><a href="/albums">{{ 'albums' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/books')}"><a href="/books">{{ 'books' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/movies')}"><a href="/movies">{{ 'movies' | translate }}</a></li>
+		        <li ng-class="{ active: isActive('/series')}"><a href="/series">{{ 'series' | translate }}</a></li>
 	        </ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><p class="navbar-text">{{ user.login }}</p></li>
+				<li><div class="btn-group" dropdown is-open="usermenuopen">
+				      <button type="button" class="btn btn-primary dropdown-toggle">
+				        {{ user.login }}<span class="caret"></span>
+				      </button>
+				      <ul class="dropdown-menu" role="menu">
+				        <li><a href="#">{{ 'myprofile' | translate }}</a></li>
+				        <li class="divider"></li>
+				        <li><a href="#" ng-click="logout()">{{ 'logout' | translate }}</a></li>
+				      </ul>
+				    </div>
+			    </li>
                 <li><p class="navbar-text"> </p></li>
 			</ul>
 		</div>

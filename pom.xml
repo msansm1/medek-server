@@ -91,7 +91,7 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<source>1.7</source>
 					<target>1.7</target>
-					<warName>medekServer</warName>
+					<warName>medek-server</warName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -129,7 +129,7 @@
 					<port>9990</port>
 					<username>admedek</username>
 					<password>medek2014wildfly</password>
-					<filename>medekServer.war</filename>
+					<filename>medek-server.war</filename>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -311,7 +311,7 @@
 							<port>9990</port>
 							<username>admedek</username>
 							<password>medek2014wildfly</password>
-							<filename>medekServer.war</filename>
+							<filename>medek-server.war</filename>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -339,7 +339,7 @@
 							<port>9990</port>
 							<username>admedek</username>
 							<password>medek2014wildfly</password>
-							<filename>medekServer.war</filename>
+							<filename>medek-server.war</filename>
 						</configuration>
 					</plugin>
 				</plugins>

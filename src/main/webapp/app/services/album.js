@@ -3,14 +3,10 @@ angular.module('medekApp.services').service('AlbumService', [
 '$rootScope', 
 function($http, $rootScope) {
     this.albums = function() {
-        return $http.post('services/albums', {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/albums');
     };
     
     this.album = function(id) {
-        return $http.post('services/albums/'+id, {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/albums/'+id);
     };
 } ]);

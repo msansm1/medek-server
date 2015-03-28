@@ -12,13 +12,12 @@
 
 <title>Medek</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style_arm.css">
+<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="vendor/angular/ui-grid/ui-grid.min.css">
 <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 <script src="vendor/jquery/jquery-2.1.1.min.js"></script>
 <script src="vendor/angular/angular.min.js"></script>
 <script src="vendor/angular/angular-resource.min.js"></script>
-<script src="vendor/angular/angular-route.min.js"></script>
 <script src="vendor/angular/angular-ui-router.min.js"></script>
 <script src="vendor/angular/angular-messages.min.js"></script>
 <script src="vendor/angular/angular-translate.min.js"></script>
@@ -35,23 +34,29 @@
 			</center>
 		</div>
 	</noscript>
-	<base href="/medek-server">
+	<base href="/">
 
-	<div class="container" ui-view></div>
+	<div class="container-fluid">
+		<div ng-if="isConnected" ng-include="'app/views/header.html'"></div>
+		
+		<div style="padding-top: 75px;">
+	 		<div ui-view />
+	 	</div>
+	 </div>
 
-	<script src="medek-server/app/app.js"></script>
-	<script src="medek-server/app/services/auth.js"></script>
-	<script src="medek-server/app/services/album.js"></script>
-	<script src="medek-server/app/services/book.js"></script>
-	<script src="medek-server/app/services/movie.js"></script>
-	<script src="medek-server/app/services/serie.js"></script>
-	<script src="medek-server/app/services/user.js"></script>
-	<script src="medek-server/app/controllers/auth.js"></script>
-	<script src="medek-server/app/controllers/albums.js"></script>
-	<script src="medek-server/app/controllers/books.js"></script>
-	<script src="medek-server/app/controllers/home.js"></script>
-	<script src="medek-server/app/controllers/movies.js"></script>
-	<script src="medek-server/app/controllers/series.js"></script>
+	<script src="app/app.js"></script>
+	<script src="app/services/auth.js"></script>
+	<script src="app/services/album.js"></script>
+	<script src="app/services/book.js"></script>
+	<script src="app/services/movie.js"></script>
+	<script src="app/services/serie.js"></script>
+	<script src="app/services/user.js"></script>
+	<script src="app/controllers/auth.js"></script>
+	<script src="app/controllers/albums.js"></script>
+	<script src="app/controllers/books.js"></script>
+	<script src="app/controllers/home.js"></script>
+	<script src="app/controllers/movies.js"></script>
+	<script src="app/controllers/series.js"></script>
 </body>
 
 

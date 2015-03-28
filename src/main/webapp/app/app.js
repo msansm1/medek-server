@@ -3,7 +3,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                           'ui.bootstrap', 'ui.grid', 'ui.grid.selection', 'pascalprecht.translate'])
          .config(function($translateProvider) {
             $translateProvider.useStaticFilesLoader({
-                prefix: 'medek-server/app/languages/',
+                prefix: 'app/languages/',
                 suffix: '.json'
             });
             $translateProvider.preferredLanguage('en');
@@ -11,37 +11,37 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
         .config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
             $locationProvider.html5Mode(true);
             // default route
-            $urlRouterProvider.otherwise("/medek-server/");
+            $urlRouterProvider.otherwise("/");
             // states definitions
             $stateProvider
             .state('login', {
-              url: '/medek-server/',
-              templateUrl : 'medek-server/app/views/login.html',
+              url: '/',
+              templateUrl : 'app/views/login.html',
               controller : 'AuthController'
             })
             .state('home', {
-              url: '/medek-server/home',
-              templateUrl : 'medek-server/app/views/home.html',
+              url: '/home',
+              templateUrl : 'app/views/home.html',
               controller : 'HomeController'
             })
             .state('books', {
-                url: '/medek-server/books',
-                templateUrl : 'medek-server/app/views/books.html',
+                url: '/books',
+                templateUrl : 'app/views/book/books.html',
                 controller : 'BooksController'
             })
             .state('albums', {
-                url: '/medek-server/albums',
-                templateUrl : 'medek-server/app/views/albums.html',
+                url: '/albums',
+                templateUrl : 'app/views/album/albums.html',
                 controller : 'AlbumsController'
             })
             .state('movies', {
-                url: '/medek-server/movies',
-                templateUrl : 'medek-server/app/views/movies.html',
+                url: '/movies',
+                templateUrl : 'app/views/movie/movies.html',
                 controller : 'MoviesController'
             })
             .state('series', {
-                url: '/medek-server/series',
-                templateUrl : 'medek-server/app/views/series.html',
+                url: '/series',
+                templateUrl : 'app/views/series/series.html',
                 controller : 'SeriesController'
             })
             .state('error', {

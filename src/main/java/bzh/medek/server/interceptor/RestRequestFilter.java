@@ -37,7 +37,7 @@ public class RestRequestFilter implements ContainerRequestFilter {
             return;
         }
 
-        // For any pther methods besides login, the authToken must be verified
+        // For any other methods besides login, the authToken must be verified
         if (path.startsWith("/admin")) {
             String authToken = requestCtx.getHeaderString(Constants.HTTP_HEADER_TOKEN);
             Integer userId = userDao.tokenExists(authToken);

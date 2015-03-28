@@ -3,14 +3,10 @@ angular.module('medekApp.services').service('MovieService', [
 '$rootScope', 
 function($http, $rootScope) {
     this.movies = function() {
-        return $http.post('services/movies', {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/movies');
     };
     
     this.movie = function(id) {
-        return $http.post('services/movies/'+id, {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/movies/'+id);
     };
 } ]);

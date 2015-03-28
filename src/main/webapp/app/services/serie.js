@@ -3,14 +3,12 @@ angular.module('medekApp.services').service('SerieService', [
 '$rootScope', 
 function($http, $rootScope) {
     this.series = function() {
-        return $http.post('services/series', {
+        return $http.get('services/tvshows', {
             id: $rootScope.user.id
         });
     };
     
     this.serie = function(id) {
-        return $http.post('services/series/'+id, {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/tvshows/'+id);
     };
 } ]);
