@@ -69,7 +69,7 @@ public class LangService extends Application {
     /**
      *  POST /langs : create / update one lang
      * 
-     * @param JsonLang lang
+     * @param JsonBooktype lang
      * @return
      */
     @POST

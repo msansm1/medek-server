@@ -19,6 +19,11 @@ import org.apache.log4j.Logger;
 
 import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.persistence.dao.BookDAO;
+import bzh.medek.server.persistence.dao.BooktypeDAO;
+import bzh.medek.server.persistence.dao.CollectionDAO;
+import bzh.medek.server.persistence.dao.EditorDAO;
+import bzh.medek.server.persistence.dao.LangDAO;
+import bzh.medek.server.persistence.dao.StorygenreDAO;
 import bzh.medek.server.persistence.entities.Book;
 
 @Stateless
@@ -32,6 +37,16 @@ public class BookService extends Application {
     
     @Inject
     BookDAO bookDao;
+    @Inject
+    BooktypeDAO booktypeDAO;
+    @Inject
+    StorygenreDAO storygenreDAO;
+    @Inject
+    EditorDAO editorDAO;
+    @Inject
+    CollectionDAO collectionDAO;
+    @Inject
+    LangDAO langDAO;
 	
 	public BookService () {
 	}
@@ -47,7 +62,19 @@ public class BookService extends Application {
     	LOGGER.info("find "+books.size()+" books in the database");
     	ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
     	for (Book b : books) {
-    		lb.add(new JsonBook(b.getId(), b.getTitle(), "", ""));
+    		lb.add(new JsonBook(b.getId(), b.getTitle(), "", 0, 
+    				(b.getEditorBean() != null)?b.getEditorBean().getName():"",
+    				(b.getEditorBean() != null)?b.getEditorBean().getId():0,
+    				(b.getCollectionBean() != null)?b.getCollectionBean().getName():"",
+    				(b.getCollectionBean() != null)?b.getCollectionBean().getId():0,
+    				b.getCover(), b.getDescription(), b.getPublicationdate(), 
+    				(b.getStorygenre() != null)?b.getStorygenre().getName():"",
+    				(b.getStorygenre() != null)?b.getStorygenre().getId():0, 
+    				(b.getBooktype() != null)?b.getBooktype().getName():"",
+    				(b.getBooktype() != null)?b.getBooktype().getId():0,
+    				(b.getBooktype() != null)?b.getLangBean().getName():"",
+    				(b.getBooktype() != null)?b.getLangBean().getId():0, b.getSeries(), 
+    				b.getBooknb(), b.getIsseriedone()));
     	}
     	return lb;
     }
@@ -63,7 +90,19 @@ public class BookService extends Application {
     public JsonBook getOne(@PathParam(value = "id") Integer id) {
     	Book b = bookDao.getBook(id);
     	LOGGER.info("find "+b.getTitle()+" book in the database");
-    	return new JsonBook(b.getId(), b.getTitle(), "", "");
+    	return new JsonBook(b.getId(), b.getTitle(), "", 0, 
+				(b.getEditorBean() != null)?b.getEditorBean().getName():"",
+				(b.getEditorBean() != null)?b.getEditorBean().getId():0,
+				(b.getCollectionBean() != null)?b.getCollectionBean().getName():"",
+				(b.getCollectionBean() != null)?b.getCollectionBean().getId():0,
+				b.getCover(), b.getDescription(), b.getPublicationdate(), 
+				(b.getStorygenre() != null)?b.getStorygenre().getName():"",
+				(b.getStorygenre() != null)?b.getStorygenre().getId():0, 
+				(b.getBooktype() != null)?b.getBooktype().getName():"",
+				(b.getBooktype() != null)?b.getBooktype().getId():0,
+				(b.getBooktype() != null)?b.getLangBean().getName():"",
+				(b.getBooktype() != null)?b.getLangBean().getId():0, b.getSeries(), 
+				b.getBooknb(), b.getIsseriedone());
     }
 
     /**
@@ -78,12 +117,53 @@ public class BookService extends Application {
     	if (jb.getId() == null) {
     		Book b = new Book();
     		b.setTitle(jb.getTitle());
-    		b.setBooknb(1);
+    		b.setBooknb(jb.getBookNb());
+    		b.setDescription(jb.getDescription());
+    		b.setCover(jb.getCover());
+    		b.setIsseriedone(jb.getIsSerieDone());
+    		b.setSeries(jb.getSeries());
+    		b.setPublicationdate(jb.getPublicationDate());
+    		if (jb.getEditorId() != null) {
+    			b.setEditorBean(editorDAO.getEditor(jb.getEditorId()));
+    		}
+    		if (jb.getCollectionId() != null) {
+    			b.setCollectionBean(collectionDAO.getCollection(jb.getCollectionId()));
+    		}
+    		if (jb.getLangId() != null) {
+    			b.setLangBean(langDAO.getLang(jb.getLangId()));
+    		}
+    		if (jb.getTypeId() != null) {
+    			b.setBooktype(booktypeDAO.getBooktype(jb.getTypeId()));
+    		}
+    		if (jb.getGenreId() != null) {
+    			b.setStorygenre(storygenreDAO.getStorygenre(jb.getGenreId()));
+    		}
     		bookDao.saveBook(b);
 	    	jbook.setId(b.getId());
     	} else {
     		Book b = bookDao.getBook(jb.getId());
     		b.setTitle(jb.getTitle());
+    		b.setBooknb(jb.getBookNb());
+    		b.setDescription(jb.getDescription());
+    		b.setCover(jb.getCover());
+    		b.setIsseriedone(jb.getIsSerieDone());
+    		b.setSeries(jb.getSeries());
+    		b.setPublicationdate(jb.getPublicationDate());
+    		if (jb.getEditorId() != null) {
+    			b.setEditorBean(editorDAO.getEditor(jb.getEditorId()));
+    		}
+    		if (jb.getCollectionId() != null) {
+    			b.setCollectionBean(collectionDAO.getCollection(jb.getCollectionId()));
+    		}
+    		if (jb.getLangId() != null) {
+    			b.setLangBean(langDAO.getLang(jb.getLangId()));
+    		}
+    		if (jb.getTypeId() != null) {
+    			b.setBooktype(booktypeDAO.getBooktype(jb.getTypeId()));
+    		}
+    		if (jb.getGenreId() != null) {
+    			b.setStorygenre(storygenreDAO.getStorygenre(jb.getGenreId()));
+    		}
     		bookDao.updateBook(b);
     	}
     	return jbook;

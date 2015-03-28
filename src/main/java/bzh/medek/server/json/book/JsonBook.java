@@ -1,17 +1,25 @@
 package bzh.medek.server.json.book;
 
+import java.util.Date;
+
 public class JsonBook {
 	private Integer id;
 	private String title;
 	private String author;
+	private Integer authorId;
 	private String editor;
+	private Integer editorId;
 	private String collection;
+	private Integer collectionId;
 	private String cover;
 	private String description;
-	private String publicationDate;
+	private Date publicationDate;
 	private String genre;
+	private Integer genreId;
 	private String type;
+	private Integer typeId;
 	private String lang;
+	private Integer langId;
 	private String series;
 	private Integer bookNb;
 	private Boolean isSerieDone;
@@ -35,23 +43,31 @@ public class JsonBook {
 		this.author = author;
 		this.editor = editor;
 	}
-
-	public JsonBook(Integer id, String title, String author, String editor,
-			String collection, String cover, String description,
-			String publicationDate, String genre, String type, String lang,
-			String series, Integer bookNb, Boolean isSerieDone) {
+	
+	public JsonBook(Integer id, String title, String author, Integer authorId,
+			String editor, Integer editorId, String collection,
+			Integer collectionId, String cover, String description,
+			Date publicationDate, String genre, Integer genreId, String type,
+			Integer typeId, String lang, Integer langId, String series,
+			Integer bookNb, Boolean isSerieDone) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.author = author;
+		this.authorId = authorId;
 		this.editor = editor;
+		this.editorId = editorId;
 		this.collection = collection;
+		this.collectionId = collectionId;
 		this.cover = cover;
 		this.description = description;
 		this.publicationDate = publicationDate;
 		this.genre = genre;
+		this.genreId = genreId;
 		this.type = type;
+		this.typeId = typeId;
 		this.lang = lang;
+		this.langId = langId;
 		this.series = series;
 		this.bookNb = bookNb;
 		this.isSerieDone = isSerieDone;
@@ -113,11 +129,11 @@ public class JsonBook {
 		this.description = description;
 	}
 
-	public String getPublicationDate() {
+	public Date getPublicationDate() {
 		return publicationDate;
 	}
 
-	public void setPublicationDate(String publicationDate) {
+	public void setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
 	}
 
@@ -167,6 +183,54 @@ public class JsonBook {
 
 	public void setIsSerieDone(Boolean isSerieDone) {
 		this.isSerieDone = isSerieDone;
+	}
+
+	public Integer getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
+	}
+
+	public Integer getEditorId() {
+		return editorId;
+	}
+
+	public void setEditorId(Integer editorId) {
+		this.editorId = editorId;
+	}
+
+	public Integer getCollectionId() {
+		return collectionId;
+	}
+
+	public void setCollectionId(Integer collectionId) {
+		this.collectionId = collectionId;
+	}
+
+	public Integer getGenreId() {
+		return genreId;
+	}
+
+	public void setGenreId(Integer genreId) {
+		this.genreId = genreId;
+	}
+
+	public Integer getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+
+	public Integer getLangId() {
+		return langId;
+	}
+
+	public void setLangId(Integer langId) {
+		this.langId = langId;
 	}
 
 }
