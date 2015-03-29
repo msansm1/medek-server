@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
+import bzh.medek.server.json.auth.JsonAuth;
 import bzh.medek.server.json.user.JsonUser;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.User;
@@ -89,6 +90,25 @@ public class UserService extends Application {
         	u.setLogin(user.getLogin());
         	userDao.updateUser(u);
     	}
+    	return juser;
+    }
+
+    /**
+     *  POST /users/profile : update logged user
+     * 
+     * @param JsonAuth user
+     * @return
+     */
+    @POST
+    @Path(value = "/profile")
+    public JsonAuth updateLogged(JsonAuth user) {
+    	JsonAuth juser = user;
+    	User u = userDao.getUser(user.getId());
+    	u.setEmail(user.getEmail());
+		if (Crypt.crypt(juser.getLogin(), juser.getOldpassword()).equals(u.getPassword())) {
+			u.setPassword(Crypt.crypt(user.getLogin(), user.getNewpassword()));
+		}
+    	userDao.updateUser(u);
     	return juser;
     }
 	

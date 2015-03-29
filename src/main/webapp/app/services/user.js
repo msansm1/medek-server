@@ -3,7 +3,7 @@ angular.module('medekApp.services').service('UserService', [
 '$rootScope', 
 function($http, $rootScope) {
     this.updateProfile = function() {
-        return $http.post('services/users/'+$rootScope.user.id, $rootScope.user);
+        return $http.post('services/users/profile', $rootScope.user);
     };
     
     this.getAllUsers = function() {
