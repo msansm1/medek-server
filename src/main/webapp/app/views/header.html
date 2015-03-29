@@ -20,9 +20,10 @@
 				        {{ user.login }}<span class="caret"></span>
 				      </button>
 				      <ul class="dropdown-menu" role="menu">
-				        <li><a href="#">{{ 'myprofile' | translate }}</a></li>
+				        <li class="text-center"><button class="btn btn-link" ng-click="openProfile()">{{ 'myprofile' | translate }}</button></li>
+				        <li class="text-center"><a href="#">{{ 'friends' | translate }}</a></li>
 				        <li class="divider"></li>
-				        <li><a href="#" ng-click="logout()">{{ 'logout' | translate }}</a></li>
+				        <li class="text-center"><a href="#" ng-click="logout()">{{ 'logout' | translate }}</a></li>
 				      </ul>
 				    </div>
 			    </li>

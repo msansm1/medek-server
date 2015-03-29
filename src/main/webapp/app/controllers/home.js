@@ -13,4 +13,31 @@ function($scope, $rootScope, $modal, $location, AuthService) {
         $location.path('/');
         $location.replace();
     };
+    
+    $rootScope.openProfile = function () {
+        var modalInstance = $modal.open({
+          templateUrl: 'app/views/profile.html',
+          controller: 'ProfileCtrl'
+        });
+    };
+    
+    $rootScope.closeAlert = function(index) {
+        $rootScope.alerts.splice(index, 1);
+    };
 } ]);
+
+angular.module('medekApp.controllers').controller('ProfileCtrl',[
+'$scope',
+'$modalInstance',
+'UserService',
+function ($scope, $modalInstance, UserService) {
+
+    $scope.ok = function () {
+        UserService.updateProfile();
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+  }]);

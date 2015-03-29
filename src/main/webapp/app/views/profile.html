@@ -26,6 +26,23 @@
 			<input type="text" ng-model="user.mail"></input>
 		</div>
 	</div>
+	<hr />
+	<div class="form-group">
+		<label class="col-md-3 control-label">{{ 'oldpassword' | translate }}</label>
+		<div class="col-md-3 text-left">
+			<input type="password" ng-model="user.oldpassword" class="form-control"></input>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-3 control-label">{{ 'changepassword' | translate }}</label>
+		<div class="col-md-3 text-left">
+			<input type="password" ng-model="user.newpassword" name="newpwd" class="form-control"></input>
+		</div>
+		<label class="col-md-3 control-label">{{ 'confirmpassword' | translate }}</label>
+		<div class="col-md-3 text-left">
+			<input type="password" ng-model="user.confnewpassword" name="confirmpwd" compare-to="user.newpassword" class="form-control"></input>
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
