@@ -1,5 +1,5 @@
 
-angular.module('medekApp.controllers').controller('SeriesController',[
+angular.module('medekApp.controllers').controller('SerieController',[
 '$scope',
 '$rootScope',
 '$stateParams',
@@ -8,21 +8,19 @@ angular.module('medekApp.controllers').controller('SeriesController',[
 function($scope, $rootScope, $stateParams, $location, SerieService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.series = [ SerieService.series()
+    $scope.serie = [ SerieService.serie($stateParams.serieId)
                                .then(
 		                          function(response) {
-		                              console.log("Series : "+response.data);
-		                              $scope.series = response.data;
+		                        	  $('.mainlist').addClass('col-md-4');
+		                        	  $('.mainlist').removeClass('col-md-8');
+		                              console.log("Serie : "+response.data);
+		                              $scope.serie = response.data;
+		                              $('.itempanel').addClass('col-md-6');
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
     
-    $scope.openSerie = function(id) {
-    	$location.path('/series/'+id);
-        $location.replace();
-    }
-    
-    $scope.createSerie = function() {
+    $scope.update = function() {
 //        $location.path('/projects/'+$stateParams.projectId+'/0/form');
 //        $location.replace();
     };
