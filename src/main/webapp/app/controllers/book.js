@@ -1,5 +1,5 @@
 
-angular.module('medekApp.controllers').controller('BooksController',[
+angular.module('medekApp.controllers').controller('BookController',[
 '$scope',
 '$rootScope',
 '$stateParams',
@@ -8,21 +8,19 @@ angular.module('medekApp.controllers').controller('BooksController',[
 function($scope, $rootScope, $stateParams, $location, BookService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.books = [ BookService.books()
+    $scope.book = [ BookService.book($stateParams.bookId)
                                .then(
 		                          function(response) {
-		                              console.log("Books : "+response.data);
-		                              $scope.books = response.data;
+		                        	  $('.mainlist').addClass('col-md-4');
+		                        	  $('.mainlist').removeClass('col-md-8');
+		                              console.log("Book : "+response.data);
+		                              $scope.book = response.data;
+		                              $('.itempanel').addClass('col-md-6');
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
     
-    $scope.openBook = function(id) {
-    	$location.path('/books/'+id);
-        $location.replace();
-    }
-    
-    $scope.createBook = function() {
+    $scope.update = function() {
 //        $location.path('/projects/'+$stateParams.projectId+'/0/form');
 //        $location.replace();
     };

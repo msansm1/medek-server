@@ -1,0 +1,78 @@
+<div class="itemtitle">
+	<span><strong>{{ book.title }}</strong></span>
+</div>
+<div class="itemimage text-right">
+	<img alt="cover" src="{{ book.cover }}" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'author' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.author }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'editor' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.editor }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'collection' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.collection }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'publicationDate' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.publicationDate }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'genre' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.genre }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'type' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.type }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'lang' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.lang }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'series' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.series }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'bookNb' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.bookNb }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'isSerieDone' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ book.isSerieDone }}</span>
+		</div>
+	</div>
+</div>
