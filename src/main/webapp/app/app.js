@@ -34,6 +34,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/album/albums.html',
                 controller : 'AlbumsController'
             })
+            .state('albums.edit', {
+                url: '/:albumId',
+                templateUrl : 'app/views/album/album.html',
+                controller : 'AlbumController'
+            })
             .state('movies', {
                 url: '/movies',
                 templateUrl : 'app/views/movie/movies.html',
@@ -86,7 +91,8 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             
 
             $rootScope.isActive = function(stateName) {
-                return $state.includes(stateName);
+                //return $state.includes(stateName);
+                return false;
             };
         });
 

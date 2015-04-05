@@ -18,13 +18,14 @@ DELETE FROM `SUPPORT` WHERE 1;
 DELETE FROM `EDITOR` WHERE 1;
 DELETE FROM `COLLECTION` WHERE 1;
 DELETE FROM `BOOKTYPE` WHERE 1;
+DELETE FROM `GENRE` WHERE 1;
 
 
 INSERT INTO `USER` (`ID`, `LOGIN`, `FIRSTNAME`, `LASTNAME`, `PASSWORD`, `EMAIL`, `TOKEN`) VALUES (1, 'msansm1', 'msansm1', 'bzh', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'msansm1@test.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a'), (2, 'testarq', 'test', 'arq', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'test@arq.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a34');
 
 INSERT INTO `STORYGENRE` (`ID`, `NAME`) VALUES (1, 'Aventure'), (2, 'Action');
 
-INSERT INTO `SUPPORT` (`ID`, `NAME`) VALUES (1, 'DVD'), (2, 'Blu-ray');
+INSERT INTO `SUPPORT` (`ID`, `NAME`) VALUES (1, 'DVD'), (2, 'Blu-ray'), (3, 'CD'), (4, 'Dématérialisé');
 
 INSERT INTO `LANG` (`ID`, `NAME`) VALUES (1, 'Français'), (2, 'Anglais');
 
@@ -34,7 +35,9 @@ INSERT INTO `COLLECTION` (`ID`, `NAME`) VALUES (1, 'Yoko Tsuno'), (2, 'Le Disque
 
 INSERT INTO `BOOKTYPE` (`ID`, `NAME`) VALUES (1, 'Roman'), (2, 'B.D.');
 
-INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`, `ISSIGNED`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', NULL, 8, NULL, 0);
+INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
+
+INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`, `ISSIGNED`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3, 0);
 
 INSERT INTO `BOOK` (`ID`, `TITLE`, `EDITOR`, `COLLECTION`, `COVER`, `DESCRIPTION`, `PUBLICATIONDATE`, `GENRE`, `TYPE`, `LANG`, `ISSIGNED`, `SERIES`, `BOOKNB`, `ISSERIEDONE`) VALUES (1, 'The Hobbit', 2, NULL, NULL, 'In a hole there was a Hobbit', '1937-05-01 00:00:00', 1, 1, 2, 0, NULL, 1, 1);
 

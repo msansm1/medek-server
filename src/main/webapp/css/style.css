@@ -3,6 +3,10 @@
     margin-right: 0px;
 }
 
+.mainlist {
+	padding-right: 0px;
+}
+
 .listitem {
 }
 
@@ -17,4 +21,33 @@
 	border-top-width: 0px;
 	background-color: #F0FFFF;
 	padding: 5px;
+}
+
+.itempanel {
+	padding-left: 0px;
+}
+
+.itemtitle {
+	font-size: 30px;
+	padding: 15px;
+	border-width: 1px;
+	border-color: #384dff;
+	border-style: solid;
+	
+}
+
+.itemimage {
+	padding: 10px;
+	border-width: 1px;
+	border-color: #384dff;
+	border-style: solid;
+	border-top-width: 0px;
+}
+
+.iteminfos {
+	padding: 10px;
+	border-width: 1px;
+	border-color: #384dff;
+	border-style: solid;
+	border-top-width: 0px;
 }

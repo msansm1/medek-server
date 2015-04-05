@@ -22,6 +22,20 @@ public class JsonAlbum {
 		this.title = title;
 		this.cover = cover;
 	}
+	
+	public JsonAlbum(Integer id, String title, String cover,
+			String releaseDate, String genre, Integer nbTracks, String support,
+			List<JsonTrack> tracks) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.cover = cover;
+		this.releaseDate = releaseDate;
+		this.genre = genre;
+		this.nbTracks = nbTracks;
+		this.support = support;
+		this.tracks = tracks;
+	}
 
 	public Integer getId() {
 		return id;
@@ -45,6 +59,46 @@ public class JsonAlbum {
 
 	public void setCover(String cover) {
 		this.cover = cover;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public Integer getNbTracks() {
+		return nbTracks;
+	}
+
+	public void setNbTracks(Integer nbTracks) {
+		this.nbTracks = nbTracks;
+	}
+
+	public String getSupport() {
+		return support;
+	}
+
+	public void setSupport(String support) {
+		this.support = support;
+	}
+
+	public List<JsonTrack> getTracks() {
+		return tracks;
+	}
+
+	public void setTracks(List<JsonTrack> tracks) {
+		this.tracks = tracks;
 	}
 
 }

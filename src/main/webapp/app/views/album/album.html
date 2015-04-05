@@ -1,0 +1,39 @@
+<div class="itemtitle">
+	<span><strong>{{ album.title }}</strong></span>
+</div>
+<div class="itemimage text-right">
+	<img alt="cover" src="{{ album.cover }}" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'artist' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ album.artist }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'releaseDate' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ album.releaseDate }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'genre' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ album.genre }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'support' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ album.support }}</span>
+		</div>
+	</div>
+	<div>
+		<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 
-angular.module('medekApp.controllers').controller('AlbumsController',[
+angular.module('medekApp.controllers').controller('AlbumController',[
 '$scope',
 '$rootScope',
 '$stateParams',
@@ -8,21 +8,19 @@ angular.module('medekApp.controllers').controller('AlbumsController',[
 function($scope, $rootScope, $stateParams, $location, AlbumService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.albums = [ AlbumService.albums()
+    $scope.album = [ AlbumService.album($stateParams.albumId)
                                .then(
 		                          function(response) {
-		                              console.log("Albums : "+response.data);
-		                              $scope.albums = response.data;
+		                        	  $('.mainlist').addClass('col-md-4');
+		                        	  $('.mainlist').removeClass('col-md-8');
+		                              console.log("Album : "+response.data);
+		                              $scope.album = response.data;
+		                              $('.itempanel').addClass('col-md-6');
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
     
-    $scope.openAlbum = function(id) {
-    	$location.path('/albums/'+id);
-        $location.replace();
-    }
-    
-    $scope.createAlbum = function() {
+    $scope.update = function() {
 //        $location.path('/projects/'+$stateParams.projectId+'/0/form');
 //        $location.replace();
     };
