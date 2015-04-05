@@ -28,80 +28,98 @@ import bzh.medek.server.persistence.entities.Tvshow;
 @Produces(MediaType.APPLICATION_JSON)
 public class TVShowService extends Application {
 
-    private static final Logger LOGGER = Logger.getLogger(TVShowService.class);
-    
-    @Inject
-    TvshowDAO showDao;
-	
-	public TVShowService () {
+	private static final Logger LOGGER = Logger.getLogger(TVShowService.class);
+
+	@Inject
+	TvshowDAO showDao;
+
+	public TVShowService() {
 	}
 
-    /**
-     *  GET /shows : retrieve all shows
-     * 
-     * @return
-     */
-    @GET
-    public List<JsonShow> getAll() {
-    	List<Tvshow> shows = showDao.getTvshows();
-    	LOGGER.info("find "+shows.size()+" shows in the database");
-    	ArrayList<JsonShow> ls = new ArrayList<JsonShow>();
-    	for (Tvshow s:shows) {
-    		ls.add(new JsonShow(s.getId(), s.getTitle(), s.getCover(), s.getDescription()));
-    	}
-    	return ls;
-    }
+	/**
+	 * GET /shows : retrieve all shows
+	 * 
+	 * @return
+	 */
+	@GET
+	public List<JsonShow> getAll() {
+		List<Tvshow> shows = showDao.getTvshows();
+		LOGGER.info("find " + shows.size() + " shows in the database");
+		ArrayList<JsonShow> ls = new ArrayList<JsonShow>();
+		for (Tvshow s : shows) {
+			ls.add(new JsonShow(s.getId(), s.getTitle(), s.getDescription(), s
+					.getReleasedate(), s.getCover(),
+					(s.getSupportBean() != null) ? s.getSupportBean().getName()
+							: "", (s.getSupportBean() != null) ? s
+							.getSupportBean().getId() : null, (s
+							.getStorygenre() != null) ? s.getStorygenre()
+							.getName() : "", (s.getStorygenre() != null) ? s
+							.getStorygenre().getId() : null, s.getLength(), s
+							.getSeason(), s.getSeries(), s.getIsseriedone(),
+					null, null));
+		}
+		return ls;
+	}
 
-    /**
-     *  GET /shows/{id} : retrieve one show
-     * 
-     * @param id
-     * @return
-     */
-    @GET
-    @Path(value = "/{id}")
-    public JsonShow getOne(@PathParam(value = "id") Integer id) {
-    	Tvshow b = showDao.getTvshow(id);
-    	LOGGER.info("find "+b.getTitle()+" show in the database");
-    	return new JsonShow(b.getId(), b.getTitle(), b.getCover(), b.getDescription());
-    }
+	/**
+	 * GET /shows/{id} : retrieve one show
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GET
+	@Path(value = "/{id}")
+	public JsonShow getOne(@PathParam(value = "id") Integer id) {
+		Tvshow s = showDao.getTvshow(id);
+		LOGGER.info("find " + s.getTitle() + " show in the database");
+		return new JsonShow(s.getId(), s.getTitle(), s.getDescription(),
+				s.getReleasedate(), s.getCover(),
+				(s.getSupportBean() != null) ? s.getSupportBean().getName()
+						: "", (s.getSupportBean() != null) ? s.getSupportBean()
+						.getId() : null, (s.getStorygenre() != null) ? s
+						.getStorygenre().getName() : "",
+				(s.getStorygenre() != null) ? s.getStorygenre().getId() : null,
+				s.getLength(), s.getSeason(), s.getSeries(),
+				s.getIsseriedone(), null, null);
+	}
 
-    /**
-     *  POST /shows : create / update one show
-     * 
-     * @param id
-     * @return
-     */
-    @POST
-    public JsonShow createOne(JsonShow show) {
-    	JsonShow jshow = show;
-    	if (show.getId() == null) {
-    		Tvshow s = new Tvshow();
-    		s.setCover(show.getCover());
-    		s.setDescription(show.getDescription());
-    		s.setTitle(show.getTitle());
-	    	showDao.saveTvshow(s);
-	    	jshow.setId(s.getId());
-    	} else {
-    		Tvshow s = showDao.getTvshow(show.getId());
-    		s.setCover(show.getCover());
-    		s.setDescription(show.getDescription());
-    		s.setTitle(show.getTitle());
-	    	showDao.updateTvshow(s);
-    	}
-    	return jshow;
-    }
+	/**
+	 * POST /shows : create / update one show
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@POST
+	public JsonShow createOne(JsonShow show) {
+		JsonShow jshow = show;
+		if (show.getId() == null) {
+			Tvshow s = new Tvshow();
+			s.setCover(show.getCover());
+			s.setDescription(show.getDescription());
+			s.setTitle(show.getTitle());
+			showDao.saveTvshow(s);
+			jshow.setId(s.getId());
+		} else {
+			Tvshow s = showDao.getTvshow(show.getId());
+			s.setCover(show.getCover());
+			s.setDescription(show.getDescription());
+			s.setTitle(show.getTitle());
+			showDao.updateTvshow(s);
+		}
+		return jshow;
+	}
 
-    /**
-     *  GET /shows/user/{id} : retrieve shows for one user
-     * 
-     * @param id - user ID
-     * @return
-     */
-    @GET
-    @Path(value = "/user/{id}")
-    public List<JsonShow> getUserShows(@PathParam(value = "id") Integer id) {
-    	return showDao.getUsersTvshows(id);
-    }
-	
+	/**
+	 * GET /shows/user/{id} : retrieve shows for one user
+	 * 
+	 * @param id
+	 *            - user ID
+	 * @return
+	 */
+	@GET
+	@Path(value = "/user/{id}")
+	public List<JsonShow> getUserShows(@PathParam(value = "id") Integer id) {
+		return showDao.getUsersTvshows(id);
+	}
+
 }
