@@ -1,0 +1,64 @@
+<div class="itemtitle">
+	<span><strong>{{ movie.title }}</strong></span>
+</div>
+<div class="itemimage text-right">
+	<img alt="cover" src="{{ movie.cover }}" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'description' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.description }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'releaseDate' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.releaseDate }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'genre' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.genre }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'support' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.support }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'length' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.length }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'isCollector' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.isCollector }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'langs' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.langs }}</span>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'subtitles' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ movie.subtitles }}</span>
+		</div>
+	</div>
+</div>

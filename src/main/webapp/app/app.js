@@ -49,6 +49,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/movie/movies.html',
                 controller : 'MoviesController'
             })
+            .state('movies.detail', {
+                url: '/:movieId',
+                templateUrl : 'app/views/movie/movie.html',
+                controller : 'MovieController'
+            })
             .state('series', {
                 url: '/series',
                 templateUrl : 'app/views/series/series.html',

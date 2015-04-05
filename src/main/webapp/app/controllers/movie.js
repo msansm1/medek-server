@@ -1,5 +1,5 @@
 
-angular.module('medekApp.controllers').controller('MoviesController',[
+angular.module('medekApp.controllers').controller('MovieController',[
 '$scope',
 '$rootScope',
 '$stateParams',
@@ -8,21 +8,19 @@ angular.module('medekApp.controllers').controller('MoviesController',[
 function($scope, $rootScope, $stateParams, $location, MovieService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.movies = [ MovieService.movies()
+    $scope.movie = [ MovieService.movie($stateParams.movieId)
                                .then(
 		                          function(response) {
-		                              console.log("Movies : "+response.data);
-		                              $scope.movies = response.data;
+		                        	  $('.mainlist').addClass('col-md-4');
+		                        	  $('.mainlist').removeClass('col-md-8');
+		                              console.log("Movie : "+response.data);
+		                              $scope.movie = response.data;
+		                              $('.itempanel').addClass('col-md-6');
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
     
-    $scope.openMovie = function(id) {
-    	$location.path('/movies/'+id);
-        $location.replace();
-    }
-    
-    $scope.createMovie = function() {
+    $scope.update = function() {
 //        $location.path('/projects/'+$stateParams.projectId+'/0/form');
 //        $location.replace();
     };
