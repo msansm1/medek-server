@@ -20,6 +20,19 @@ function($scope, $rootScope, $stateParams, $location, AlbumService) {
 		                              alert('FAILED !!!');
 		                          }) ];
     
+    $scope.editAlbum = function(id) {
+    	$location.path('/albums/edit/'+id);
+        $location.replace();
+    }
+
+    // for date picker
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.opened = true;
+    };
+    
     $scope.update = function() {
 //        $location.path('/projects/'+$stateParams.projectId+'/0/form');
 //        $location.replace();
