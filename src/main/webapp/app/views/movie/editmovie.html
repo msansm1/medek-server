@@ -1,6 +1,7 @@
+<form>
 <div class="row rownomargin itemtitle">
 	<div class="col-md-6 text-left">
-		<strong>{{ movie.title }}</strong>
+		<input type="text" ng-model="movie.title" name="movieTitle" class="form-control" required></input>
 	</div>
 	<div class="col-md-6 text-right itemeditbutton" ng-click="editMovie(movie.id)">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
@@ -15,13 +16,18 @@
 			<span>{{ 'description' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.description }}</span>
+		<input type="text" ng-model="movie.description" name="movieDescription" class="form-control"></input>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'releaseDate' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.releaseDate }}</span>
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="movie.releaseDate" is-open="opened" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
 		</div>
 	</div>
 	<div class="row">
@@ -29,13 +35,17 @@
 			<span>{{ 'genre' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.genre }}</span>
+			<div class="controls">
+				<select ng-model="movie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+			</div>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'support' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.support }}</span>
+			<div class="controls">
+				<select ng-model="movie.supportId" ng-options="support.id as support.name for support in supports"></select>
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -43,13 +53,13 @@
 			<span>{{ 'length' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.length }}</span>
+			<input type="text" ng-model="movie.length" name="movieLength" class="form-control"></input>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'isCollector' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.isCollector }}</span>
+			<input type="checkbox" ng-model="movie.isCollector" name="movieIsCollector" class="form-control"></input>
 		</div>
 	</div>
 	<div class="row">
@@ -67,3 +77,4 @@
 		</div>
 	</div>
 </div>
+</form>
