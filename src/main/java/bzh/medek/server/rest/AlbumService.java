@@ -20,7 +20,9 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
+import bzh.medek.server.persistence.dao.TrackDAO;
 import bzh.medek.server.persistence.entities.Album;
+import bzh.medek.server.persistence.entities.Track;
 
 @Stateless
 @ApplicationPath("/services")
@@ -33,6 +35,8 @@ public class AlbumService extends Application {
 
 	@Inject
 	AlbumDAO albumDao;
+	@Inject
+	TrackDAO trackDao;
 
 	public AlbumService() {
 	}
@@ -68,6 +72,12 @@ public class AlbumService extends Application {
 	public JsonAlbum getOne(@PathParam(value = "id") Integer id) {
 		Album a = albumDao.getAlbum(id);
 		LOGGER.info("find " + a.getTitle() + " album in the database");
+		List<Track> tracks = trackDao.getTracksForAlbum(id);
+		LOGGER.info("find " + tracks.size() + " tracks for album : "+id);
+		List<JsonTrack> lt = new ArrayList<JsonTrack>();
+		for (Track t : tracks) {
+			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t.getLength(), null));
+		}
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
 				a.getReleasedate() + "", (a.getGenreBean() != null) ? a
 						.getGenreBean().getName() : "",
@@ -75,7 +85,7 @@ public class AlbumService extends Application {
 				a.getNbtracks(), (a.getSupportBean() != null) ? a
 						.getSupportBean().getName() : "",
 				(a.getSupportBean() != null) ? a.getSupportBean().getId()
-						: null, new ArrayList<JsonTrack>());
+						: null, lt);
 	}
 
 	/**
@@ -114,6 +124,23 @@ public class AlbumService extends Application {
 	@Path(value = "/user/{id}")
 	public List<JsonAlbum> getUserAlbums(@PathParam(value = "id") Integer id) {
 		return albumDao.getUsersAlbums(id);
+	}
+
+	/**
+	 * GET /albums/{albumId}/tracks : retrieve all tracks for one album
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("/{albumId}/tracks")
+	public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
+		List<Track> tracks = trackDao.getTracksForAlbum(albumId);
+		LOGGER.info("find " + tracks.size() + " tracks for album : "+albumId);
+		List<JsonTrack> lt = new ArrayList<JsonTrack>();
+		for (Track t : tracks) {
+			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t.getNumber(), t.getLength(), null));
+		}
+		return lt;
 	}
 
 }

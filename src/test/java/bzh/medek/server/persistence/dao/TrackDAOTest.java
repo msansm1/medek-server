@@ -101,5 +101,11 @@ public class TrackDAOTest {
         List<Track> l = dao.getTracks();
         Assert.assertNotNull("No Track found", l);
     }
+
+    @Test
+    public void getTracksForAlbumTest() {
+        List<Track> l = dao.getTracksForAlbum(Integer.valueOf(1));
+        Assert.assertFalse("No Track found", l.isEmpty());
+    }
     
 }

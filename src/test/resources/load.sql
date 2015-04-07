@@ -39,6 +39,8 @@ INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
 
 INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`, `ISSIGNED`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3, 0);
 
+INSERT INTO `meddb`.`TRACK` (`ID`, `ALBUM`, `TITLE`, `NUMBER`, `LENGTH`) VALUES (1, '1', 'Master of Puppets', '3', '7:50'), (2, '1', 'Orion', '8', '9:57');
+
 INSERT INTO `BOOK` (`ID`, `TITLE`, `EDITOR`, `COLLECTION`, `COVER`, `DESCRIPTION`, `PUBLICATIONDATE`, `GENRE`, `TYPE`, `LANG`, `ISSIGNED`, `SERIES`, `BOOKNB`, `ISSERIEDONE`) VALUES (1, 'The Hobbit', 2, NULL, NULL, 'In a hole there was a Hobbit', '1937-05-01 00:00:00', 1, 1, 2, 0, NULL, 1, 1);
 
 INSERT INTO `MOVIE` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `ISCOLLECTOR`) VALUES (1, 'Princesse Mononoké', NULL, '1999-12-02 00:00:00', NULL, 1, 1, NULL, 0);

@@ -37,4 +37,9 @@ public class TrackDAO extends Dao {
 	public Track getTrack(Integer id) {
 		return em.find(Track.class, id);
 	}
+
+	public List<Track> getTracksForAlbum(Integer albumId) {
+		return em.createQuery("from Track t where t.albumBean.id='"+albumId+"'", Track.class)
+				.getResultList();
+	}
 }
