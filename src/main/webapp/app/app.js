@@ -79,6 +79,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/series/serie.html',
                 controller : 'SerieController'
             })
+            .state('series.edit', {
+                url: '/edit/:serieId',
+                templateUrl : 'app/views/series/editserie.html',
+                controller : 'SerieController'
+            })
             .state('error', {
                 url: 'error',
                 resolve: {

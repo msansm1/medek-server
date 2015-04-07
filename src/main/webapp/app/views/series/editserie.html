@@ -1,6 +1,6 @@
 <div class="row rownomargin itemtitle">
 	<div class="col-md-6 text-left">
-		<strong>{{ serie.title }}</strong>
+		<input type="text" ng-model="serie.title" name="serieTitle" class="form-control" required></input>
 	</div>
 	<div class="col-md-6 text-right itemeditbutton" ng-click="editSerie(serie.id)">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
@@ -15,13 +15,18 @@
 			<span>{{ 'description' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.description }}</span>
+			<input type="text" ng-model="serie.description" name="serieDescription" class="form-control"></input>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'releaseDate' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.releaseDate }}</span>
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="serie.releaseDate" is-open="opened" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
 		</div>
 	</div>
 	<div class="row">
@@ -29,13 +34,17 @@
 			<span>{{ 'genre' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.genre }}</span>
+			<div class="controls">
+				<select ng-model="serie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+			</div>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'support' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.support }}</span>
+			<div class="controls">
+				<select ng-model="serie.supportId" ng-options="support.id as support.name for support in supports"></select>
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -43,13 +52,13 @@
 			<span>{{ 'length' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.length }}</span>
+			<input type="text" ng-model="serie.length" name="serieLength" class="form-control"></input>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'season' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.season }}</span>
+			<input type="text" ng-model="serie.season" name="serieSeason" class="form-control"></input>
 		</div>
 	</div>
 	<div class="row">
@@ -57,13 +66,13 @@
 			<span>{{ 'series' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.series }}</span>
+			<input type="text" ng-model="serie.series" name="serieSeries" class="form-control"></input>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'isSeriesDone' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.isSeriesDone }}</span>
+			<input type="checkbox" ng-model="serie.isSeriesDone" name="serieIsSeriesDone" class="form-control"></input>
 		</div>
 	</div>
 	<div class="row">
