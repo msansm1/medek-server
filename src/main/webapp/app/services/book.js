@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.book = function(id) {
         return $http.get('services/books/'+id);
     };
+    
+    this.saveBook = function(book) {
+        return $http.post('services/books', book);
+    };
 } ]);

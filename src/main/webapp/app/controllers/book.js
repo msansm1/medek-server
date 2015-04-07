@@ -73,20 +73,19 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
 
 	// for date picker
 	$scope.open = function($event) {
-	$event.preventDefault();
-	$event.stopPropagation();
-	
-	$scope.opened = true;
+		$event.preventDefault();
+		$event.stopPropagation();
+		
+		$scope.opened = true;
 	};
     
     $scope.editBook = function(id) {
     	$location.path('/books/edit/'+id);
         $location.replace();
-    }
-    
-    $scope.update = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
     };
-
+    
+    $scope.updateBook = function() {
+    	BookService.saveBook($scope.book);
+    };
+    
 } ]);
