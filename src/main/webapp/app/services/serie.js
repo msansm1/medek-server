@@ -11,4 +11,8 @@ function($http, $rootScope) {
     this.serie = function(id) {
         return $http.get('services/tvshows/'+id);
     };
+    
+    this.saveSerie = function(serie) {
+        return $http.post('services/tvshows', serie);
+    };
 } ]);
