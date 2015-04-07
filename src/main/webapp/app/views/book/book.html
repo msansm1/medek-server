@@ -1,5 +1,10 @@
-<div class="itemtitle">
-	<span><strong>{{ book.title }}</strong></span>
+<div class="row rownomargin itemtitle">
+	<div class="col-md-6 text-left">
+		<strong>{{ book.title }}</strong>
+	</div>
+	<div class="col-md-6 text-right itemeditbutton" ng-click="editBook(book.id)">
+		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+	</div>
 </div>
 <div class="itemimage text-right">
 	<img alt="cover" src="{{ book.cover }}" />
