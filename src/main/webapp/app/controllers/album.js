@@ -43,9 +43,8 @@ function($scope, $rootScope, $stateParams, $location, AlbumService, SupportServi
       $scope.opened = true;
     };
     
-    $scope.update = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
+    $scope.updateAlbum = function() {
+    	AlbumService.saveAlbum($scope.album);
     };
 
 } ]);

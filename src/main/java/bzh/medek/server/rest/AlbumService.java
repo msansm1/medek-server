@@ -70,9 +70,12 @@ public class AlbumService extends Application {
 		LOGGER.info("find " + a.getTitle() + " album in the database");
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
 				a.getReleasedate() + "", (a.getGenreBean() != null) ? a
-						.getGenreBean().getName() : "", a.getNbtracks(),
-				(a.getSupportBean() != null) ? a.getSupportBean().getName()
-						: "", new ArrayList<JsonTrack>());
+						.getGenreBean().getName() : "",
+				(a.getGenreBean() != null) ? a.getGenreBean().getId() : null,
+				a.getNbtracks(), (a.getSupportBean() != null) ? a
+						.getSupportBean().getName() : "",
+				(a.getSupportBean() != null) ? a.getSupportBean().getId()
+						: null, new ArrayList<JsonTrack>());
 	}
 
 	/**

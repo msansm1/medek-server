@@ -67,10 +67,5 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
     $scope.updateSerie = function() {
     	SerieService.saveSerie($scope.serie);
     };
-    
-    $scope.update = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
-    };
 
 } ]);

@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.album = function(id) {
         return $http.get('services/albums/'+id);
     };
+    
+    this.saveAlbum = function(album) {
+        return $http.post('services/albums', album);
+    };
 } ]);
