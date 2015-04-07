@@ -6,7 +6,9 @@ angular.module('medekApp.controllers').controller('AlbumController',[
 '$location',
 'AlbumService',
 'SupportService',
-function($scope, $rootScope, $stateParams, $location, AlbumService, SupportService) {
+'GenreService',
+function($scope, $rootScope, $stateParams, $location, AlbumService, SupportService,
+		GenreService) {
     this.userLogin = $rootScope.user.login;
     
     $scope.album = [ AlbumService.album($stateParams.albumId)
@@ -26,6 +28,16 @@ function($scope, $rootScope, $stateParams, $location, AlbumService, SupportServi
 		                          function(response) {
 		                              console.log("Supports : "+response.data);
 		                              $scope.supports = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
+
+    $scope.genres = [ GenreService.genres()
+                               .then(
+		                          function(response) {
+		                              console.log("Genres : "+response.data);
+		                              $scope.genres = response.data;
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
