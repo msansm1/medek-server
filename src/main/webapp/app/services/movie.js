@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.movie = function(id) {
         return $http.get('services/movies/'+id);
     };
+    
+    this.saveMovie = function(movie) {
+        return $http.post('services/movies', movie);
+    };
 } ]);
