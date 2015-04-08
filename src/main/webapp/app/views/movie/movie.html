@@ -57,13 +57,13 @@
 			<span>{{ 'langs' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.langs }}</span>
+			<div ng-repeat="lang in movie.langs" ng-include="'app/views/movie/audiodetails.html'"></div>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'subtitles' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ movie.subtitles }}</span>
+			<div ng-repeat="lang in movie.subtitles" ng-include="'app/views/movie/audiodetails.html'"></div>
 		</div>
 	</div>
 </div>
