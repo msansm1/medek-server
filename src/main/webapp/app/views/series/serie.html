@@ -71,13 +71,13 @@
 			<span>{{ 'langs' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.langs }}</span>
+			<div ng-repeat="lang in serie.langs" ng-include="'app/views/series/audiodetails.html'"></div>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'subtitles' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ serie.subtitles }}</span>
+			<div ng-repeat="lang in serie.subtitles" ng-include="'app/views/series/audiodetails.html'"></div>
 		</div>
 	</div>
 </div>
