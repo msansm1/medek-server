@@ -17,6 +17,12 @@ public class JsonMovie {
 	private Integer genreId;
 	private String length;
 	private Boolean isCollector;
+	private String realisator;
+	private Integer realisatorId;
+	private String producer;
+	private Integer producerId;
+	private String scenarist;
+	private Integer scenaristId;
 	private List<JsonLang> langs;
 	private List<JsonLang> subtitles;
 	
@@ -58,6 +64,34 @@ public class JsonMovie {
 		this.genreId = genreId;
 		this.length = length;
 		this.isCollector = isCollector;
+		this.langs = langs;
+		this.subtitles = subtitles;
+	}
+
+	public JsonMovie(Integer id, String title, String description,
+			Date releaseDate, String cover, String support, Integer supportId,
+			String genre, Integer genreId, String length, Boolean isCollector,
+			String realisator, Integer realisatorId, String producer,
+			Integer producerId, String scenarist, Integer scenaristId,
+			List<JsonLang> langs, List<JsonLang> subtitles) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseDate = releaseDate;
+		this.cover = cover;
+		this.support = support;
+		this.supportId = supportId;
+		this.genre = genre;
+		this.genreId = genreId;
+		this.length = length;
+		this.isCollector = isCollector;
+		this.realisator = realisator;
+		this.realisatorId = realisatorId;
+		this.producer = producer;
+		this.producerId = producerId;
+		this.scenarist = scenarist;
+		this.scenaristId = scenaristId;
 		this.langs = langs;
 		this.subtitles = subtitles;
 	}
@@ -164,6 +198,54 @@ public class JsonMovie {
 
 	public void setSubtitles(List<JsonLang> subtitles) {
 		this.subtitles = subtitles;
+	}
+
+	public String getRealisator() {
+		return realisator;
+	}
+
+	public void setRealisator(String realisator) {
+		this.realisator = realisator;
+	}
+
+	public Integer getRealisatorId() {
+		return realisatorId;
+	}
+
+	public void setRealisatorId(Integer realisatorId) {
+		this.realisatorId = realisatorId;
+	}
+
+	public String getProducer() {
+		return producer;
+	}
+
+	public void setProducer(String producer) {
+		this.producer = producer;
+	}
+
+	public Integer getProducerId() {
+		return producerId;
+	}
+
+	public void setProducerId(Integer producerId) {
+		this.producerId = producerId;
+	}
+
+	public String getScenarist() {
+		return scenarist;
+	}
+
+	public void setScenarist(String scenarist) {
+		this.scenarist = scenarist;
+	}
+
+	public Integer getScenaristId() {
+		return scenaristId;
+	}
+
+	public void setScenaristId(Integer scenaristId) {
+		this.scenaristId = scenaristId;
 	}
 
 }

@@ -4,6 +4,9 @@ DELETE FROM `USERALBUM` WHERE 1;
 DELETE FROM `USERBOOK` WHERE 1;
 DELETE FROM `USERMOVIE` WHERE 1;
 DELETE FROM `USERTV` WHERE 1;
+DELETE FROM `ALBUMARTIST` WHERE 1;
+DELETE FROM `BOOKARTIST` WHERE 1;
+DELETE FROM `MOVIEARTIST` WHERE 1;
 DELETE FROM `USER` WHERE 1;
 DELETE FROM `TRACK` WHERE 1;
 DELETE FROM `ALBUM` WHERE 1;
@@ -37,9 +40,9 @@ INSERT INTO `BOOKTYPE` (`ID`, `NAME`) VALUES (1, 'Roman'), (2, 'B.D.');
 
 INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
 
-INSERT INTO `ARTISTTYPE` (`ID`, `NAME`) VALUES (1, 'Groupe de musique'), (2, 'Auteur'), (3, 'Producteur');
+INSERT INTO `ARTISTTYPE` (`ID`, `NAME`) VALUES (1, 'Groupe de musique'), (2, 'Auteur'), (3, 'Producteur'), (4, 'Réalisateur'), (5, 'Scénariste');
 
-INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (NULL, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (NULL, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (NULL, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL);
+INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (1, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (2, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (3, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL);
 
 INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`, `ISSIGNED`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3, 0);
 

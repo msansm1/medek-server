@@ -54,10 +54,24 @@ public class MovieService extends Application {
     	List<Movie> movies = movieDao.getMovies();
     	LOGGER.info("find "+movies.size()+" movies in the database");
     	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
-    	for (Movie m : movies) {
+    		String artistName = "";
+    		Integer artistId = 0;
+        	for (Movie m : movies) {
+    			if (!m.getMovieartists().isEmpty()) {
+    				artistName = m.getMovieartists().get(0).getArtistBean()
+    						.getName()
+    						+ " "
+    						+ m.getMovieartists().get(0).getArtistBean()
+    								.getFirstname();
+    				artistId = m.getMovieartists().get(0).getArtistBean().getId();
+    			} else {
+    				artistName = "";
+    				artistId = 0;
+    			}
     		lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
     				m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
-    				m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector()));
+    				m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
+    				artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>()));
     	}
     	return lm;
     }
