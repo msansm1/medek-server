@@ -51,12 +51,29 @@ public class AlbumService extends Application {
 		List<Album> albums = albumDao.getAlbums();
 		LOGGER.info("find " + albums.size() + " albums in the database");
 		ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
+		String artistName = "";
+		Integer artistId = 0;
 		for (Album a : albums) {
+			if (!a.getAlbumartists().isEmpty()) {
+				artistName = a.getAlbumartists().get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ a.getAlbumartists().get(0).getArtistBean()
+								.getFirstname();
+				artistId = a.getAlbumartists().get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
 					.getReleasedate() + "", (a.getGenreBean() != null) ? a
-					.getGenreBean().getName() : "", a.getNbtracks(), (a
-					.getSupportBean() != null) ? a.getSupportBean().getName()
-					: "", new ArrayList<JsonTrack>()));
+					.getGenreBean().getName() : "",
+					(a.getGenreBean() != null) ? a.getGenreBean().getId()
+							: null, a.getNbtracks(),
+					(a.getSupportBean() != null) ? a.getSupportBean().getName()
+							: "", (a.getSupportBean() != null) ? a
+							.getSupportBean().getId() : null, artistName,
+					artistId, new ArrayList<JsonTrack>()));
 		}
 		return la;
 	}
@@ -73,10 +90,20 @@ public class AlbumService extends Application {
 		Album a = albumDao.getAlbum(id);
 		LOGGER.info("find " + a.getTitle() + " album in the database");
 		List<Track> tracks = trackDao.getTracksForAlbum(id);
-		LOGGER.info("find " + tracks.size() + " tracks for album : "+id);
+		LOGGER.info("find " + tracks.size() + " tracks for album : " + id);
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
-			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t.getLength(), null));
+			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t
+					.getLength(), null));
+		}
+		String artistName = "";
+		Integer artistId = 0;
+		if (!a.getAlbumartists().isEmpty()) {
+			artistName = a.getAlbumartists().get(0).getArtistBean().getName();
+			if (a.getAlbumartists().get(0).getArtistBean().getFirstname() != null) {
+				artistName = " " + a.getAlbumartists().get(0).getArtistBean().getFirstname();
+			}
+			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
 				a.getReleasedate() + "", (a.getGenreBean() != null) ? a
@@ -85,7 +112,7 @@ public class AlbumService extends Application {
 				a.getNbtracks(), (a.getSupportBean() != null) ? a
 						.getSupportBean().getName() : "",
 				(a.getSupportBean() != null) ? a.getSupportBean().getId()
-						: null, lt);
+						: null, artistName, artistId, lt);
 	}
 
 	/**
@@ -133,12 +160,14 @@ public class AlbumService extends Application {
 	 */
 	@GET
 	@Path("/{albumId}/tracks")
-	public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
+	public List<JsonTrack> getAlbumTracks(
+			@PathParam(value = "albumId") Integer albumId) {
 		List<Track> tracks = trackDao.getTracksForAlbum(albumId);
-		LOGGER.info("find " + tracks.size() + " tracks for album : "+albumId);
+		LOGGER.info("find " + tracks.size() + " tracks for album : " + albumId);
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
-			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t.getNumber(), t.getLength(), null));
+			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t
+					.getNumber(), t.getLength(), null));
 		}
 		return lt;
 	}
