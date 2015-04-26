@@ -1,12 +1,13 @@
 package bzh.medek.server.json.album;
 
+import java.util.Date;
 import java.util.List;
 
 public class JsonAlbum {
 	private Integer id;
 	private String title;
 	private String cover;
-	private String releaseDate;
+	private Date releaseDate;
 	private String genre;
 	private Integer genreId;
 	private Integer nbTracks;
@@ -28,7 +29,7 @@ public class JsonAlbum {
 	}
 	
 	public JsonAlbum(Integer id, String title, String cover,
-			String releaseDate, String genre, Integer nbTracks, String support,
+			Date releaseDate, String genre, Integer nbTracks, String support,
 			List<JsonTrack> tracks) {
 		super();
 		this.id = id;
@@ -42,7 +43,7 @@ public class JsonAlbum {
 	}
 
 	public JsonAlbum(Integer id, String title, String cover,
-			String releaseDate, String genre, Integer genreId,
+			Date releaseDate, String genre, Integer genreId,
 			Integer nbTracks, String support, Integer supportId,
 			List<JsonTrack> tracks) {
 		super();
@@ -59,7 +60,7 @@ public class JsonAlbum {
 	}
 
 	public JsonAlbum(Integer id, String title, String cover,
-			String releaseDate, String genre, Integer genreId,
+			Date releaseDate, String genre, Integer genreId,
 			Integer nbTracks, String support, Integer supportId, String artist,
 			Integer artistId, List<JsonTrack> tracks) {
 		super();
@@ -101,11 +102,11 @@ public class JsonAlbum {
 		this.cover = cover;
 	}
 
-	public String getReleaseDate() {
+	public Date getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(String releaseDate) {
+	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 

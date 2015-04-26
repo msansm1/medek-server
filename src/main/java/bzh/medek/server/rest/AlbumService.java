@@ -20,6 +20,8 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
+import bzh.medek.server.persistence.dao.GenreDAO;
+import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.persistence.entities.Track;
@@ -37,6 +39,10 @@ public class AlbumService extends Application {
 	AlbumDAO albumDao;
 	@Inject
 	TrackDAO trackDao;
+	@Inject
+	GenreDAO genreDAO;
+	@Inject
+	SupportDAO supportDAO;
 
 	public AlbumService() {
 	}
@@ -66,7 +72,7 @@ public class AlbumService extends Application {
 				artistId = 0;
 			}
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
-					.getReleasedate() + "", (a.getGenreBean() != null) ? a
+					.getReleasedate(), (a.getGenreBean() != null) ? a
 					.getGenreBean().getName() : "",
 					(a.getGenreBean() != null) ? a.getGenreBean().getId()
 							: null, a.getNbtracks(),
@@ -106,7 +112,7 @@ public class AlbumService extends Application {
 			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
-				a.getReleasedate() + "", (a.getGenreBean() != null) ? a
+				a.getReleasedate(), (a.getGenreBean() != null) ? a
 						.getGenreBean().getName() : "",
 				(a.getGenreBean() != null) ? a.getGenreBean().getId() : null,
 				a.getNbtracks(), (a.getSupportBean() != null) ? a
@@ -127,6 +133,14 @@ public class AlbumService extends Application {
 		if (album.getId() == null) {
 			Album a = new Album();
 			a.setTitle(album.getTitle());
+			a.setCover(album.getCover());
+			a.setReleasedate(album.getReleaseDate());
+			if (album.getGenreId() != null) {
+				a.setGenreBean(genreDAO.getGenre(album.getGenreId()));
+			}
+			if (album.getSupportId() != null) {
+				a.setSupportBean(supportDAO.getSupport(album.getSupportId()));
+			}
 			a.setIssigned(false);
 			albumDao.saveAlbum(a);
 			ja.setId(a.getId());
@@ -135,6 +149,14 @@ public class AlbumService extends Application {
 			LOGGER.info("find " + a.getTitle()
 					+ " album in the database to update");
 			a.setTitle(album.getTitle());
+			a.setCover(album.getCover());
+			a.setReleasedate(album.getReleaseDate());
+			if (album.getGenreId() != null) {
+				a.setGenreBean(genreDAO.getGenre(album.getGenreId()));
+			}
+			if (album.getSupportId() != null) {
+				a.setSupportBean(supportDAO.getSupport(album.getSupportId()));
+			}
 			albumDao.updateAlbum(a);
 		}
 		return ja;
