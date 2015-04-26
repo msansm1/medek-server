@@ -89,6 +89,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/series/series.html',
                 controller : 'SeriesController'
             })
+            .state('series.add', {
+                url: '/add',
+                templateUrl : 'app/views/series/addserie.html',
+                controller : 'SerieController'
+            })
             .state('series.detail', {
                 url: '/:serieId',
                 templateUrl : 'app/views/series/serie.html',

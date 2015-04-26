@@ -12,17 +12,43 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.serie = [ SerieService.serie($stateParams.serieId)
-                               .then(
-		                          function(response) {
-		                        	  $('.mainlist').addClass('col-md-4');
-		                        	  $('.mainlist').removeClass('col-md-8');
-		                              console.log("Serie : "+response.data);
-		                              $scope.serie = response.data;
-		                              $('.itempanel').addClass('col-md-6');
-		                          }, function(reason) {
-		                              alert('FAILED !!!');
-		                          }) ];
+    if (typeof ($stateParams.serieId) != 'undefined') {
+	    $scope.serie = [ SerieService.serie($stateParams.serieId)
+	                               .then(
+			                          function(response) {
+			                        	  $('.mainlist').addClass('col-md-4');
+			                        	  $('.mainlist').removeClass('col-md-8');
+			                              console.log("Serie : "+response.data);
+			                              $scope.serie = response.data;
+			                              $('.itempanel').addClass('col-md-6');
+			                          }, function(reason) {
+			                              alert('FAILED !!!');
+			                          }) ];
+    } else {
+    	$scope.serie = { id: null,
+						title: '',
+						description: '',
+						releaseDate: null,
+						cover: '',
+						support: '',
+						supportId: null,
+						genre: '',
+						genreId: null,
+						length: null,
+						isCollector: false,
+						realisator: '',
+						realisatorId: null,
+						producer: '',
+						producerId: null,
+						scenarist: '',
+						scenaristId: null,
+						langs: [],
+						subtitles: []
+    	};
+    	$('.mainlist').addClass('col-md-4');
+    	$('.mainlist').removeClass('col-md-8');
+    	$('.itempanel').addClass('col-md-6');
+	}
 
     $scope.supports = [ SupportService.supports()
                                .then(
@@ -62,9 +88,9 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
     $scope.editSerie = function(id) {
     	$location.path('/series/edit/'+id);
         $location.replace();
-    }
+    };
     
-    $scope.updateSerie = function() {
+    $scope.saveSerie = function() {
     	SerieService.saveSerie($scope.serie);
     };
 
