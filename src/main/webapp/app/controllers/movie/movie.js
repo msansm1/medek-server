@@ -11,8 +11,9 @@ angular.module('medekApp.controllers').controller('MovieController',[
 function($scope, $rootScope, $stateParams, $location, MovieService, StoryGenreService,
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
-    
-    $scope.movie = [ MovieService.movie($stateParams.movieId)
+
+    if (typeof ($stateParams.movieId) != 'undefined') {
+    	$scope.movie = [ MovieService.movie($stateParams.movieId)
                                .then(
 		                          function(response) {
 		                        	  $('.mainlist').addClass('col-md-4');
@@ -23,6 +24,31 @@ function($scope, $rootScope, $stateParams, $location, MovieService, StoryGenreSe
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
+    } else {
+    	$scope.movie = { id: null,
+						title: '',
+						description: '',
+						releaseDate: null,
+						cover: '',
+						support: '',
+						supportId: null,
+						genre: '',
+						genreId: null,
+						length: null,
+						isCollector: false,
+						realisator: '',
+						realisatorId: null,
+						producer: '',
+						producerId: null,
+						scenarist: '',
+						scenaristId: null,
+						langs: [],
+						subtitles: []
+    	};
+    	$('.mainlist').addClass('col-md-4');
+    	$('.mainlist').removeClass('col-md-8');
+    	$('.itempanel').addClass('col-md-6');
+	}
 
     $scope.supports = [ SupportService.supports()
                                .then(
@@ -64,7 +90,7 @@ function($scope, $rootScope, $stateParams, $location, MovieService, StoryGenreSe
         $location.replace();
     }
     
-    $scope.updateMovie = function() {
+    $scope.saveMovie = function() {
     	MovieService.saveMovie($scope.movie);
     };
 
