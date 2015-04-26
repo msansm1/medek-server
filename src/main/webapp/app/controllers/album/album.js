@@ -10,8 +10,9 @@ angular.module('medekApp.controllers').controller('AlbumController',[
 function($scope, $rootScope, $stateParams, $location, AlbumService, SupportService,
 		GenreService) {
     this.userLogin = $rootScope.user.login;
-    
-    $scope.album = [ AlbumService.album($stateParams.albumId)
+
+    if (typeof ($stateParams.albumId) != 'undefined') {
+    	$scope.album = [ AlbumService.album($stateParams.albumId)
                                .then(
 		                          function(response) {
 		                        	  $('.mainlist').addClass('col-md-4');
@@ -22,6 +23,24 @@ function($scope, $rootScope, $stateParams, $location, AlbumService, SupportServi
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
+    } else {
+    	$scope.album = { id: null,
+    					title: '',
+    					cover: '',
+    					releaseDate: null,
+    					genre: '',
+    					genreId: null,
+    					nbTracks: 0,
+    					support: '',
+    					supportId: null,
+    					artist: '',
+    					artistId: null,
+    					tracks: []
+    	};
+  	    $('.mainlist').addClass('col-md-4');
+	    $('.mainlist').removeClass('col-md-8');
+        $('.itempanel').addClass('col-md-6');
+    }
 
     $scope.supports = [ SupportService.supports()
                                .then(
@@ -55,7 +74,7 @@ function($scope, $rootScope, $stateParams, $location, AlbumService, SupportServi
       $scope.opened = true;
     };
     
-    $scope.updateAlbum = function() {
+    $scope.saveAlbum = function() {
     	AlbumService.saveAlbum($scope.album);
     };
 

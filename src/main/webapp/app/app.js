@@ -49,6 +49,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/album/albums.html',
                 controller : 'AlbumsController'
             })
+            .state('albums.add', {
+                url: '/add',
+                templateUrl : 'app/views/album/addalbum.html',
+                controller : 'AlbumController'
+            })
             .state('albums.detail', {
                 url: '/:albumId',
                 templateUrl : 'app/views/album/album.html',

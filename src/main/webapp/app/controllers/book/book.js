@@ -48,6 +48,9 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
     					bookNb: null,
     					isSerieDone: false,
     	};
+  	    $('.mainlist').addClass('col-md-4');
+	    $('.mainlist').removeClass('col-md-8');
+        $('.itempanel').addClass('col-md-6');
     }
     
     $scope.types = [ BookTypeService.booktypes()
