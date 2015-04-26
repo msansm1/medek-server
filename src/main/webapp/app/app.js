@@ -29,6 +29,11 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/book/books.html',
                 controller : 'BooksController'
             })
+            .state('books.add', {
+                url: '/add',
+                templateUrl : 'app/views/book/addbook.html',
+                controller : 'BookController'
+            })
             .state('books.detail', {
                 url: '/:bookId',
                 templateUrl : 'app/views/book/book.html',

@@ -1,0 +1,102 @@
+<form>
+<div class="row rownomargin itemtitle">
+	<div class="col-md-6 text-left">
+		<input type="text" ng-model="book.title" name="bookTitle" class="form-control" required></input>
+	</div>
+	<div class="col-md-6 text-right itemeditbutton" ng-click="saveBook()">
+		<span class="glyphicon glyphicon-ok"></span>{{ 'add' | translate }}
+	</div>
+</div>
+<div class="itemimage text-right">
+	<img alt="cover" src="{{ book.cover }}" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'author' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.authorId" ng-options="author.id as author.name for author in authors"></select>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'editor' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.editorId" ng-options="editor.id as editor.name for editor in editors"></select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'collection' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.collectionId" ng-options="collection.id as collection.name for collection in collections"></select>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'publicationDate' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="book.publicationDate" is-open="opened" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'genre' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'type' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.typeId" ng-options="type.id as type.name for type in types"></select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'lang' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="book.langId" ng-options="lang.id as lang.name for lang in langs"></select>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'series' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="book.series" name="bookSeries" class="form-control"></input>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'bookNb' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="book.bookNb" name="bookBookNb" class="form-control"></input>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'isSerieDone' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="checkbox" ng-model="book.isSerieDone" name="bookIsSerieDone" class="form-control"></input>
+		</div>
+	</div>
+</div>
+</form>

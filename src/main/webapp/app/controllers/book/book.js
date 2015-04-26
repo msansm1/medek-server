@@ -14,17 +14,41 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
 		CollectionService, EditorService, LangService, StoryGenreService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.book = [ BookService.book($stateParams.bookId)
-                               .then(
-		                          function(response) {
-		                        	  $('.mainlist').addClass('col-md-4');
-		                        	  $('.mainlist').removeClass('col-md-8');
-		                              console.log("Book : "+response.data);
-		                              $scope.book = response.data;
-		                              $('.itempanel').addClass('col-md-6');
-		                          }, function(reason) {
-		                              alert('FAILED !!!');
-		                          }) ];
+    if (typeof ($stateParams.bookId) != 'undefined') {
+        $scope.book = [ BookService.book($stateParams.bookId)
+                        .then(
+	                          function(response) {
+	                        	  $('.mainlist').addClass('col-md-4');
+	                        	  $('.mainlist').removeClass('col-md-8');
+	                              console.log("Book : "+response.data);
+	                              $scope.book = response.data;
+	                              $('.itempanel').addClass('col-md-6');
+	                          }, function(reason) {
+	                              alert('FAILED !!!');
+	                          }) ];
+    } else {
+    	$scope.book = { id: null,
+    					title: '',
+    					author: '',
+    					authorId: null,
+    					editor: '',
+    					editorId: null,
+    					collection: '',
+    					collectionId: null,
+    					cover: '',
+    					description: '',
+    					publicationDate: null,
+    					genre: '',
+    					genreId: null,
+    					type: '',
+    					typeId: null,
+    					lang: '',
+    					langId: null,
+    					series: '',
+    					bookNb: null,
+    					isSerieDone: false,
+    	};
+    }
     
     $scope.types = [ BookTypeService.booktypes()
                         .then(
@@ -84,7 +108,7 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
         $location.replace();
     };
     
-    $scope.updateBook = function() {
+    $scope.saveBook = function() {
     	BookService.saveBook($scope.book);
     };
     
