@@ -35,13 +35,9 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
 						genre: '',
 						genreId: null,
 						length: null,
-						isCollector: false,
-						realisator: '',
-						realisatorId: null,
-						producer: '',
-						producerId: null,
-						scenarist: '',
-						scenaristId: null,
+						season: null,
+						series: '',
+						isSeriesDone: false,
 						langs: [],
 						subtitles: []
     	};
