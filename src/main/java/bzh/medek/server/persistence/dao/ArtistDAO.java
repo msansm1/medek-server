@@ -37,4 +37,9 @@ public class ArtistDAO extends Dao {
 	public Artist getArtist(Integer id) {
 		return em.find(Artist.class, id);
 	}
+
+	public List<Artist> getArtistsForAlbum() {
+		return em.createQuery("from Artist a WHERE a.artisttype.id='1'", Artist.class)
+				.getResultList();
+	}
 }
