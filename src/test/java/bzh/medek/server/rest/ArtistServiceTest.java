@@ -143,5 +143,59 @@ public class ArtistServiceTest {
         assertFalse("No artist found", response.isEmpty());
     }
 
+    /**
+     * Test for /services/artists/books GET Test OK
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(6)
+    public void callGetListForBooks() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonArtist> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/books")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No artist found", response.isEmpty());
+    }
+
+    /**
+     * Test for /services/artists/movies GET Test OK
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(7)
+    public void callGetListForMovies() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonArtist> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/movies")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No artist found", response.isEmpty());
+    }
+
+    /**
+     * Test for /services/artists/movies GET Test OK
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(8)
+    public void callGetListForSeries() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonArtist> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/series")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No artist found", response.isEmpty());
+    }
+
 	
 }

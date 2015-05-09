@@ -13,4 +13,8 @@ function($http, $rootScope) {
     this.saveBook = function(book) {
         return $http.post('services/books', book);
     };
+    
+    this.artists = function() {
+    	return $http.get('services/artists/books');
+    };
 } ]);

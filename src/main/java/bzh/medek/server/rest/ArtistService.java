@@ -108,7 +108,7 @@ public class ArtistService extends Application {
     }
 
     /**
-     *  GET /artists : retrieve all artists
+     *  GET /artists : retrieve all album artists
      * 
      * @return
      */
@@ -117,6 +117,63 @@ public class ArtistService extends Application {
     public List<JsonArtist> getAllForAlbums() {
     	List<Artist> artists = artistDao.getArtistsForAlbum();
     	LOGGER.info("find "+artists.size()+" album artists in the database");
+    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+    	for (Artist a:artists) {
+    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
+    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
+    				a.getNationality(), a.getBiolink()));
+    	}
+    	return la;
+    }
+
+    /**
+     *  GET /books : retrieve all book artists
+     * 
+     * @return
+     */
+    @GET
+	@Path("/books")
+    public List<JsonArtist> getAllForBooks() {
+    	List<Artist> artists = artistDao.getArtistsForBook();
+    	LOGGER.info("find "+artists.size()+" book artists in the database");
+    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+    	for (Artist a:artists) {
+    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
+    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
+    				a.getNationality(), a.getBiolink()));
+    	}
+    	return la;
+    }
+
+    /**
+     *  GET /movies : retrieve all movie artists
+     * 
+     * @return
+     */
+    @GET
+	@Path("/movies")
+    public List<JsonArtist> getAllForMovies() {
+    	List<Artist> artists = artistDao.getArtistsForMovie();
+    	LOGGER.info("find "+artists.size()+" movi artists in the database");
+    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+    	for (Artist a:artists) {
+    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
+    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
+    				a.getNationality(), a.getBiolink()));
+    	}
+    	return la;
+    }
+
+    /**
+     *  GET /series : retrieve all book artists
+     * 
+     * @return
+     */
+    @GET
+	@Path("/series")
+    public List<JsonArtist> getAllForSeries() {
+    	List<Artist> artists = artistDao.getArtistsForSeries();
+    	LOGGER.info("find "+artists.size()+" series artists in the database");
     	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
     	for (Artist a:artists) {
     		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 

@@ -42,4 +42,19 @@ public class ArtistDAO extends Dao {
 		return em.createQuery("from Artist a WHERE a.artisttype.id='1'", Artist.class)
 				.getResultList();
 	}
+
+	public List<Artist> getArtistsForBook() {
+		return em.createQuery("from Artist a WHERE a.artisttype.id='2'", Artist.class)
+				.getResultList();
+	}
+
+	public List<Artist> getArtistsForMovie() {
+		return em.createQuery("from Artist a WHERE a.artisttype.id IN ('3','4','5')", Artist.class)
+				.getResultList();
+	}
+
+	public List<Artist> getArtistsForSeries() {
+		return em.createQuery("from Artist a WHERE a.artisttype.id IN ('3','4','5')", Artist.class)
+				.getResultList();
+	}
 }

@@ -73,6 +73,15 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
 	                              alert('FAILED !!!');
 	                          }) ];
 
+    $scope.artists = [ SerieService.artists()
+                               .then(
+		                          function(response) {
+		                              console.log("Artists : "+response.data);
+		                              $scope.artists = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
 	// for date picker
 	$scope.open = function($event) {
 		$event.preventDefault();

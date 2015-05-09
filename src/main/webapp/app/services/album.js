@@ -13,4 +13,8 @@ function($http, $rootScope) {
     this.saveAlbum = function(album) {
         return $http.post('services/albums', album);
     };
+    
+    this.artists = function() {
+    	return $http.get('services/artists/albums');
+    };
 } ]);

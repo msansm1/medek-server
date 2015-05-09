@@ -52,12 +52,20 @@ function($scope, $rootScope, $stateParams, $modal, $location, AlbumService, Supp
 		                              alert('FAILED !!!');
 		                          }) ];
 
-
     $scope.genres = [ GenreService.genres()
                                .then(
 		                          function(response) {
 		                              console.log("Genres : "+response.data);
 		                              $scope.genres = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
+    $scope.artists = [ AlbumService.artists()
+                               .then(
+		                          function(response) {
+		                              console.log("Artists : "+response.data);
+		                              $scope.artists = response.data;
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
@@ -87,6 +95,9 @@ function($scope, $rootScope, $stateParams, $modal, $location, AlbumService, Supp
                 tracks: function () {
                     return $scope.album.tracks;
                 },
+                artists: function () {
+                    return $scope.artists;
+                },
                 track: function () {
                     return { id: null,
                             title: '',
@@ -108,6 +119,9 @@ function($scope, $rootScope, $stateParams, $modal, $location, AlbumService, Supp
             resolve: {
                 tracks: function () {
                     return null;
+                },
+                artists: function () {
+                    return $scope.artists;
                 },
                 track: function () {
                     return track;
@@ -137,7 +151,9 @@ angular.module('medekApp.controllers').controller('TrackController',[
 'TrackService',
 'track',
 'tracks',
-function ($scope, $modalInstance, TrackService, track, tracks) {
+'artists',
+function ($scope, $modalInstance, TrackService, track, tracks, artists) {
+	$scope.artists = artists;
     $scope.track = track;
 
     $scope.ok = function () {

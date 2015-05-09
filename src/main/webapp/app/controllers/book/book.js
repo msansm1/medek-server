@@ -98,6 +98,15 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
 	                              alert('FAILED !!!');
 	                          }) ];
 
+    $scope.authors = [ BookService.artists()
+                               .then(
+		                          function(response) {
+		                              console.log("authors : "+response.data);
+		                              $scope.authors = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
 	// for date picker
 	$scope.open = function($event) {
 		$event.preventDefault();

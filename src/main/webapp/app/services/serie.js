@@ -15,4 +15,8 @@ function($http, $rootScope) {
     this.saveSerie = function(serie) {
         return $http.post('services/tvshows', serie);
     };
+    
+    this.artists = function() {
+    	return $http.get('services/artists/series');
+    }
 } ]);

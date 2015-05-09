@@ -77,6 +77,15 @@ function($scope, $rootScope, $stateParams, $location, MovieService, StoryGenreSe
 	                              alert('FAILED !!!');
 	                          }) ];
 
+    $scope.artists = [ MovieService.artists()
+                               .then(
+		                          function(response) {
+		                              console.log("Artists : "+response.data);
+		                              $scope.artists = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
 	// for date picker
 	$scope.open = function($event) {
 		$event.preventDefault();
