@@ -1,0 +1,14 @@
+<div class="row rownomargin listitem-item" ng-if="track.title != 'deleted'">
+	<div class="col-md-6 text-left">
+		<span><strong>{{ track.trackNb }} - {{ track.title }}</strong></span>
+	</div>
+	<div class="col-md-4 text-right">
+		<span>{{ track.length }}</span>
+	</div>
+	<div class="col-md-1 text-right">
+		<span class="glyphicon glyphicon-edit" ng-click="editTrack(track)" aria-label="{{ 'edittrack' | translate }}"></span>
+	</div>
+	<div class="col-md-1 text-right text-danger">
+		<span class="glyphicon glyphicon-remove" ng-click="removeTrack(track)" aria-label="{{ 'removetrack' | translate }}"></span>
+	</div>
+</div>

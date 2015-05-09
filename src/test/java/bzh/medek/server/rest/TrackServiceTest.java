@@ -97,7 +97,7 @@ public class TrackServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonTrack track = new JsonTrack(null, 1, "Welcome Home", 5, "7:00", null);
+        JsonTrack track = new JsonTrack(null, 1, "Welcome Home", 5, "7:00", "", null);
 
         JsonTrack response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
@@ -116,7 +116,7 @@ public class TrackServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonTrack track = new JsonTrack(1, 1, "Battery", 3, "5:10", null);
+        JsonTrack track = new JsonTrack(1, 1, "Battery", 3, "5:10", "", null);
 
         JsonTrack response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)

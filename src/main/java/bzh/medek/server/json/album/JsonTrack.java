@@ -7,13 +7,14 @@ public class JsonTrack {
 	private Integer trackNb;
 	private String length;
 	private String artist;
+	private Integer artistId;
 	
 	public JsonTrack() {
 		super();
 	}
 
 	public JsonTrack(Integer id, Integer albumId, String title,
-			Integer trackNb, String length, String artist) {
+			Integer trackNb, String length, String artist, Integer artistId) {
 		super();
 		this.id = id;
 		this.albumId = albumId;
@@ -21,6 +22,7 @@ public class JsonTrack {
 		this.trackNb = trackNb;
 		this.length = length;
 		this.artist = artist;
+		this.artistId = artistId;
 	}
 
 	public Integer getId() {
@@ -69,6 +71,14 @@ public class JsonTrack {
 
 	public void setArtist(String artist) {
 		this.artist = artist;
+	}
+
+	public Integer getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(Integer artistId) {
+		this.artistId = artistId;
 	}
 
 }

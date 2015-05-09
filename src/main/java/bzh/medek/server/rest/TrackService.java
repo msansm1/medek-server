@@ -51,7 +51,7 @@ public class TrackService extends Application {
 		LOGGER.info("find " + tracks.size() + " tracks for album : "+albumId);
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
-			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t.getNumber(), t.getLength(), null));
+			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t.getNumber(), t.getLength(), "", null));
 		}
 		return lt;
 	}
@@ -68,7 +68,7 @@ public class TrackService extends Application {
 		Track t = trackDao.getTrack(id);
 		LOGGER.info("find " + t.getTitle() + " track in the database");
 		return new JsonTrack(t.getId(), t.getAlbumBean().getId(), t.getTitle(),
-				t.getNumber(), t.getLength(), null);
+				t.getNumber(), t.getLength(), "", null);
 	}
 
 	/**
@@ -88,6 +88,9 @@ public class TrackService extends Application {
 			if (track.getAlbumId() != null) {
 				t.setAlbumBean(albumDao.getAlbum(track.getAlbumId()));
 			}
+			if (track.getArtistId() != null) {
+				// TODO
+			}
 			trackDao.saveTrack(t);
 			jt.setId(t.getId());
 		} else {
@@ -99,6 +102,9 @@ public class TrackService extends Application {
 			t.setNumber(track.getTrackNb());
 			if (track.getAlbumId() != null) {
 				t.setAlbumBean(albumDao.getAlbum(track.getAlbumId()));
+			}
+			if (track.getArtistId() != null) {
+				// TODO
 			}
 			trackDao.updateTrack(t);
 		}

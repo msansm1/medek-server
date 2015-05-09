@@ -100,7 +100,7 @@ public class AlbumService extends Application {
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
 			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t
-					.getLength(), null));
+					.getLength(), "", null));
 		}
 		String artistName = "";
 		Integer artistId = 0;
@@ -189,7 +189,7 @@ public class AlbumService extends Application {
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
 			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t
-					.getNumber(), t.getLength(), null));
+					.getNumber(), t.getLength(), "", null));
 		}
 		return lt;
 	}
