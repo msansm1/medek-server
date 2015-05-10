@@ -8,7 +8,7 @@
 	</div>
 </div>
 <div class="itemimage text-right">
-	<img alt="cover" src="{{ movie.cover }}" />
+	<input type="file" ng-file-select="onFileSelect($files)" onclick="this.value=null" />
 </div>
 <div class="iteminfos">
 	<div class="row">
@@ -28,6 +28,35 @@
                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
             </p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'realisator' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="album.realisatorId" ng-options="artist.id as artist.name for artist in artists"></select>
+			</div>
+		</div>
+		
+		<div class="col-md-3 text-right">
+			<span>{{ 'producer' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="album.producerId" ng-options="artist.id as artist.name for artist in artists"></select>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-md-3 text-right">
+			<span>{{ 'scenarist' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="album.scenaristId" ng-options="artist.id as artist.name for artist in artists"></select>
+			</div>
 		</div>
 	</div>
 	<div class="row">

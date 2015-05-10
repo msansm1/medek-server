@@ -7,7 +7,7 @@
 	</div>
 </div>
 <div class="itemimage text-right">
-	<img alt="cover" src="{{ serie.cover }}" />
+	<input type="file" ng-file-select="onFileSelect($files)" onclick="this.value=null" />
 </div>
 <div class="iteminfos">
 	<div class="row">

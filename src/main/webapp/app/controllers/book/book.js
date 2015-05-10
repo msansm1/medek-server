@@ -124,4 +124,23 @@ function($scope, $rootScope, $stateParams, $location, BookService, BookTypeServi
     	BookService.saveBook($scope.book);
     };
     
+    // cover upload
+    $scope.onFileSelect = function($files) {
+        for (var i = 0; i < $files.length; i++) {
+          var file = $files[i];
+          $scope.upload = $upload.upload({
+            url: 'services/books/'+$scope.book.id+'/coverupload',
+            method: 'POST',
+            headers: {'securtoken': $rootScope.user.token},
+            //withCredentials: true,
+            data: {id: $scope.book.id},
+            file: file // or list of files ($files) for html5 only
+          }).progress(function(evt) {
+            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total, 10));
+          }).success(function(data, status, headers, config) {
+            console.log('SUCCESS !! '+data);
+          });
+        }
+    };
+    
 } ]);

@@ -142,6 +142,25 @@ function($scope, $rootScope, $stateParams, $modal, $location, AlbumService, Supp
             }
         }
     };
+    
+    // cover upload
+    $scope.onFileSelect = function($files) {
+        for (var i = 0; i < $files.length; i++) {
+          var file = $files[i];
+          $scope.upload = $upload.upload({
+            url: 'services/albums/'+$scope.album.id+'/coverupload',
+            method: 'POST',
+            headers: {'securtoken': $rootScope.user.token},
+            //withCredentials: true,
+            data: {id: $scope.album.id},
+            file: file // or list of files ($files) for html5 only
+          }).progress(function(evt) {
+            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total, 10));
+          }).success(function(data, status, headers, config) {
+            console.log('SUCCESS !! '+data);
+          });
+        }
+    };
 
 } ]);
 

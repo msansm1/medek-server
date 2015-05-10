@@ -98,5 +98,24 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
     $scope.saveSerie = function() {
     	SerieService.saveSerie($scope.serie);
     };
+    
+    // cover upload
+    $scope.onFileSelect = function($files) {
+        for (var i = 0; i < $files.length; i++) {
+          var file = $files[i];
+          $scope.upload = $upload.upload({
+            url: 'services/series/'+$scope.serie.id+'/coverupload',
+            method: 'POST',
+            headers: {'securtoken': $rootScope.user.token},
+            //withCredentials: true,
+            data: {id: $scope.serie.id},
+            file: file // or list of files ($files) for html5 only
+          }).progress(function(evt) {
+            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total, 10));
+          }).success(function(data, status, headers, config) {
+            console.log('SUCCESS !! '+data);
+          });
+        }
+    };
 
 } ]);
