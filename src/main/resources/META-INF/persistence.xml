@@ -39,5 +39,6 @@
 		<class>bzh.medek.server.persistence.entities.UsermoviePK</class>
 		<class>bzh.medek.server.persistence.entities.Usertv</class>
 		<class>bzh.medek.server.persistence.entities.UsertvPK</class>
+		<class>bzh.medek.server.persistence.entities.Configuration</class>
 	</persistence-unit>
 </persistence>

@@ -37,13 +37,22 @@ public class Tvshow implements Serializable {
 	@Column(name="RELEASEDATE")
 	private Date releasedate;
 
-	private int season;
+	@Column(name="SEASON")
+	private Integer season;
 
 	@Column(name="SERIES", length=45)
 	private String series;
 
 	@Column(name="TITLE", nullable=false, length=45)
 	private String title;
+
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(mappedBy="tvshows1")
+	private List<Lang> langs1;
+
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(mappedBy="tvshows2")
+	private List<Lang> langs2;
 
 	//bi-directional many-to-one association to Loan
 	@OneToMany(mappedBy="tvshowBean")
@@ -64,7 +73,7 @@ public class Tvshow implements Serializable {
 			@JoinColumn(name="LANG", nullable=false)
 			}
 		)
-	private List<Lang> langs1;
+	private List<Lang> langs3;
 
 	//bi-directional many-to-many association to Lang
 	@ManyToMany
@@ -74,10 +83,10 @@ public class Tvshow implements Serializable {
 			@JoinColumn(name="TVSHOW", nullable=false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="LANG", nullable=false)
+			@JoinColumn(name="SUBTITLE", nullable=false)
 			}
 		)
-	private List<Lang> langs2;
+	private List<Lang> langs4;
 
 	//bi-directional many-to-one association to Storygenre
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -144,11 +153,11 @@ public class Tvshow implements Serializable {
 		this.releasedate = releasedate;
 	}
 
-	public int getSeason() {
+	public Integer getSeason() {
 		return this.season;
 	}
 
-	public void setSeason(int season) {
+	public void setSeason(Integer season) {
 		this.season = season;
 	}
 
@@ -166,6 +175,22 @@ public class Tvshow implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public List<Lang> getLangs1() {
+		return this.langs1;
+	}
+
+	public void setLangs1(List<Lang> langs1) {
+		this.langs1 = langs1;
+	}
+
+	public List<Lang> getLangs2() {
+		return this.langs2;
+	}
+
+	public void setLangs2(List<Lang> langs2) {
+		this.langs2 = langs2;
 	}
 
 	public List<Loan> getLoans() {
@@ -212,20 +237,20 @@ public class Tvshow implements Serializable {
 		return tvartist;
 	}
 
-	public List<Lang> getLangs1() {
-		return this.langs1;
+	public List<Lang> getLangs3() {
+		return this.langs3;
 	}
 
-	public void setLangs1(List<Lang> langs1) {
-		this.langs1 = langs1;
+	public void setLangs3(List<Lang> langs3) {
+		this.langs3 = langs3;
 	}
 
-	public List<Lang> getLangs2() {
-		return this.langs2;
+	public List<Lang> getLangs4() {
+		return this.langs4;
 	}
 
-	public void setLangs2(List<Lang> langs2) {
-		this.langs2 = langs2;
+	public void setLangs4(List<Lang> langs4) {
+		this.langs4 = langs4;
 	}
 
 	public Storygenre getStorygenre() {

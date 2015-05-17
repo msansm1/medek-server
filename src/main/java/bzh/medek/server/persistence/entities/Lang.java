@@ -41,16 +41,55 @@ public class Lang implements Serializable {
 	private List<Movie> movies1;
 
 	//bi-directional many-to-many association to Movie
-	@ManyToMany(mappedBy="langs2")
+	@ManyToMany
+	@JoinTable(
+		name="MOVIELANG"
+		, joinColumns={
+			@JoinColumn(name="LANG", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="MOVIE", nullable=false)
+			}
+		)
 	private List<Movie> movies2;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(mappedBy="langs1")
+	@ManyToMany
+	@JoinTable(
+		name="TVLANG"
+		, joinColumns={
+			@JoinColumn(name="LANG", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="TVSHOW", nullable=false)
+			}
+		)
 	private List<Tvshow> tvshows1;
 
 	//bi-directional many-to-many association to Tvshow
-	@ManyToMany(mappedBy="langs2")
+	@ManyToMany
+	@JoinTable(
+		name="TVSUBTITLE"
+		, joinColumns={
+			@JoinColumn(name="SUBTITLE", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="TVSHOW", nullable=false)
+			}
+		)
 	private List<Tvshow> tvshows2;
+
+	//bi-directional many-to-many association to Movie
+	@ManyToMany(mappedBy="langs3")
+	private List<Movie> movies3;
+
+	//bi-directional many-to-many association to Tvshow
+	@ManyToMany(mappedBy="langs3")
+	private List<Tvshow> tvshows3;
+
+	//bi-directional many-to-many association to Tvshow
+	@ManyToMany(mappedBy="langs4")
+	private List<Tvshow> tvshows4;
 
 	public Lang() {
 	}
@@ -123,6 +162,30 @@ public class Lang implements Serializable {
 
 	public void setTvshows2(List<Tvshow> tvshows2) {
 		this.tvshows2 = tvshows2;
+	}
+
+	public List<Movie> getMovies3() {
+		return this.movies3;
+	}
+
+	public void setMovies3(List<Movie> movies3) {
+		this.movies3 = movies3;
+	}
+
+	public List<Tvshow> getTvshows3() {
+		return this.tvshows3;
+	}
+
+	public void setTvshows3(List<Tvshow> tvshows3) {
+		this.tvshows3 = tvshows3;
+	}
+
+	public List<Tvshow> getTvshows4() {
+		return this.tvshows4;
+	}
+
+	public void setTvshows4(List<Tvshow> tvshows4) {
+		this.tvshows4 = tvshows4;
 	}
 
 }

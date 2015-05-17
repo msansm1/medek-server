@@ -53,7 +53,7 @@ public class Loan implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="FRIEND")
+	@JoinColumn(name="FRIEND", nullable=false)
 	private User user1;
 
 	//bi-directional many-to-one association to User

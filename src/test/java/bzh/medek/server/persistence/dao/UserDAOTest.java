@@ -48,8 +48,6 @@ public class UserDAOTest {
     final User user = new User();
 
     public void saveUserTest() {
-    	user.setLastname("test");
-        user.setFirstname("user");
         user.setLogin("login");
         user.setPassword("password");
         dao.saveUser(user);
@@ -64,10 +62,10 @@ public class UserDAOTest {
 
     public void updateUserTest() {
     	User updated = dao.getUser(user.getId());
-    	updated.setFirstname("changed :)");
+    	updated.setLogin("changed :)");
         dao.updateUser(updated);
         Assert.assertTrue("User is not updated",
-                dao.getUser(user.getId()).getFirstname().equalsIgnoreCase("changed :)"));
+                dao.getUser(user.getId()).getLogin().equalsIgnoreCase("changed :)"));
 
     }
 

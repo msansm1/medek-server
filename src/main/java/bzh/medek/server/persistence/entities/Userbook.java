@@ -20,6 +20,9 @@ public class Userbook implements Serializable {
 	@Column(name="`COMMENT`", length=100)
 	private String comment;
 
+	@Column(name="ISSIGNED", nullable=false)
+	private Boolean issigned;
+
 	@Column(name="RATING")
 	private Integer rating;
 
@@ -50,6 +53,14 @@ public class Userbook implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Boolean getIssigned() {
+		return this.issigned;
+	}
+
+	public void setIssigned(Boolean issigned) {
+		this.issigned = issigned;
 	}
 
 	public Integer getRating() {

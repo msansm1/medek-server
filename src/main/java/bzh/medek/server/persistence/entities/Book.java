@@ -33,9 +33,6 @@ public class Book implements Serializable {
 	@Column(name="ISSERIEDONE")
 	private Boolean isseriedone;
 
-	@Column(name="ISSIGNED")
-	private Boolean issigned;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="PUBLICATIONDATE")
 	private Date publicationdate;
@@ -124,14 +121,6 @@ public class Book implements Serializable {
 
 	public void setIsseriedone(Boolean isseriedone) {
 		this.isseriedone = isseriedone;
-	}
-
-	public Boolean getIssigned() {
-		return this.issigned;
-	}
-
-	public void setIssigned(Boolean issigned) {
-		this.issigned = issigned;
 	}
 
 	public Date getPublicationdate() {

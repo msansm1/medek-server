@@ -56,7 +56,6 @@ public class TrackDAOTest {
     public void saveTrackTest() {
     	Album a = new Album();
     	a.setTitle("testa");
-    	a.setIssigned(false);
     	albumDao.saveAlbum(a);
     	track.setTitle("test track");
         track.setLength("2:30");

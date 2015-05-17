@@ -1,7 +1,13 @@
 package bzh.medek.server.rest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,9 +20,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
@@ -141,7 +151,6 @@ public class AlbumService extends Application {
 			if (album.getSupportId() != null) {
 				a.setSupportBean(supportDAO.getSupport(album.getSupportId()));
 			}
-			a.setIssigned(false);
 			albumDao.saveAlbum(a);
 			ja.setId(a.getId());
 		} else {

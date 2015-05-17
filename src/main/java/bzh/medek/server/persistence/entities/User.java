@@ -20,19 +20,16 @@ public class User implements Serializable {
 	@Column(name="ID", unique=true, nullable=false)
 	private Integer id;
 
-	@Column(name="EMAIL", length=45)
+	@Column(name="EMAIL", nullable=false, length=75)
 	private String email;
 
-	@Column(name="FIRSTNAME", length=45)
-	private String firstname;
-
-	@Column(name="LASTNAME", length=45)
-	private String lastname;
-
-	@Column(name="LOGIN", nullable=false, length=15)
+	@Column(name="LOGIN", nullable=false, length=20)
 	private String login;
 
-	@Column(name="PASSWORD", nullable=false, length=45)
+	@Column(name="MOBILE_TOKEN", length=60)
+	private String mobileToken;
+
+	@Column(name="PASSWORD", nullable=false, length=60)
 	private String password;
 
 	@Column(name="TOKEN", length=60)
@@ -89,28 +86,20 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getFirstname() {
-		return this.firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return this.lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
 	public String getLogin() {
 		return this.login;
 	}
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getMobileToken() {
+		return this.mobileToken;
+	}
+
+	public void setMobileToken(String mobileToken) {
+		this.mobileToken = mobileToken;
 	}
 
 	public String getPassword() {

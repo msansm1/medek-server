@@ -44,6 +44,10 @@ public class Movie implements Serializable {
 	@ManyToMany(mappedBy="movies1")
 	private List<Lang> langs1;
 
+	//bi-directional many-to-many association to Lang
+	@ManyToMany(mappedBy="movies2")
+	private List<Lang> langs2;
+
 	//bi-directional many-to-one association to Loan
 	@OneToMany(mappedBy="movieBean")
 	private List<Loan> loans;
@@ -59,7 +63,7 @@ public class Movie implements Serializable {
 			@JoinColumn(name="LANG", nullable=false)
 			}
 		)
-	private List<Lang> langs2;
+	private List<Lang> langs3;
 
 	//bi-directional many-to-one association to Storygenre
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -146,6 +150,14 @@ public class Movie implements Serializable {
 		this.langs1 = langs1;
 	}
 
+	public List<Lang> getLangs2() {
+		return this.langs2;
+	}
+
+	public void setLangs2(List<Lang> langs2) {
+		this.langs2 = langs2;
+	}
+
 	public List<Loan> getLoans() {
 		return this.loans;
 	}
@@ -168,12 +180,12 @@ public class Movie implements Serializable {
 		return loan;
 	}
 
-	public List<Lang> getLangs2() {
-		return this.langs2;
+	public List<Lang> getLangs3() {
+		return this.langs3;
 	}
 
-	public void setLangs2(List<Lang> langs2) {
-		this.langs2 = langs2;
+	public void setLangs3(List<Lang> langs3) {
+		this.langs3 = langs3;
 	}
 
 	public Storygenre getStorygenre() {

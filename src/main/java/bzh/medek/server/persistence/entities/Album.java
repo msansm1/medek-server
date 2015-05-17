@@ -24,9 +24,6 @@ public class Album implements Serializable {
 	@Column(name="COVER", length=45)
 	private String cover;
 
-	@Column(name="ISSIGNED", nullable=false)
-	private Boolean issigned;
-
 	@Column(name="NBTRACKS")
 	private Integer nbtracks;
 
@@ -80,14 +77,6 @@ public class Album implements Serializable {
 
 	public void setCover(String cover) {
 		this.cover = cover;
-	}
-
-	public Boolean getIssigned() {
-		return this.issigned;
-	}
-
-	public void setIssigned(Boolean issigned) {
-		this.issigned = issigned;
 	}
 
 	public Integer getNbtracks() {
