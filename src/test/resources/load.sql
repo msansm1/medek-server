@@ -30,7 +30,7 @@ ALTER TABLE `ARTIST` AUTO_INCREMENT = 4;
 
 INSERT INTO `DATABASE` (`ID`, `VERSION`) VALUES (NULL, '0.7');
 
-INSERT INTO `CONFIGURATION` (`PARAMETER`, `VALUE`) VALUES ('filesystem', '/opt/medek/');
+INSERT INTO `CONFIGURATION` (`PARAMETER`, `VALUE`) VALUES ('filesystem', '/opt/medek/fs/');
 
 INSERT INTO `USER` (`ID`, `LOGIN`, `PASSWORD`, `EMAIL`, `TOKEN`, `MOBILE_TOKEN`) VALUES (1, 'msansm1', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'msansm1@test.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a', null), (2, 'testarq', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'test@arq.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a34', null);
 
