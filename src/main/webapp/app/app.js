@@ -1,6 +1,6 @@
 
 angular.module('medekApp', ['ui.router', 'medekApp.controllers', 
-                          'ui.bootstrap', 'pascalprecht.translate'])
+                          'ui.bootstrap', 'pascalprecht.translate', 'angularFileUpload'])
          .config(function($translateProvider) {
             $translateProvider.useStaticFilesLoader({
                 prefix: 'app/languages/',

@@ -5,10 +5,11 @@ angular.module('medekApp.controllers').controller('AlbumController',[
 '$stateParams',
 '$modal',
 '$location',
+'$upload',
 'AlbumService',
 'SupportService',
 'GenreService',
-function($scope, $rootScope, $stateParams, $modal, $location, AlbumService, SupportService,
+function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumService, SupportService,
 		GenreService) {
     this.userLogin = $rootScope.user.login;
 
