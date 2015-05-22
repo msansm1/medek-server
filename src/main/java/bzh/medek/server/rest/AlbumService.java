@@ -237,7 +237,7 @@ public class AlbumService extends Application {
                 File pathtest = new File(path);
                 if (!pathtest.exists()) {
                     if (!pathtest.mkdirs()) {
-                        LOGGER.error("While saving attachment : "
+                        LOGGER.error("While saving cover : "
                                 + "unable to create repository tmp dir => " + path);
                     }
                 }
@@ -246,11 +246,11 @@ public class AlbumService extends Application {
                 	if (up.exists()) {
                 		up.delete();
                 		if (!up.createNewFile()) {
-                            LOGGER.error("While saving attachment : " + "unable to overwrite existing file => "
+                            LOGGER.error("While saving cover : " + "unable to overwrite existing file => "
                                     + up.getAbsolutePath());
                 		}
                 	} else {
-                    LOGGER.error("While saving attachment : " + "unable to create new file => "
+                    LOGGER.error("While saving cover : " + "unable to create new file => "
                             + up.getAbsolutePath());
                 	}
                 }
@@ -265,7 +265,7 @@ public class AlbumService extends Application {
                 out.flush();
                 out.close();
             } catch (IOException e) {
-                LOGGER.error("While saving attachment : ", e);
+                LOGGER.error("While saving cover : ", e);
                 return Response.ok(new JsonSimpleResponse(false), MediaType.APPLICATION_JSON).build();
             } finally {
                 if (inputStream != null) {

@@ -1,7 +1,13 @@
 package bzh.medek.server.rest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,10 +20,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonLang;
+import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.dao.MovieDAO;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
@@ -40,6 +51,8 @@ public class MovieService extends Application {
     SupportDAO supportDAO;
     @Inject
     StorygenreDAO storygenreDAO;
+	@Inject
+	Conf conf;
 	
 	public MovieService () {
 	}
@@ -145,6 +158,87 @@ public class MovieService extends Application {
     @Path(value = "/user/{id}")
     public List<JsonMovie> getUserMovies(@PathParam(value = "id") Integer id) {
     	return movieDao.getUsersMovies(id);
+    }
+
+    /**
+     * POST : upload new cover for movie
+     * 
+     * @param newcover
+     * @return
+     */
+    @POST
+    @Path("{id}/coverupload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadAttach(@PathParam("id") Integer id, MultipartFormDataInput newcover) {
+        Map<String, List<InputPart>> uploadForm = newcover.getFormDataMap();
+        // Get file data to save
+        List<InputPart> inputParts = uploadForm.get("file");
+        String filename = null;
+        for (InputPart inputPart : inputParts) {
+            // convert the uploaded file to inputstream and write it to disk
+            InputStream inputStream = null;
+            OutputStream out = null;
+            try {
+                inputStream = inputPart.getBody(InputStream.class, null);
+                List<String> contDisp = inputPart.getHeaders().get("Content-Disposition");
+                for (String cd : contDisp) {
+                    if (cd.contains("filename")) {
+                        filename = "cover.jpg";
+                        LOGGER.info("FILENAME : " + filename);
+                    }
+                }
+                String path = conf.getMovieFS() + id + "/";
+                File pathtest = new File(path);
+                if (!pathtest.exists()) {
+                    if (!pathtest.mkdirs()) {
+                        LOGGER.error("While saving cover : "
+                                + "unable to create repository tmp dir => " + path);
+                    }
+                }
+                File up = new File(path + filename);
+                if (!up.createNewFile()) {
+                	if (up.exists()) {
+                		up.delete();
+                		if (!up.createNewFile()) {
+                            LOGGER.error("While saving cover : " + "unable to overwrite existing file => "
+                                    + up.getAbsolutePath());
+                		}
+                	} else {
+                    LOGGER.error("While saving cover : " + "unable to create new file => "
+                            + up.getAbsolutePath());
+                	}
+                }
+                out = new FileOutputStream(up);
+
+                int read = 0;
+                byte[] bytes = new byte[2048];
+                while ((read = inputStream.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+                inputStream.close();
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                LOGGER.error("While saving cover : ", e);
+                return Response.ok(new JsonSimpleResponse(false), MediaType.APPLICATION_JSON).build();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        LOGGER.error("While saving cover - closing inputstream : ", e);
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        LOGGER.error("While saving cover - closing outputstream : ", e);
+                    }
+                }
+            }
+        }
+        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
     
 }
