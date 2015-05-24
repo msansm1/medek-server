@@ -4,13 +4,14 @@ angular.module('medekApp.controllers').controller('BookController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$upload',
 'BookService',
 'BookTypeService',
 'CollectionService',
 'EditorService',
 'LangService',
 'StoryGenreService',
-function($scope, $rootScope, $stateParams, $location, BookService, BookTypeService,
+function($scope, $rootScope, $stateParams, $location, $upload, BookService, BookTypeService,
 		CollectionService, EditorService, LangService, StoryGenreService) {
     this.userLogin = $rootScope.user.login;
     

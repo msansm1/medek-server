@@ -4,11 +4,12 @@ angular.module('medekApp.controllers').controller('MovieController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$upload',
 'MovieService',
 'StoryGenreService',
 'SupportService',
 'LangService',
-function($scope, $rootScope, $stateParams, $location, MovieService, StoryGenreService,
+function($scope, $rootScope, $stateParams, $location, $upload, MovieService, StoryGenreService,
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
 

@@ -4,11 +4,12 @@ angular.module('medekApp.controllers').controller('SerieController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$upload',
 'SerieService',
 'StoryGenreService',
 'SupportService',
 'LangService',
-function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreService,
+function($scope, $rootScope, $stateParams, $location, $upload, SerieService, StoryGenreService,
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
     
@@ -104,7 +105,7 @@ function($scope, $rootScope, $stateParams, $location, SerieService, StoryGenreSe
         for (var i = 0; i < $files.length; i++) {
           var file = $files[i];
           $scope.upload = $upload.upload({
-            url: 'services/series/'+$scope.serie.id+'/coverupload',
+            url: 'services/tvshows/'+$scope.serie.id+'/coverupload',
             method: 'POST',
             headers: {'securtoken': $rootScope.user.token},
             //withCredentials: true,
