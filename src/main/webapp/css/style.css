@@ -3,8 +3,25 @@
     margin-right: 0px;
 }
 
+.persomenu {
+	margin-top: 8px;
+}
+
 .mainlist {
 	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.leftmenu {
+	background-color: #EAEAEA;
+	padding-left: 0px;
+    padding-right: 0px;
+}
+
+.leftmenu-menu {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
 }
 
 .listitem {
@@ -25,15 +42,14 @@
 
 .itempanel {
 	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .itemtitle {
 	font-size: 30px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	border-width: 1px;
-	border-color: #384dff;
-	border-style: solid;	
+	background-color: #F5F5F5;
 }
 
 .itemeditbutton {
@@ -42,16 +58,26 @@
 
 .itemimage {
 	padding: 10px;
-	border-width: 1px;
-	border-color: #384dff;
-	border-style: solid;
-	border-top-width: 0px;
+	background-color: #F5F5F5;
 }
 
 .iteminfos {
 	padding: 10px;
-	border-width: 1px;
-	border-color: #384dff;
-	border-style: solid;
-	border-top-width: 0px;
+	background-color: #F5F5F5;
+}
+
+.tracklist {
+	border-color: #00F;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tracktitle {
+	padding: 5px 10px;
+}
+
+.trackitem {
+	background-color: #F0FFFF;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }

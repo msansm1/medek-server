@@ -38,8 +38,10 @@
 			<span>{{ album.support }}</span>
 		</div>
 	</div>
-	<div>
-		<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
+	<div class="tracklist">
+		<div class="tracktitle">
+			<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
+		</div>
 		<div ng-repeat="track in album.tracks" ng-include="'app/views/album/trackdetails.html'"></div>
 	</div>
 </div>
