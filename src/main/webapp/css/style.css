@@ -77,7 +77,14 @@
 }
 
 .trackitem {
-	background-color: #F0FFFF;
 	padding-top: 3px;
 	padding-bottom: 3px;
+}
+
+.oddtrack {
+	background-color: #F0FFFF;
+}
+
+.eventrack {
+	background-color: #FFFFFF;
 }

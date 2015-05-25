@@ -112,15 +112,19 @@ public class AlbumService extends Application {
 		LOGGER.info("find " + tracks.size() + " tracks for album : " + id);
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
-			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t
-					.getLength(), "", null));
+			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t
+					.getNumber(), t.getLength(), t.getTrackartists().get(0)
+					.getArtistBean().getName(), t.getTrackartists().get(0)
+					.getArtistBean().getId()));
 		}
 		String artistName = "";
 		Integer artistId = 0;
 		if (!a.getAlbumartists().isEmpty()) {
 			artistName = a.getAlbumartists().get(0).getArtistBean().getName();
 			if (a.getAlbumartists().get(0).getArtistBean().getFirstname() != null) {
-				artistName = " " + a.getAlbumartists().get(0).getArtistBean().getFirstname();
+				artistName = " "
+						+ a.getAlbumartists().get(0).getArtistBean()
+								.getFirstname();
 			}
 			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
@@ -201,90 +205,103 @@ public class AlbumService extends Application {
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
 			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t
-					.getNumber(), t.getLength(), "", null));
+					.getNumber(), t.getLength(), t.getTrackartists().get(0)
+					.getArtistBean().getName(), t.getTrackartists().get(0)
+					.getArtistBean().getId()));
 		}
 		return lt;
 	}
 
-    /**
-     * POST : upload new cover for album
-     * 
-     * @param newcover
-     * @return
-     */
-    @POST
-    @Path("{id}/coverupload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadAttach(@PathParam("id") Integer id, MultipartFormDataInput newcover) {
-        Map<String, List<InputPart>> uploadForm = newcover.getFormDataMap();
-        // Get file data to save
-        List<InputPart> inputParts = uploadForm.get("file");
-        String filename = null;
-        for (InputPart inputPart : inputParts) {
-            // convert the uploaded file to inputstream and write it to disk
-            InputStream inputStream = null;
-            OutputStream out = null;
-            try {
-                inputStream = inputPart.getBody(InputStream.class, null);
-                List<String> contDisp = inputPart.getHeaders().get("Content-Disposition");
-                for (String cd : contDisp) {
-                    if (cd.contains("filename")) {
-                        filename = "cover.jpg";
-                        LOGGER.info("FILENAME : " + filename);
-                    }
-                }
-                String path = conf.getAlbumFS() + id + "/";
-                File pathtest = new File(path);
-                if (!pathtest.exists()) {
-                    if (!pathtest.mkdirs()) {
-                        LOGGER.error("While saving cover : "
-                                + "unable to create repository tmp dir => " + path);
-                    }
-                }
-                File up = new File(path + filename);
-                if (!up.createNewFile()) {
-                	if (up.exists()) {
-                		up.delete();
-                		if (!up.createNewFile()) {
-                            LOGGER.error("While saving cover : " + "unable to overwrite existing file => "
-                                    + up.getAbsolutePath());
-                		}
-                	} else {
-                    LOGGER.error("While saving cover : " + "unable to create new file => "
-                            + up.getAbsolutePath());
-                	}
-                }
-                out = new FileOutputStream(up);
+	/**
+	 * POST : upload new cover for album
+	 * 
+	 * @param newcover
+	 * @return
+	 */
+	@POST
+	@Path("{id}/coverupload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadAttach(@PathParam("id") Integer id,
+			MultipartFormDataInput newcover) {
+		Map<String, List<InputPart>> uploadForm = newcover.getFormDataMap();
+		// Get file data to save
+		List<InputPart> inputParts = uploadForm.get("file");
+		String filename = null;
+		for (InputPart inputPart : inputParts) {
+			// convert the uploaded file to inputstream and write it to disk
+			InputStream inputStream = null;
+			OutputStream out = null;
+			try {
+				inputStream = inputPart.getBody(InputStream.class, null);
+				List<String> contDisp = inputPart.getHeaders().get(
+						"Content-Disposition");
+				for (String cd : contDisp) {
+					if (cd.contains("filename")) {
+						filename = "cover.jpg";
+						LOGGER.info("FILENAME : " + filename);
+					}
+				}
+				String path = conf.getAlbumFS() + id + "/";
+				File pathtest = new File(path);
+				if (!pathtest.exists()) {
+					if (!pathtest.mkdirs()) {
+						LOGGER.error("While saving cover : "
+								+ "unable to create repository tmp dir => "
+								+ path);
+					}
+				}
+				File up = new File(path + filename);
+				if (!up.createNewFile()) {
+					if (up.exists()) {
+						up.delete();
+						if (!up.createNewFile()) {
+							LOGGER.error("While saving cover : "
+									+ "unable to overwrite existing file => "
+									+ up.getAbsolutePath());
+						}
+					} else {
+						LOGGER.error("While saving cover : "
+								+ "unable to create new file => "
+								+ up.getAbsolutePath());
+					}
+				}
+				out = new FileOutputStream(up);
 
-                int read = 0;
-                byte[] bytes = new byte[2048];
-                while ((read = inputStream.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-                inputStream.close();
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                LOGGER.error("While saving cover : ", e);
-                return Response.ok(new JsonSimpleResponse(false), MediaType.APPLICATION_JSON).build();
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        LOGGER.error("While saving cover - closing inputstream : ", e);
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        LOGGER.error("While saving cover - closing outputstream : ", e);
-                    }
-                }
-            }
-        }
-        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
-    }
+				int read = 0;
+				byte[] bytes = new byte[2048];
+				while ((read = inputStream.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				inputStream.close();
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				LOGGER.error("While saving cover : ", e);
+				return Response.ok(new JsonSimpleResponse(false),
+						MediaType.APPLICATION_JSON).build();
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						LOGGER.error(
+								"While saving cover - closing inputstream : ",
+								e);
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						LOGGER.error(
+								"While saving cover - closing outputstream : ",
+								e);
+					}
+				}
+			}
+		}
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
 
 }

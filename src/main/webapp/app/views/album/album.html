@@ -1,9 +1,12 @@
 <div class="row rownomargin itemtitle">
 	<div class="col-md-6 text-left">
-		<strong>{{ album.title }}</strong>
+		<strong><i>{{ album.title }}</i></strong>
 	</div>
 	<div class="col-md-6 text-right itemeditbutton" ng-click="editAlbum(album.id)">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+	</div>
+	<div class="col-md-12 text-right">
+		<strong>{{ album.artist }}</strong>
 	</div>
 </div>
 <div class="itemimage text-center">
@@ -12,10 +15,10 @@
 <div class="iteminfos">
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'artist' | translate }}</span>
+			<span>{{ 'genre' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ album.artist }}</span>
+			<span>{{ album.genre }}</span>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'releaseDate' | translate }}</span>
@@ -26,10 +29,10 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
+			<span>{{ 'length' | translate }}</span>
 		</div>
 		<div class="col-md-3 text-left">
-			<span>{{ album.genre }}</span>
+			<span>{{ album.length }}</span>
 		</div>
 		<div class="col-md-3 text-right">
 			<span>{{ 'support' | translate }}</span>

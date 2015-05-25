@@ -1,8 +1,11 @@
-<div class="row rownomargin trackitem">
-	<div class="col-md-6 text-left">
+<div class="row rownomargin trackitem" ng-class-odd="'oddtrack'" ng-class-even="'eventrack'">
+	<div class="col-md-7 text-left">
 		<span><strong>{{ track.trackNb }} - {{ track.title }}</strong></span>
 	</div>
-	<div class="col-md-6 text-right">
+	<div class="col-md-3 text-left">
+		<span>{{ track.artist }}</span>
+	</div>
+	<div class="col-md-2 text-right">
 		<span>{{ track.length }}</span>
 	</div>
 </div>

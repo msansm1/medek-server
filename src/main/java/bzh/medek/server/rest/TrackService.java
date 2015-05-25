@@ -46,12 +46,16 @@ public class TrackService extends Application {
 	 */
 	@GET
 	@Path("/album/{albumId}")
-	public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
+	public List<JsonTrack> getAlbumTracks(
+			@PathParam(value = "albumId") Integer albumId) {
 		List<Track> tracks = trackDao.getTracksForAlbum(albumId);
-		LOGGER.info("find " + tracks.size() + " tracks for album : "+albumId);
+		LOGGER.info("find " + tracks.size() + " tracks for album : " + albumId);
 		List<JsonTrack> lt = new ArrayList<JsonTrack>();
 		for (Track t : tracks) {
-			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t.getNumber(), t.getLength(), "", null));
+			lt.add(new JsonTrack(t.getId(), albumId, t.getTitle(), t
+					.getNumber(), t.getLength(), t.getTrackartists().get(0)
+					.getArtistBean().getName(), t.getTrackartists().get(0)
+					.getArtistBean().getId()));
 		}
 		return lt;
 	}
