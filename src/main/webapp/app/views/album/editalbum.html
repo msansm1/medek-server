@@ -50,12 +50,19 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
-		<div ng-repeat="track in album.tracks" ng-include="'app/views/album/trackeditdetails.html'"></div>
-		<div class="text-right itemeditbutton" ng-click="addTrack()">
-			<span class="glyphicon glyphicon-ok"></span>{{ 'addtrack' | translate }}
+	<br/>
+	<div class="tracklist">
+		<div class="tracktitle row">
+			<div class="col-md-6 text-left">
+				<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
+			</div>
+			<div class="col-md-6 text-right">
+				<div class="text-right itemeditbutton" ng-click="addTrack()">
+					<span class="glyphicon glyphicon-ok"></span>{{ 'addtrack' | translate }}
+				</div>
+			</div>
 		</div>
+		<div ng-repeat="track in album.tracks" ng-include="'app/views/album/trackeditdetails.html'"></div>
 	</div>
 </div>
 </form>

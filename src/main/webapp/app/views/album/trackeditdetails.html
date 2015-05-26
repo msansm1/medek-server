@@ -1,4 +1,4 @@
-<div class="row rownomargin listitem-item" ng-if="track.title != 'deleted'">
+<div class="row rownomargin trackitem" ng-if="track.title != 'deleted'" ng-class-odd="'oddtrack'" ng-class-even="'eventrack'">
 	<div class="col-md-6 text-left">
 		<span><strong>{{ track.trackNb }} - {{ track.title }}</strong></span>
 	</div>
