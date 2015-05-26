@@ -19,8 +19,12 @@ import org.apache.log4j.Logger;
 
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
+import bzh.medek.server.persistence.dao.ArtistDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
+import bzh.medek.server.persistence.dao.TrackartistDAO;
 import bzh.medek.server.persistence.entities.Track;
+import bzh.medek.server.persistence.entities.Trackartist;
+import bzh.medek.server.persistence.entities.TrackartistPK;
 
 @Stateless
 @ApplicationPath("/services")
@@ -35,6 +39,10 @@ public class TrackService extends Application {
 	TrackDAO trackDao;
 	@Inject
 	AlbumDAO albumDao;
+	@Inject
+	ArtistDAO artistDao;
+	@Inject
+	TrackartistDAO trackartistDAO;
 
 	public TrackService() {
 	}
@@ -92,10 +100,17 @@ public class TrackService extends Application {
 			if (track.getAlbumId() != null) {
 				t.setAlbumBean(albumDao.getAlbum(track.getAlbumId()));
 			}
-			if (track.getArtistId() != null) {
-				// TODO
-			}
 			trackDao.saveTrack(t);
+			Trackartist ta = new Trackartist();
+			TrackartistPK taid = new TrackartistPK();
+			taid.setTrack(t.getId().intValue());
+			taid.setArtist(track.getArtistId().intValue());
+			ta.setId(taid);
+			ta.setTrackBean(t);
+			ta.setArtistBean(artistDao.getArtist(track.getArtistId()));
+			trackartistDAO.saveTrackartist(ta);
+			t.addTrackartist(ta);
+			trackDao.updateTrack(t);
 			jt.setId(t.getId());
 		} else {
 			Track t = trackDao.getTrack(track.getId());
@@ -107,9 +122,15 @@ public class TrackService extends Application {
 			if (track.getAlbumId() != null) {
 				t.setAlbumBean(albumDao.getAlbum(track.getAlbumId()));
 			}
-			if (track.getArtistId() != null) {
-				// TODO
-			}
+			Trackartist ta = new Trackartist();
+			TrackartistPK taid = new TrackartistPK();
+			taid.setTrack(t.getId().intValue());
+			taid.setArtist(track.getArtistId().intValue());
+			ta.setId(taid);
+			ta.setTrackBean(t);
+			ta.setArtistBean(artistDao.getArtist(track.getArtistId()));
+			trackartistDAO.saveTrackartist(ta);
+			t.addTrackartist(ta);
 			trackDao.updateTrack(t);
 		}
 		return jt;

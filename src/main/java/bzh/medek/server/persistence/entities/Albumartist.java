@@ -29,7 +29,7 @@ public class Albumartist implements Serializable {
 
 	//bi-directional many-to-one association to Artisttype
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="TYPE")
+	@JoinColumn(name="TYPE", nullable=true)
 	private Artisttype artisttype;
 
 	public Albumartist() {

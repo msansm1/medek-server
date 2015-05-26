@@ -31,10 +31,14 @@ import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
+import bzh.medek.server.persistence.dao.AlbumartistDAO;
+import bzh.medek.server.persistence.dao.ArtistDAO;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
 import bzh.medek.server.persistence.entities.Album;
+import bzh.medek.server.persistence.entities.Albumartist;
+import bzh.medek.server.persistence.entities.AlbumartistPK;
 import bzh.medek.server.persistence.entities.Track;
 
 @Stateless
@@ -54,6 +58,10 @@ public class AlbumService extends Application {
 	GenreDAO genreDAO;
 	@Inject
 	SupportDAO supportDAO;
+	@Inject
+	ArtistDAO artistDao;
+	@Inject
+	AlbumartistDAO albumArtistDao;
 	@Inject
 	Conf conf;
 
@@ -75,10 +83,12 @@ public class AlbumService extends Application {
 		for (Album a : albums) {
 			if (!a.getAlbumartists().isEmpty()) {
 				artistName = a.getAlbumartists().get(0).getArtistBean()
-						.getName()
-						+ " "
-						+ a.getAlbumartists().get(0).getArtistBean()
+						.getName();
+				if (a.getAlbumartists().get(0).getArtistBean()
+								.getFirstname() != null) {
+					artistName += " " + a.getAlbumartists().get(0).getArtistBean()
 								.getFirstname();
+				}
 				artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 			} else {
 				artistName = "";
@@ -159,6 +169,16 @@ public class AlbumService extends Application {
 				a.setSupportBean(supportDAO.getSupport(album.getSupportId()));
 			}
 			albumDao.saveAlbum(a);
+			Albumartist aa = new Albumartist();
+			AlbumartistPK aaid = new AlbumartistPK();
+			aaid.setAlbum(a.getId().intValue());
+			aaid.setArtist(album.getArtistId().intValue());
+			aa.setId(aaid);
+			aa.setAlbumBean(a);
+			aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+			albumArtistDao.saveAlbumartist(aa);
+			a.addAlbumartist(aa);
+			albumDao.updateAlbum(a);
 			ja.setId(a.getId());
 		} else {
 			Album a = albumDao.getAlbum(album.getId());
@@ -173,6 +193,15 @@ public class AlbumService extends Application {
 			if (album.getSupportId() != null) {
 				a.setSupportBean(supportDAO.getSupport(album.getSupportId()));
 			}
+			Albumartist aa = new Albumartist();
+			AlbumartistPK aaid = new AlbumartistPK();
+			aaid.setAlbum(a.getId().intValue());
+			aaid.setArtist(album.getArtistId().intValue());
+			aa.setId(aaid);
+			aa.setAlbumBean(a);
+			aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+			a.addAlbumartist(aa);
+			albumArtistDao.saveAlbumartist(aa);
 			albumDao.updateAlbum(a);
 		}
 		return ja;

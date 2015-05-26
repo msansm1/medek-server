@@ -21,7 +21,6 @@ public class TrackartistDAO extends Dao {
 
 	public void saveTrackartist(Trackartist trackartist) {
 		em.persist(trackartist);
-		em.refresh(trackartist);
 	}
 
 	public void removeTrackartist(Trackartist trackartist) {

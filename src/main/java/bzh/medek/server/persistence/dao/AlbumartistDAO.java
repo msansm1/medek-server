@@ -21,7 +21,6 @@ public class AlbumartistDAO extends Dao {
 
 	public void saveAlbumartist(Albumartist albumartist) {
 		em.persist(albumartist);
-		em.refresh(albumartist);
 	}
 
 	public void removeAlbumartist(Albumartist albumartist) {
