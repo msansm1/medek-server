@@ -7,6 +7,7 @@ angular.module('medekApp.controllers').controller('HomeController',[
 'AuthService',
 function($scope, $rootScope, $modal, $location, AuthService) {
     this.userLogin = $rootScope.user.login;
+    $rootScope.alerts = [];
 
     $rootScope.logout = function () {
         AuthService.logout();

@@ -85,7 +85,13 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
     };
     
     $scope.saveAlbum = function() {
-    	AlbumService.saveAlbum($scope.album);
+    	AlbumService.saveAlbum($scope.album).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
+                	$scope.$parent.getAlbums();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});
+                });
     };
     
     $scope.addTrack = function() {

@@ -8,14 +8,18 @@ angular.module('medekApp.controllers').controller('AlbumsController',[
 function($scope, $rootScope, $stateParams, $location, AlbumService) {
     this.userLogin = $rootScope.user.login;
     
-    $scope.albums = [ AlbumService.albums()
-                               .then(
-		                          function(response) {
-		                              console.log("Albums : "+response.data);
-		                              $scope.albums = response.data;
-		                          }, function(reason) {
-		                              alert('FAILED !!!');
-		                          }) ];
+    $scope.getAlbums = function () {
+    	AlbumService.albums()
+        .then(
+           function(response) {
+               console.log("Albums : "+response.data);
+               $scope.albums = response.data;
+           }, function(reason) {
+               alert('FAILED !!!');
+           });
+    };
+    
+    $scope.albums = [ $scope.getAlbums() ];
     
     $scope.openAlbum = function(id) {
     	$location.path('/albums/'+id);
