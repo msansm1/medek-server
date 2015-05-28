@@ -111,8 +111,8 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
                             albumId: $scope.album.id,
                             length: '',
                             trackNb: null,
-                            artistId: null,
-                            artist: ''
+                            artistId: $scope.album.artistId,
+                            artist: $scope.album.artist
                     };
                 }
               }
