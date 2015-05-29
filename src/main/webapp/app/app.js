@@ -24,6 +24,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
               templateUrl : 'app/views/home.html',
               controller : 'HomeController'
             })
+            // BOOKS
             .state('books', {
                 url: '/books',
                 templateUrl : 'app/views/book/books.html',
@@ -44,6 +45,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/book/editbook.html',
                 controller : 'BookController'
             })
+            // ALBUMS
             .state('albums', {
                 url: '/albums',
                 templateUrl : 'app/views/album/albums.html',
@@ -64,6 +66,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/album/editalbum.html',
                 controller : 'AlbumController'
             })
+            // MOVIES
             .state('movies', {
                 url: '/movies',
                 templateUrl : 'app/views/movie/movies.html',
@@ -84,6 +87,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/movie/editmovie.html',
                 controller : 'MovieController'
             })
+            // SERIES
             .state('series', {
                 url: '/series',
                 templateUrl : 'app/views/series/series.html',
@@ -104,6 +108,28 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/series/editserie.html',
                 controller : 'SerieController'
             })
+            // ARTISTS
+            .state('artists', {
+                url: '/artists',
+                templateUrl : 'app/views/artists/artists.html',
+                controller : 'ArtistsController'
+            })
+            .state('artists.add', {
+                url: '/add',
+                templateUrl : 'app/views/artists/addartist.html',
+                controller : 'ArtistController'
+            })
+            .state('artists.detail', {
+                url: '/:artistId',
+                templateUrl : 'app/views/artists/artist.html',
+                controller : 'ArtistController'
+            })
+            .state('artists.edit', {
+                url: '/edit/:artistId',
+                templateUrl : 'app/views/artists/editartist.html',
+                controller : 'ArtistController'
+            })
+            // OTHERS
             .state('error', {
                 url: 'error',
                 resolve: {

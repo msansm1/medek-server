@@ -1,0 +1,43 @@
+<div class="row rownomargin itemtitle">
+	<div class="col-md-6 text-left">
+		<input type="text" ng-model="artist.name" name="artistName" class="form-control" required></input>
+	</div>
+	<div class="col-md-6 text-right itemeditbutton" ng-click="saveArtist()">
+		<span class="glyphicon glyphicon-ok"></span>{{ 'save' | translate }}
+	</div>
+</div>
+<div class="itemimage text-right">
+	<img alt="picture" src="{{ artist.picture }}" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'name' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="artist.name" name="artistName" class="form-control"></input>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'firstname' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="artist.firstname" name="artistFirstname" class="form-control"></input>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'type' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<div class="controls">
+				<select ng-model="artist.typeId" ng-options="type.id as type.name for type in types"></select>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<span>{{ 'biolink' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="artist.biolink" name="artistBiolink" class="form-control"></input>
+		</div>
+	</div>
+</div>

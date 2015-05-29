@@ -1,0 +1,29 @@
+<div class="row rownomargin itemtitle">
+	<div class="col-md-6 text-left">
+		<strong>{{ artist.name }} {{ artist.firstname }}</strong>
+	</div>
+	<div class="col-md-6 text-right itemeditbutton" ng-click="editArtist(artist.id)">
+		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+	</div>
+</div>
+<div class="itemimage text-center">
+	<img alt="cover" src="/medekimg/artists/{{ artist.id }}/picture.jpg" />
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'type' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ artist.type }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'biolink' | translate }}</span>
+		</div>
+		<div class="col-md-6 text-left">
+			<span>{{ artist.biolink }}</span>
+		</div>
+	</div>
+</div>
