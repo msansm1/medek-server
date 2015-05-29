@@ -110,7 +110,7 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
                             title: '',
                             albumId: $scope.album.id,
                             length: '',
-                            trackNb: null,
+                            trackNb: $scope.album.tracks.length+1,
                             artistId: $scope.album.artistId,
                             artist: $scope.album.artist
                     };

@@ -4,32 +4,32 @@
 </div>
 <div class="modal-body">
 	<div class="row">
-		<div class="col-md-3 text-right">
+		<div class="col-md-2 text-right">
 			<span>{{ 'artist' | translate }}</span>
 		</div>
-		<div class="col-md-3 text-left">
+		<div class="col-md-5 text-left">
 			<div class="controls">
 				<select ng-model="track.artistId" ng-options="artist.id as artist.name for artist in artists"></select>
 			</div>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'title' | translate }}</span>
+			<span>{{ 'tracknb' | translate }}</span>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="track.title" name="trackTitle" class="form-control"></input>
+		<div class="col-md-2 text-left">
+			<input type="text" ng-model="track.trackNb" name="trackNumber" class="form-control"></input>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'tracknb' | translate }}</span>
+		<div class="col-md-2 text-right">
+			<span>{{ 'title' | translate }}</span>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="track.trackNb" name="trackNumber" class="form-control"></input>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="track.title" name="trackTitle" class="form-control"></input>
 		</div>
-		<div class="col-md-3 text-right">
+		<div class="col-md-2 text-right">
 			<span>{{ 'length' | translate }}</span>
 		</div>
-		<div class="col-md-3 text-left">
+		<div class="col-md-2 text-left">
 			<input type="text" ng-model="track.length" name="trackLength" class="form-control"></input>
 		</div>
 	</div>

@@ -54,5 +54,8 @@
 	"isCollector": "Collector",
 	"langs": "Langues audio",
 	"subtitles": "Langues sous-titres",
-	"season": "Saison"
+	"season": "Saison",
+	"tracknb": "Numéro de piste",
+	"addtrack": "Ajouter une nouvelle piste",
+	"edittrack": "Editer la piste"
 }

@@ -54,5 +54,8 @@
 	"isCollector": "Collector",
 	"langs": "Audio languagues",
 	"subtitles": "Subtitle languages",
-	"season": "Season"
+	"season": "Season",
+	"tracknb": "Track number",
+	"addtrack": "Add a new track",
+	"edittrack": "Edit track"
 }
