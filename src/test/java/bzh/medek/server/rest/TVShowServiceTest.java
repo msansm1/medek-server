@@ -3,6 +3,7 @@ package bzh.medek.server.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -21,6 +22,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.JsonLang;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.utils.Constants;
 import bzh.medek.server.utils.TestConstants;
@@ -97,13 +99,14 @@ public class TVShowServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonShow tvshow = new JsonShow(null, "Stargate SG1", "", "Mickael !!!!");
+        JsonShow tvshow = new JsonShow(null, "Stargate SG1", "Mickael !!!!", null, "", "", 1,
+        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>());
         		
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(tvshow, MediaType.APPLICATION_JSON), JsonShow.class);
-        assertEquals("Stargate SG1", response.getTitle());
+        assertEquals(Integer.valueOf(2), response.getId());
     }
 
     /**
@@ -116,13 +119,14 @@ public class TVShowServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonShow tvshow = new JsonShow(1, "Just S02", "", "");
+        JsonShow tvshow = new JsonShow(2, "Stargate SG1 bis", "Mickael !!!!  !!!!", null, "", "", 1,
+        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>());
 
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(tvshow, MediaType.APPLICATION_JSON), JsonShow.class);
-        assertEquals("Just S02", response.getTitle());
+        assertEquals("Stargate SG1 bis", response.getTitle());
     }
 
     /**

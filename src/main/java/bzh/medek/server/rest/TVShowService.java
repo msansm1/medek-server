@@ -29,6 +29,8 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.tvshow.JsonShow;
+import bzh.medek.server.persistence.dao.StorygenreDAO;
+import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TvshowDAO;
 import bzh.medek.server.persistence.entities.Tvshow;
 
@@ -43,6 +45,10 @@ public class TVShowService extends Application {
 
 	@Inject
 	TvshowDAO showDao;
+	@Inject
+	StorygenreDAO storygenreDao;
+	@Inject
+	SupportDAO supportDao;
 	@Inject
 	Conf conf;
 
@@ -103,13 +109,20 @@ public class TVShowService extends Application {
 	 * @return
 	 */
 	@POST
-	public JsonShow createOne(JsonShow show) {
+	public JsonShow createUpdateOne(JsonShow show) {
 		JsonShow jshow = show;
 		if (show.getId() == null) {
 			Tvshow s = new Tvshow();
 			s.setCover(show.getCover());
 			s.setDescription(show.getDescription());
 			s.setTitle(show.getTitle());
+			s.setIsseriedone(show.getIsSeriesDone());
+			s.setLength(show.getLength());
+			s.setReleasedate(show.getReleaseDate());
+			s.setSeason(show.getSeason());
+			s.setSeries(show.getSeries());
+			s.setStorygenre(storygenreDao.getStorygenre(show.getGenreId()));
+			s.setSupportBean(supportDao.getSupport(show.getSupportId()));
 			showDao.saveTvshow(s);
 			jshow.setId(s.getId());
 		} else {
@@ -117,6 +130,13 @@ public class TVShowService extends Application {
 			s.setCover(show.getCover());
 			s.setDescription(show.getDescription());
 			s.setTitle(show.getTitle());
+			s.setIsseriedone(show.getIsSeriesDone());
+			s.setLength(show.getLength());
+			s.setReleasedate(show.getReleaseDate());
+			s.setSeason(show.getSeason());
+			s.setSeries(show.getSeries());
+			s.setStorygenre(storygenreDao.getStorygenre(show.getGenreId()));
+			s.setSupportBean(supportDao.getSupport(show.getSupportId()));
 			showDao.updateTvshow(s);
 		}
 		return jshow;
