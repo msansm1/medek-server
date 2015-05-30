@@ -97,7 +97,13 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
     };
     
     $scope.saveSerie = function() {
-    	SerieService.saveSerie($scope.serie);
+    	SerieService.saveSerie($scope.serie).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Serie saved !'});
+                	$scope.$parent.getSeries();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save serie failed'});
+                });
     };
     
     // cover upload

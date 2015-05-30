@@ -5,7 +5,8 @@ angular.module('medekApp.controllers').controller('ArtistController',[
 '$location',
 '$upload',
 'ArtistService',
-function($scope, $rootScope, $stateParams, $location, $upload, ArtistService) {
+'ArtistTypeService',
+function($scope, $rootScope, $stateParams, $location, $upload, ArtistService, ArtistTypeService) {
     this.userLogin = $rootScope.user.login;
     
     if (typeof ($stateParams.artistId) != 'undefined') {
@@ -43,6 +44,15 @@ function($scope, $rootScope, $stateParams, $location, $upload, ArtistService) {
 		                              alert('FAILED !!!');
 		                          }) ];
 
+    $scope.types = [ ArtistTypeService.artisttypes()
+                               .then(
+		                          function(response) {
+		                              console.log("Artists types : "+response.data);
+		                              $scope.types = response.data;
+		                          }, function(reason) {
+		                              alert('FAILED !!!');
+		                          }) ];
+
 	// for date picker
 	$scope.open = function($event) {
 		$event.preventDefault();
@@ -57,7 +67,13 @@ function($scope, $rootScope, $stateParams, $location, $upload, ArtistService) {
     };
     
     $scope.saveArtist = function() {
-    	ArtistService.saveArtist($scope.artist);
+    	ArtistService.saveArtist($scope.artist).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Artist saved !'});
+                	$scope.$parent.getArtists();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save artist failed'});
+                });
     };
     
     // picture upload

@@ -57,5 +57,8 @@
 	"season": "Saison",
 	"tracknb": "Numéro de piste",
 	"addtrack": "Ajouter une nouvelle piste",
-	"edittrack": "Editer la piste"
+	"edittrack": "Editer la piste",
+	"artists": "Artistes",
+	"biolink": "Biographie",
+	"name": "Nom"
 }

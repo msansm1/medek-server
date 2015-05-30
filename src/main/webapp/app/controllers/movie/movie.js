@@ -101,7 +101,13 @@ function($scope, $rootScope, $stateParams, $location, $upload, MovieService, Sto
     }
     
     $scope.saveMovie = function() {
-    	MovieService.saveMovie($scope.movie);
+    	MovieService.saveMovie($scope.movie).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Movie saved !'});
+                	$scope.$parent.getMovies();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save movie failed'});
+                });
     };
     
     // cover upload

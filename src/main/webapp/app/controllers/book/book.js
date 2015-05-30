@@ -122,7 +122,13 @@ function($scope, $rootScope, $stateParams, $location, $upload, BookService, Book
     };
     
     $scope.saveBook = function() {
-    	BookService.saveBook($scope.book);
+    	BookService.saveBook($scope.book).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Book saved !'});
+                	$scope.$parent.getBooks();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save book failed'});
+                });
     };
     
     // cover upload
