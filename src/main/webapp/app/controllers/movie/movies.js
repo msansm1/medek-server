@@ -23,11 +23,6 @@ function($scope, $rootScope, $stateParams, $location, MovieService) {
     $scope.openMovie = function(id) {
     	$location.path('/movies/'+id);
         $location.replace();
-    }
-    
-    $scope.createMovie = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
     };
 
 } ]);

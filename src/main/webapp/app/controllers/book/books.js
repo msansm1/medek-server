@@ -23,11 +23,6 @@ function($scope, $rootScope, $stateParams, $location, BookService) {
     $scope.openBook = function(id) {
     	$location.path('/books/'+id);
         $location.replace();
-    }
-    
-    $scope.createBook = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
     };
 
 } ]);

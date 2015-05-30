@@ -24,11 +24,6 @@ function($scope, $rootScope, $stateParams, $location, AlbumService) {
     $scope.openAlbum = function(id) {
     	$location.path('/albums/'+id);
         $location.replace();
-    }
-    
-    $scope.createAlbum = function() {
-//        $location.path('/projects/'+$stateParams.projectId+'/0/form');
-//        $location.replace();
     };
 
 } ]);
