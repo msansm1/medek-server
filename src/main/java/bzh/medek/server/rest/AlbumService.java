@@ -142,7 +142,7 @@ public class AlbumService extends Application {
 				a.getReleasedate(), (a.getGenreBean() != null) ? a
 						.getGenreBean().getName() : "",
 				(a.getGenreBean() != null) ? a.getGenreBean().getId() : null,
-				a.getNbtracks(), (a.getSupportBean() != null) ? a
+				tracks.size(), (a.getSupportBean() != null) ? a
 						.getSupportBean().getName() : "",
 				(a.getSupportBean() != null) ? a.getSupportBean().getId()
 						: null, artistName, artistId, lt);
