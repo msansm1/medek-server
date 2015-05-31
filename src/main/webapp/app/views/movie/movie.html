@@ -12,13 +12,13 @@
 <div class="iteminfos">
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'description' | translate }}</span>
+			<span><b>{{ 'description' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.description }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'releaseDate' | translate }}</span>
+			<span><b>{{ 'releaseDate' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.releaseDate }}</span>
@@ -26,13 +26,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
+			<span><b>{{ 'genre' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.genre }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'support' | translate }}</span>
+			<span><b>{{ 'support' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.support }}</span>
@@ -40,13 +40,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'length' | translate }}</span>
+			<span><b>{{ 'length' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.length }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'isCollector' | translate }}</span>
+			<span><b>{{ 'isCollector' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ movie.isCollector }}</span>
@@ -54,13 +54,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'langs' | translate }}</span>
+			<span><b>{{ 'langs' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<div ng-repeat="lang in movie.langs" ng-include="'app/views/movie/audiodetails.html'"></div>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'subtitles' | translate }}</span>
+			<span><b>{{ 'subtitles' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<div ng-repeat="lang in movie.subtitles" ng-include="'app/views/movie/audiodetails.html'"></div>

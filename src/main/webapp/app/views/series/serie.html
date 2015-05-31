@@ -12,13 +12,13 @@
 <div class="iteminfos">
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'description' | translate }}</span>
+			<span><b>{{ 'description' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.description }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'releaseDate' | translate }}</span>
+			<span><b>{{ 'releaseDate' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.releaseDate }}</span>
@@ -26,13 +26,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
+			<span><b>{{ 'genre' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.genre }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'support' | translate }}</span>
+			<span><b>{{ 'support' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.support }}</span>
@@ -40,13 +40,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'length' | translate }}</span>
+			<span><b>{{ 'length' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.length }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'season' | translate }}</span>
+			<span><b>{{ 'season' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.season }}</span>
@@ -54,13 +54,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'series' | translate }}</span>
+			<span><b>{{ 'series' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.series }}</span>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'isSeriesDone' | translate }}</span>
+			<span><b>{{ 'isSeriesDone' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ serie.isSeriesDone }}</span>
@@ -68,13 +68,13 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-right">
-			<span>{{ 'langs' | translate }}</span>
+			<span><b>{{ 'langs' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<div ng-repeat="lang in serie.langs" ng-include="'app/views/series/audiodetails.html'"></div>
 		</div>
 		<div class="col-md-3 text-right">
-			<span>{{ 'subtitles' | translate }}</span>
+			<span><b>{{ 'subtitles' | translate }}</b></span>
 		</div>
 		<div class="col-md-3 text-left">
 			<div ng-repeat="lang in serie.subtitles" ng-include="'app/views/series/audiodetails.html'"></div>
