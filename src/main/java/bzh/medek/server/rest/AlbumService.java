@@ -29,6 +29,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.album.JsonMyAlbum;
 import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
 import bzh.medek.server.persistence.dao.AlbumartistDAO;
@@ -36,10 +37,14 @@ import bzh.medek.server.persistence.dao.ArtistDAO;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
+import bzh.medek.server.persistence.dao.UserDAO;
+import bzh.medek.server.persistence.dao.UseralbumDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.persistence.entities.Albumartist;
 import bzh.medek.server.persistence.entities.AlbumartistPK;
 import bzh.medek.server.persistence.entities.Track;
+import bzh.medek.server.persistence.entities.Useralbum;
+import bzh.medek.server.persistence.entities.UseralbumPK;
 
 @Stateless
 @ApplicationPath("/services")
@@ -64,17 +69,22 @@ public class AlbumService extends Application {
 	AlbumartistDAO albumArtistDao;
 	@Inject
 	Conf conf;
+	@Inject
+	UserDAO userDAO;
+	@Inject
+	UseralbumDAO useralbumDao;
 
 	public AlbumService() {
 	}
 
 	/**
-	 * GET /albums : retrieve all albums
+	 * GET /albums/loguser/{id} : retrieve all albums with logged user
 	 * 
 	 * @return
 	 */
 	@GET
-	public List<JsonAlbum> getAll() {
+	@Path(value = "loguser/{id}")
+	public List<JsonAlbum> getAll(@PathParam(value = "id") Integer userId) {
 		List<Album> albums = albumDao.getAlbums();
 		LOGGER.info("find " + albums.size() + " albums in the database");
 		ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
@@ -94,6 +104,7 @@ public class AlbumService extends Application {
 				artistName = "";
 				artistId = 0;
 			}
+			Useralbum mya = useralbumDao.getUseralbum(artistId, userId);
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
 					.getReleasedate(), (a.getGenreBean() != null) ? a
 					.getGenreBean().getName() : "",
@@ -101,8 +112,9 @@ public class AlbumService extends Application {
 							: null, a.getNbtracks(),
 					(a.getSupportBean() != null) ? a.getSupportBean().getName()
 							: "", (a.getSupportBean() != null) ? a
-							.getSupportBean().getId() : null, artistName,
-					artistId, new ArrayList<JsonTrack>()));
+							.getSupportBean().getId() : null, artistName, artistId,
+							(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
+							(mya!=null)?mya.getIssigned():false, new ArrayList<JsonTrack>()));
 		}
 		return la;
 	}
@@ -114,8 +126,8 @@ public class AlbumService extends Application {
 	 * @return
 	 */
 	@GET
-	@Path(value = "/{id}")
-	public JsonAlbum getOne(@PathParam(value = "id") Integer id) {
+	@Path(value = "{id}/loguser/{userid}")
+	public JsonAlbum getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
 		Album a = albumDao.getAlbum(id);
 		LOGGER.info("find " + a.getTitle() + " album in the database");
 		List<Track> tracks = trackDao.getTracksForAlbum(id);
@@ -138,6 +150,7 @@ public class AlbumService extends Application {
 			}
 			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
+		Useralbum mya = useralbumDao.getUseralbum(artistId, userId);
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
 				a.getReleasedate(), (a.getGenreBean() != null) ? a
 						.getGenreBean().getName() : "",
@@ -145,7 +158,9 @@ public class AlbumService extends Application {
 				tracks.size(), (a.getSupportBean() != null) ? a
 						.getSupportBean().getName() : "",
 				(a.getSupportBean() != null) ? a.getSupportBean().getId()
-						: null, artistName, artistId, lt);
+						: null, artistName, artistId, 
+						(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
+						(mya!=null)?mya.getIssigned():false, lt);
 	}
 
 	/**
@@ -329,6 +344,29 @@ public class AlbumService extends Application {
 				}
 			}
 		}
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
+	/**
+	 * POST /addtocollec : add album to user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("addtocollec")
+	public Response addToCollection(JsonMyAlbum album) {
+		Useralbum ua = new Useralbum();
+		UseralbumPK uaid = new UseralbumPK();
+		uaid.setAlbum(album.getAlbumId().intValue());
+		uaid.setUser(album.getUserId().intValue());
+		ua.setId(uaid);
+		ua.setAlbumBean(albumDao.getAlbum(album.getAlbumId()));
+		ua.setUserBean(userDAO.getUser(album.getUserId()));
+		ua.setIssigned(album.getSigned());
+		ua.setComment(album.getComment());
+		ua.setRating(album.getRating());
+		useralbumDao.saveUseralbum(ua);
 		return Response.ok(new JsonSimpleResponse(true),
 				MediaType.APPLICATION_JSON).build();
 	}

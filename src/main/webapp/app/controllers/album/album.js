@@ -168,6 +168,18 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
           });
         }
     };
+    
+    $scope.addAlbumToMyCollec = function(album) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/album/addtocollec.html',
+            controller: 'AlbumCollecController',
+            resolve: {
+                album: function () {
+                    return album;
+                }
+              }
+          });
+    };
 
 } ]);
 
@@ -194,6 +206,39 @@ function ($scope, $modalInstance, TrackService, track, tracks, artists) {
     	if (tracks != null) {
     		tracks.push(track);
     	};
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }]);
+
+angular.module('medekApp.controllers').controller('AlbumCollecController',[
+'$scope',
+'$rootScope',
+'$modalInstance',
+'AlbumService',
+'album',
+function ($scope, $rootScope, $modalInstance, AlbumService, album) {
+	$scope.album = album;
+	$scope.myalbum = {
+			albumId: album.id,
+			userId: $rootScope.user.id,
+			rating: 0,
+			comment: 0,
+			signed: false
+	};
+
+    $scope.ok = function () {
+    	AlbumService.addAlbumToCollection($scope.myalbum).then (
+                function(response) {
+                    alert('Add successful');
+                    $modalInstance.close('success');
+                }, function(reason) {
+                    alert('Add failed');
+                    $modalInstance.close('fail');
+                });
         $modalInstance.close('success');
     };
 

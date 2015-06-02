@@ -3,8 +3,10 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 import bzh.medek.server.persistence.entities.Useralbum;
+import bzh.medek.server.persistence.entities.UseralbumPK;
 
 /**
  * DAO for USERALBUM table
@@ -21,7 +23,6 @@ public class UseralbumDAO extends Dao {
 
 	public void saveUseralbum(Useralbum useralbum) {
 		em.persist(useralbum);
-		em.refresh(useralbum);
 	}
 
 	public void removeUseralbum(Useralbum useralbum) {
@@ -34,7 +35,19 @@ public class UseralbumDAO extends Dao {
 				.getResultList();
 	}
 
-	public Useralbum getUseralbum(Integer id) {
+	public Useralbum getUseralbum(UseralbumPK id) {
 		return em.find(Useralbum.class, id);
+	}
+	
+	public Useralbum getUseralbum(Integer albumId, Integer userId) {
+		TypedQuery<Useralbum> q = em.createQuery("from Useralbum "
+				+ "WHERE id.album=:param1 AND id.user=:param2", Useralbum.class);
+		q.setParameter("param1", albumId);
+		q.setParameter("param2", userId);
+		List<Useralbum> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
 	}
 }

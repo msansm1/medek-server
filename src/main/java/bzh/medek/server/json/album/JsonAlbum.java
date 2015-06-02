@@ -15,6 +15,9 @@ public class JsonAlbum {
 	private Integer supportId;
 	private String artist;
 	private Integer artistId;
+	private Boolean mycollec;
+	private Integer rating;
+	private Boolean signed;
 	private List<JsonTrack> tracks;
 	
 	public JsonAlbum() {
@@ -62,7 +65,8 @@ public class JsonAlbum {
 	public JsonAlbum(Integer id, String title, String cover,
 			Date releaseDate, String genre, Integer genreId,
 			Integer nbTracks, String support, Integer supportId, String artist,
-			Integer artistId, List<JsonTrack> tracks) {
+			Integer artistId, Boolean mycollec, Integer rating,
+			Boolean signed, List<JsonTrack> tracks) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -75,6 +79,9 @@ public class JsonAlbum {
 		this.supportId = supportId;
 		this.artist = artist;
 		this.artistId = artistId;
+		this.mycollec = mycollec;
+		this.rating = rating;
+		this.signed = signed;
 		this.tracks = tracks;
 	}
 
@@ -172,6 +179,30 @@ public class JsonAlbum {
 
 	public void setArtistId(Integer artistId) {
 		this.artistId = artistId;
+	}
+
+	public Boolean getMycollec() {
+		return mycollec;
+	}
+
+	public void setMycollec(Boolean mycollec) {
+		this.mycollec = mycollec;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public Boolean getSigned() {
+		return signed;
+	}
+
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 
 }

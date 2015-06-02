@@ -2,8 +2,11 @@
 	<div class="col-md-9 text-left">
 		<strong><i>{{ album.title }}</i></strong>
 	</div>
-	<div class="col-md-3 text-right itemeditbutton" ng-click="editAlbum(album.id)">
+	<div class="col-md-3 text-right itemeditbutton" ng-click="editAlbum(album.id)" ng-if="album.mycollec">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+	</div>
+	<div class="col-md-3 text-right itemeditbutton" ng-click="addAlbumToMyCollec(album)" ng-if="!album.mycollec">
+		<span class="glyphicon glyphicon-plus-sign"></span>{{ 'addtocollection' | translate }}
 	</div>
 	<div class="col-md-12 text-right">
 		<strong>{{ album.artist }}</strong>
@@ -39,6 +42,20 @@
 		</div>
 		<div class="col-md-3 text-left">
 			<span>{{ album.support }}</span>
+		</div>
+	</div>
+	<div class="row" ng-if="album.mycollec">
+		<div class="col-md-3 text-right">
+			<span><b>{{ 'rating' | translate }}</b></span>
+		</div>
+		<div class="col-md-3 text-left">
+			<rating ng-model="album.rating" max="5" readonly="true"></rating>
+		</div>
+		<div class="col-md-3 text-right">
+			<span><b>{{ 'issigned' | translate }}</b></span>
+		</div>
+		<div class="col-md-3 text-left">
+			<span>{{ album.signed }}</span>
 		</div>
 	</div>
 	<br/>
