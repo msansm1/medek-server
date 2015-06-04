@@ -21,6 +21,8 @@ public class JsonShow {
 	private Boolean isSeriesDone;
 	private List<JsonLang> langs;
 	private List<JsonLang> subtitles;
+	private Boolean mycollec;
+	private Integer rating;
 	
 	public JsonShow() {
 		super();
@@ -38,7 +40,7 @@ public class JsonShow {
 			Date releaseDate, String cover, String support, Integer supportId,
 			String genre, Integer genreId, String length, Integer season,
 			String series, Boolean isSeriesDone, List<JsonLang> langs,
-			List<JsonLang> subtitles) {
+			List<JsonLang> subtitles, Boolean mycollec, Integer rating) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -55,6 +57,8 @@ public class JsonShow {
 		this.isSeriesDone = isSeriesDone;
 		this.langs = langs;
 		this.subtitles = subtitles;
+		this.mycollec = mycollec;
+		this.rating = rating;
 	}
 
 	public Integer getId() {
@@ -175,6 +179,22 @@ public class JsonShow {
 
 	public void setSubtitles(List<JsonLang> subtitles) {
 		this.subtitles = subtitles;
+	}
+
+	public Boolean getMycollec() {
+		return mycollec;
+	}
+
+	public void setMycollec(Boolean mycollec) {
+		this.mycollec = mycollec;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 
 }

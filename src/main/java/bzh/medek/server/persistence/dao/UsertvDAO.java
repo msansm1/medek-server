@@ -3,6 +3,7 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 import bzh.medek.server.persistence.entities.Usertv;
 
@@ -36,5 +37,17 @@ public class UsertvDAO extends Dao {
 
 	public Usertv getUsertv(Integer id) {
 		return em.find(Usertv.class, id);
+	}
+	
+	public Usertv getUsertv(Integer tvId, Integer userId) {
+		TypedQuery<Usertv> q = em.createQuery("from Usertv "
+				+ "WHERE id.tvshow=:param1 AND id.user=:param2", Usertv.class);
+		q.setParameter("param1", tvId);
+		q.setParameter("param2", userId);
+		List<Usertv> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
 	}
 }

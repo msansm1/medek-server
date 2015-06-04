@@ -29,13 +29,18 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.book.JsonBook;
+import bzh.medek.server.json.book.JsonMyBook;
 import bzh.medek.server.persistence.dao.BookDAO;
 import bzh.medek.server.persistence.dao.BooktypeDAO;
 import bzh.medek.server.persistence.dao.CollectionDAO;
 import bzh.medek.server.persistence.dao.EditorDAO;
 import bzh.medek.server.persistence.dao.LangDAO;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
+import bzh.medek.server.persistence.dao.UserDAO;
+import bzh.medek.server.persistence.dao.UserbookDAO;
 import bzh.medek.server.persistence.entities.Book;
+import bzh.medek.server.persistence.entities.Userbook;
+import bzh.medek.server.persistence.entities.UserbookPK;
 
 @Stateless
 @ApplicationPath("/services")
@@ -60,17 +65,22 @@ public class BookService extends Application {
 	LangDAO langDAO;
 	@Inject
 	Conf conf;
+	@Inject
+	UserbookDAO userbookDAO;
+	@Inject
+	UserDAO userDAO;
 
 	public BookService() {
 	}
 
 	/**
-	 * GET /books : retrieve all books
+	 * GET /books/loguser/{id} : retrieve all books with logged user
 	 * 
 	 * @return
 	 */
 	@GET
-	public List<JsonBook> getAll() {
+	@Path(value = "loguser/{id}")
+	public List<JsonBook> getAll(@PathParam(value = "id") Integer userId) {
 		List<Book> books = bookDao.getBooks();
 		LOGGER.info("find " + books.size() + " books in the database");
 		ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
@@ -88,36 +98,40 @@ public class BookService extends Application {
 				artistName = "";
 				artistId = 0;
 			}
-			lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId, (b
-					.getEditorBean() != null) ? b.getEditorBean().getName()
-					: "", (b.getEditorBean() != null) ? b.getEditorBean()
-					.getId() : 0, (b.getCollectionBean() != null) ? b
-					.getCollectionBean().getName() : "",
-					(b.getCollectionBean() != null) ? b.getCollectionBean()
-							.getId() : 0, b.getCover(), b.getDescription(), b
-							.getPublicationdate(),
-					(b.getStorygenre() != null) ? b.getStorygenre().getName()
-							: "", (b.getStorygenre() != null) ? b
+			Userbook myb = userbookDAO.getUserbook(b.getId(), userId);
+			lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
+					(b.getEditorBean() != null) ? b.getEditorBean().getName()
+							: "", (b.getEditorBean() != null) ? b
+							.getEditorBean().getId() : 0, (b
+							.getCollectionBean() != null) ? b
+							.getCollectionBean().getName() : "", (b
+							.getCollectionBean() != null) ? b
+							.getCollectionBean().getId() : 0, b.getCover(), b
+							.getDescription(), b.getPublicationdate(), (b
+							.getStorygenre() != null) ? b.getStorygenre()
+							.getName() : "", (b.getStorygenre() != null) ? b
 							.getStorygenre().getId() : 0,
 					(b.getBooktype() != null) ? b.getBooktype().getName() : "",
 					(b.getBooktype() != null) ? b.getBooktype().getId() : 0, (b
 							.getBooktype() != null) ? b.getLangBean().getName()
 							: "", (b.getBooktype() != null) ? b.getLangBean()
 							.getId() : 0, b.getSeries(), b.getBooknb(), b
-							.getIsseriedone()));
+							.getIsseriedone(), (myb != null) ? true : false,
+					(myb != null) ? myb.getRating() : 0, (myb != null) ? myb
+							.getIssigned() : false));
 		}
 		return lb;
 	}
 
 	/**
-	 * GET /books/{id} : retrieve one book
+	 * GET /books/{id}/loguser/{userid} : retrieve one book
 	 * 
 	 * @param id
 	 * @return
 	 */
 	@GET
-	@Path(value = "/{id}")
-	public JsonBook getOne(@PathParam(value = "id") Integer id) {
+	@Path(value = "/{id}/loguser/{userid}")
+	public JsonBook getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
 		Book b = bookDao.getBook(id);
 		LOGGER.info("find " + b.getTitle() + " book in the database");
 		String artistName = "";
@@ -128,6 +142,7 @@ public class BookService extends Application {
 					+ b.getBookartists().get(0).getArtistBean().getFirstname();
 			artistId = b.getBookartists().get(0).getArtistBean().getId();
 		}
+		Userbook myb = userbookDAO.getUserbook(id, userId);
 		return new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
 				(b.getEditorBean() != null) ? b.getEditorBean().getName() : "",
 				(b.getEditorBean() != null) ? b.getEditorBean().getId() : 0,
@@ -141,7 +156,9 @@ public class BookService extends Application {
 				(b.getBooktype() != null) ? b.getBooktype().getId() : 0,
 				(b.getBooktype() != null) ? b.getLangBean().getName() : "",
 				(b.getBooktype() != null) ? b.getLangBean().getId() : 0,
-				b.getSeries(), b.getBooknb(), b.getIsseriedone());
+				b.getSeries(), b.getBooknb(), b.getIsseriedone(), (myb != null) ? true : false,
+						(myb != null) ? myb.getRating() : 0, (myb != null) ? myb
+								.getIssigned() : false);
 	}
 
 	/**
@@ -223,85 +240,119 @@ public class BookService extends Application {
 		return bookDao.getUsersBooks(id);
 	}
 
-    /**
-     * POST : upload new cover for book
-     * 
-     * @param newcover
-     * @return
-     */
-    @POST
-    @Path("{id}/coverupload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadAttach(@PathParam("id") Integer id, MultipartFormDataInput newcover) {
-        Map<String, List<InputPart>> uploadForm = newcover.getFormDataMap();
-        // Get file data to save
-        List<InputPart> inputParts = uploadForm.get("file");
-        String filename = null;
-        for (InputPart inputPart : inputParts) {
-            // convert the uploaded file to inputstream and write it to disk
-            InputStream inputStream = null;
-            OutputStream out = null;
-            try {
-                inputStream = inputPart.getBody(InputStream.class, null);
-                List<String> contDisp = inputPart.getHeaders().get("Content-Disposition");
-                for (String cd : contDisp) {
-                    if (cd.contains("filename")) {
-                        filename = "cover.jpg";
-                        LOGGER.info("FILENAME : " + filename);
-                    }
-                }
-                String path = conf.getBookFS() + id + "/";
-                File pathtest = new File(path);
-                if (!pathtest.exists()) {
-                    if (!pathtest.mkdirs()) {
-                        LOGGER.error("While saving cover : "
-                                + "unable to create repository tmp dir => " + path);
-                    }
-                }
-                File up = new File(path + filename);
-                if (!up.createNewFile()) {
-                	if (up.exists()) {
-                		up.delete();
-                		if (!up.createNewFile()) {
-                            LOGGER.error("While saving cover : " + "unable to overwrite existing file => "
-                                    + up.getAbsolutePath());
-                		}
-                	} else {
-                    LOGGER.error("While saving cover : " + "unable to create new file => "
-                            + up.getAbsolutePath());
-                	}
-                }
-                out = new FileOutputStream(up);
+	/**
+	 * POST : upload new cover for book
+	 * 
+	 * @param newcover
+	 * @return
+	 */
+	@POST
+	@Path("{id}/coverupload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadAttach(@PathParam("id") Integer id,
+			MultipartFormDataInput newcover) {
+		Map<String, List<InputPart>> uploadForm = newcover.getFormDataMap();
+		// Get file data to save
+		List<InputPart> inputParts = uploadForm.get("file");
+		String filename = null;
+		for (InputPart inputPart : inputParts) {
+			// convert the uploaded file to inputstream and write it to disk
+			InputStream inputStream = null;
+			OutputStream out = null;
+			try {
+				inputStream = inputPart.getBody(InputStream.class, null);
+				List<String> contDisp = inputPart.getHeaders().get(
+						"Content-Disposition");
+				for (String cd : contDisp) {
+					if (cd.contains("filename")) {
+						filename = "cover.jpg";
+						LOGGER.info("FILENAME : " + filename);
+					}
+				}
+				String path = conf.getBookFS() + id + "/";
+				File pathtest = new File(path);
+				if (!pathtest.exists()) {
+					if (!pathtest.mkdirs()) {
+						LOGGER.error("While saving cover : "
+								+ "unable to create repository tmp dir => "
+								+ path);
+					}
+				}
+				File up = new File(path + filename);
+				if (!up.createNewFile()) {
+					if (up.exists()) {
+						up.delete();
+						if (!up.createNewFile()) {
+							LOGGER.error("While saving cover : "
+									+ "unable to overwrite existing file => "
+									+ up.getAbsolutePath());
+						}
+					} else {
+						LOGGER.error("While saving cover : "
+								+ "unable to create new file => "
+								+ up.getAbsolutePath());
+					}
+				}
+				out = new FileOutputStream(up);
 
-                int read = 0;
-                byte[] bytes = new byte[2048];
-                while ((read = inputStream.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-                inputStream.close();
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                LOGGER.error("While saving cover : ", e);
-                return Response.ok(new JsonSimpleResponse(false), MediaType.APPLICATION_JSON).build();
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        LOGGER.error("While saving cover - closing inputstream : ", e);
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        LOGGER.error("While saving cover - closing outputstream : ", e);
-                    }
-                }
-            }
-        }
-        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
-    }
+				int read = 0;
+				byte[] bytes = new byte[2048];
+				while ((read = inputStream.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				inputStream.close();
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				LOGGER.error("While saving cover : ", e);
+				return Response.ok(new JsonSimpleResponse(false),
+						MediaType.APPLICATION_JSON).build();
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						LOGGER.error(
+								"While saving cover - closing inputstream : ",
+								e);
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						LOGGER.error(
+								"While saving cover - closing outputstream : ",
+								e);
+					}
+				}
+			}
+		}
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
+	/**
+	 * POST /addtocollec : add book to user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("addtocollec")
+	public Response addToCollection(JsonMyBook book) {
+		Userbook ub = new Userbook();
+		UserbookPK ubid = new UserbookPK();
+		ubid.setBook(book.getBookId().intValue());
+		ubid.setUser(book.getUserId().intValue());
+		ub.setId(ubid);
+		ub.setBookBean(bookDao.getBook(book.getBookId()));
+		ub.setUserBean(userDAO.getUser(book.getUserId()));
+		ub.setIssigned(book.getSigned());
+		ub.setComment(book.getComment());
+		ub.setRating(book.getRating());
+		userbookDAO.saveUserbook(ub);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
 
 }

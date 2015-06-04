@@ -25,6 +25,8 @@ public class JsonMovie {
 	private Integer scenaristId;
 	private List<JsonLang> langs;
 	private List<JsonLang> subtitles;
+	private Boolean mycollec;
+	private Integer rating;
 	
 	public JsonMovie() {
 		super();
@@ -73,7 +75,8 @@ public class JsonMovie {
 			String genre, Integer genreId, String length, Boolean isCollector,
 			String realisator, Integer realisatorId, String producer,
 			Integer producerId, String scenarist, Integer scenaristId,
-			List<JsonLang> langs, List<JsonLang> subtitles) {
+			List<JsonLang> langs, List<JsonLang> subtitles, Boolean mycollec,
+			Integer rating) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -94,6 +97,8 @@ public class JsonMovie {
 		this.scenaristId = scenaristId;
 		this.langs = langs;
 		this.subtitles = subtitles;
+		this.mycollec = mycollec;
+		this.rating = rating;
 	}
 
 	public Integer getId() {
@@ -246,6 +251,22 @@ public class JsonMovie {
 
 	public void setScenaristId(Integer scenaristId) {
 		this.scenaristId = scenaristId;
+	}
+
+	public Boolean getMycollec() {
+		return mycollec;
+	}
+
+	public void setMycollec(Boolean mycollec) {
+		this.mycollec = mycollec;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 
 }

@@ -3,6 +3,7 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 import bzh.medek.server.persistence.entities.Userbook;
 
@@ -21,7 +22,6 @@ public class UserbookDAO extends Dao {
 
 	public void saveUserbook(Userbook userbook) {
 		em.persist(userbook);
-		em.refresh(userbook);
 	}
 
 	public void removeUserbook(Userbook userbook) {
@@ -36,5 +36,17 @@ public class UserbookDAO extends Dao {
 
 	public Userbook getUserbook(Integer id) {
 		return em.find(Userbook.class, id);
+	}
+	
+	public Userbook getUserbook(Integer bookId, Integer userId) {
+		TypedQuery<Userbook> q = em.createQuery("from Userbook "
+				+ "WHERE id.book=:param1 AND id.user=:param2", Userbook.class);
+		q.setParameter("param1", bookId);
+		q.setParameter("param2", userId);
+		List<Userbook> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
 	}
 }

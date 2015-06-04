@@ -28,11 +28,16 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonSimpleResponse;
+import bzh.medek.server.json.tvshow.JsonMyShow;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TvshowDAO;
+import bzh.medek.server.persistence.dao.UserDAO;
+import bzh.medek.server.persistence.dao.UsertvDAO;
 import bzh.medek.server.persistence.entities.Tvshow;
+import bzh.medek.server.persistence.entities.Usertv;
+import bzh.medek.server.persistence.entities.UsertvPK;
 
 @Stateless
 @ApplicationPath("/services")
@@ -51,21 +56,27 @@ public class TVShowService extends Application {
 	SupportDAO supportDao;
 	@Inject
 	Conf conf;
+	@Inject
+	UsertvDAO usertvDAO;
+	@Inject
+	UserDAO userDAO;
 
 	public TVShowService() {
 	}
 
 	/**
-	 * GET /shows : retrieve all shows
+	 * GET /shows/loguser/{id} : retrieve all shows with logged user
 	 * 
 	 * @return
 	 */
 	@GET
-	public List<JsonShow> getAll() {
+	@Path(value = "loguser/{id}")
+	public List<JsonShow> getAll(@PathParam(value = "id") Integer userId) {
 		List<Tvshow> shows = showDao.getTvshows();
 		LOGGER.info("find " + shows.size() + " shows in the database");
 		ArrayList<JsonShow> ls = new ArrayList<JsonShow>();
 		for (Tvshow s : shows) {
+			Usertv mys = usertvDAO.getUsertv(s.getId(), userId);
 			ls.add(new JsonShow(s.getId(), s.getTitle(), s.getDescription(), s
 					.getReleasedate(), s.getCover(),
 					(s.getSupportBean() != null) ? s.getSupportBean().getName()
@@ -75,22 +86,23 @@ public class TVShowService extends Application {
 							.getName() : "", (s.getStorygenre() != null) ? s
 							.getStorygenre().getId() : null, s.getLength(), s
 							.getSeason(), s.getSeries(), s.getIsseriedone(),
-					null, null));
+					null, null, (mys!=null)?true:false, (mys!=null)?mys.getRating():0));
 		}
 		return ls;
 	}
 
 	/**
-	 * GET /shows/{id} : retrieve one show
+	 * GET /shows/{id}/loguser/{userid} : retrieve one show
 	 * 
 	 * @param id
 	 * @return
 	 */
 	@GET
-	@Path(value = "/{id}")
-	public JsonShow getOne(@PathParam(value = "id") Integer id) {
+	@Path(value = "/{id}/loguser/{userid}")
+	public JsonShow getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
 		Tvshow s = showDao.getTvshow(id);
 		LOGGER.info("find " + s.getTitle() + " show in the database");
+		Usertv mys = usertvDAO.getUsertv(s.getId(), userId);
 		return new JsonShow(s.getId(), s.getTitle(), s.getDescription(),
 				s.getReleasedate(), s.getCover(),
 				(s.getSupportBean() != null) ? s.getSupportBean().getName()
@@ -99,7 +111,8 @@ public class TVShowService extends Application {
 						.getStorygenre().getName() : "",
 				(s.getStorygenre() != null) ? s.getStorygenre().getId() : null,
 				s.getLength(), s.getSeason(), s.getSeries(),
-				s.getIsseriedone(), null, null);
+				s.getIsseriedone(), null, null, (mys!=null)?true:false, 
+						(mys!=null)?mys.getRating():0);
 	}
 
 	/**
@@ -235,5 +248,27 @@ public class TVShowService extends Application {
         }
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
+
+	/**
+	 * POST /addtocollec : add tvshow to user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("addtocollec")
+	public Response addToCollection(JsonMyShow show) {
+		Usertv ut = new Usertv();
+		UsertvPK umid = new UsertvPK();
+		umid.setTvshow(show.getSerieId().intValue());
+		umid.setUser(show.getUserId().intValue());
+		ut.setId(umid);
+		ut.setTvshowBean(showDao.getTvshow(show.getSerieId()));
+		ut.setUserBean(userDAO.getUser(show.getUserId()));
+		ut.setComment(show.getComment());
+		ut.setRating(show.getRating());
+		usertvDAO.saveUsertv(ut);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
 
 }

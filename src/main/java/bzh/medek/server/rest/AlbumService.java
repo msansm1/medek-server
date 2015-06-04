@@ -120,7 +120,7 @@ public class AlbumService extends Application {
 	}
 
 	/**
-	 * GET /albums/{id} : retrieve one album
+	 * GET /albums/{id}/loguser/{userid} : retrieve one album
 	 * 
 	 * @param id
 	 * @return

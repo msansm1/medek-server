@@ -3,6 +3,7 @@ package bzh.medek.server.persistence.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 import bzh.medek.server.persistence.entities.Usermovie;
 
@@ -21,7 +22,6 @@ public class UsermovieDAO extends Dao {
 
 	public void saveUsermovie(Usermovie usermovie) {
 		em.persist(usermovie);
-		em.refresh(usermovie);
 	}
 
 	public void removeUsermovie(Usermovie usermovie) {
@@ -36,5 +36,17 @@ public class UsermovieDAO extends Dao {
 
 	public Usermovie getUsermovie(Integer id) {
 		return em.find(Usermovie.class, id);
+	}
+	
+	public Usermovie getUsermovie(Integer movieId, Integer userId) {
+		TypedQuery<Usermovie> q = em.createQuery("from Usermovie "
+				+ "WHERE id.movie=:param1 AND id.user=:param2", Usermovie.class);
+		q.setParameter("param1", movieId);
+		q.setParameter("param2", userId);
+		List<Usermovie> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
 	}
 }

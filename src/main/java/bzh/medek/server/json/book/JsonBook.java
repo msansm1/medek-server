@@ -23,6 +23,9 @@ public class JsonBook {
 	private String series;
 	private Integer bookNb;
 	private Boolean isSerieDone;
+	private Boolean mycollec;
+	private Integer rating;
+	private Boolean signed;
 
 	public JsonBook() {
 		super();
@@ -43,13 +46,14 @@ public class JsonBook {
 		this.author = author;
 		this.editor = editor;
 	}
-	
+
 	public JsonBook(Integer id, String title, String author, Integer authorId,
 			String editor, Integer editorId, String collection,
 			Integer collectionId, String cover, String description,
 			Date publicationDate, String genre, Integer genreId, String type,
 			Integer typeId, String lang, Integer langId, String series,
-			Integer bookNb, Boolean isSerieDone) {
+			Integer bookNb, Boolean isSerieDone, Boolean mycollec,
+			Integer rating, Boolean signed) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -71,6 +75,9 @@ public class JsonBook {
 		this.series = series;
 		this.bookNb = bookNb;
 		this.isSerieDone = isSerieDone;
+		this.mycollec = mycollec;
+		this.rating = rating;
+		this.signed = signed;
 	}
 
 	public Integer getId() {
@@ -231,6 +238,30 @@ public class JsonBook {
 
 	public void setLangId(Integer langId) {
 		this.langId = langId;
+	}
+
+	public Boolean getMycollec() {
+		return mycollec;
+	}
+
+	public void setMycollec(Boolean mycollec) {
+		this.mycollec = mycollec;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public Boolean getSigned() {
+		return signed;
+	}
+
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 
 }

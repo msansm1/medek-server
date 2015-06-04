@@ -30,11 +30,16 @@ import bzh.medek.server.conf.Conf;
 import bzh.medek.server.json.JsonLang;
 import bzh.medek.server.json.JsonSimpleResponse;
 import bzh.medek.server.json.movie.JsonMovie;
+import bzh.medek.server.json.movie.JsonMyMovie;
 import bzh.medek.server.persistence.dao.MovieDAO;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
+import bzh.medek.server.persistence.dao.UserDAO;
+import bzh.medek.server.persistence.dao.UsermovieDAO;
 import bzh.medek.server.persistence.entities.Lang;
 import bzh.medek.server.persistence.entities.Movie;
+import bzh.medek.server.persistence.entities.Usermovie;
+import bzh.medek.server.persistence.entities.UsermoviePK;
 
 @Stateless
 @ApplicationPath("/services")
@@ -53,51 +58,58 @@ public class MovieService extends Application {
     StorygenreDAO storygenreDAO;
 	@Inject
 	Conf conf;
+	@Inject
+	UsermovieDAO usermovieDAO;
+	@Inject
+	UserDAO userDAO;
 	
 	public MovieService () {
 	}
 
     /**
-     *  GET /movies : retrieve all movies
+     *  GET /movies/loguser/{id} : retrieve all movies with logged user
      * 
      * @return
      */
     @GET
-    public List<JsonMovie> getAll() {
+	@Path(value = "loguser/{id}")
+    public List<JsonMovie> getAll(@PathParam(value = "id") Integer userId) {
     	List<Movie> movies = movieDao.getMovies();
     	LOGGER.info("find "+movies.size()+" movies in the database");
     	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
-    		String artistName = "";
-    		Integer artistId = 0;
-        	for (Movie m : movies) {
-    			if (!m.getMovieartists().isEmpty()) {
-    				artistName = m.getMovieartists().get(0).getArtistBean()
-    						.getName()
-    						+ " "
-    						+ m.getMovieartists().get(0).getArtistBean()
-    								.getFirstname();
-    				artistId = m.getMovieartists().get(0).getArtistBean().getId();
-    			} else {
-    				artistName = "";
-    				artistId = 0;
-    			}
-    		lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
-    				m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
-    				m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
-    				artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>()));
+		String artistName = "";
+		Integer artistId = 0;
+    	for (Movie m : movies) {
+			if (!m.getMovieartists().isEmpty()) {
+				artistName = m.getMovieartists().get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ m.getMovieartists().get(0).getArtistBean()
+								.getFirstname();
+				artistId = m.getMovieartists().get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
+			lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
+					m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
+					m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
+					artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
+					(mym!=null)?true:false, (mym!=null)?mym.getRating():0));
     	}
     	return lm;
     }
 
     /**
-     *  GET /movies/{id} : retrieve one movie
+     *  GET /movies/{id}/loguser/{userid} : retrieve one movie
      * 
      * @param id
      * @return
      */
     @GET
-    @Path(value = "/{id}")
-    public JsonMovie getOne(@PathParam(value = "id") Integer id) {
+    @Path(value = "/{id}/loguser/{userid}")
+    public JsonMovie getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
     	JsonMovie jm = movieDao.getJsonMovie(id);
     	LOGGER.info("find "+jm.getTitle()+" movie in the database");
     	Movie m = movieDao.getMovie(id);
@@ -111,6 +123,9 @@ public class MovieService extends Application {
     		ls.add(new JsonLang(l.getId(), l.getName()));
     	}
     	jm.setSubtitles(ls);
+		Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
+    	jm.setMycollec((mym!=null)?true:false);
+    	jm.setRating((mym!=null)?mym.getRating():0);
     	return jm;
     }
 
@@ -240,5 +255,27 @@ public class MovieService extends Application {
         }
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
+
+	/**
+	 * POST /addtocollec : add movie to user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("addtocollec")
+	public Response addToCollection(JsonMyMovie movie) {
+		Usermovie um = new Usermovie();
+		UsermoviePK umid = new UsermoviePK();
+		umid.setMovie(movie.getMovieId().intValue());
+		umid.setUser(movie.getUserId().intValue());
+		um.setId(umid);
+		um.setMovieBean(movieDao.getMovie(movie.getMovieId()));
+		um.setUserBean(userDAO.getUser(movie.getUserId()));
+		um.setComment(movie.getComment());
+		um.setRating(movie.getRating());
+		usermovieDAO.saveUsermovie(um);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
     
 }
