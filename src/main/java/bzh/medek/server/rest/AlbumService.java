@@ -104,7 +104,7 @@ public class AlbumService extends Application {
 				artistName = "";
 				artistId = 0;
 			}
-			Useralbum mya = useralbumDao.getUseralbum(artistId, userId);
+			Useralbum mya = useralbumDao.getUseralbum(a.getId(), userId);
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
 					.getReleasedate(), (a.getGenreBean() != null) ? a
 					.getGenreBean().getName() : "",
@@ -150,7 +150,7 @@ public class AlbumService extends Application {
 			}
 			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
-		Useralbum mya = useralbumDao.getUseralbum(artistId, userId);
+		Useralbum mya = useralbumDao.getUseralbum(id, userId);
 		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
 				a.getReleasedate(), (a.getGenreBean() != null) ? a
 						.getGenreBean().getName() : "",
