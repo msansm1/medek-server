@@ -3,13 +3,11 @@ angular.module('medekApp.services').service('SerieService', [
 '$rootScope', 
 function($http, $rootScope) {
     this.series = function() {
-        return $http.get('services/tvshows', {
-            id: $rootScope.user.id
-        });
+        return $http.get('services/tvshows/loguser/'+$rootScope.user.id);
     };
     
     this.serie = function(id) {
-        return $http.get('services/tvshows/'+id);
+        return $http.get('services/tvshows/'+id+'/loguser/'+$rootScope.user.id);
     };
     
     this.saveSerie = function(serie) {
@@ -18,5 +16,9 @@ function($http, $rootScope) {
     
     this.artists = function() {
     	return $http.get('services/artists/series');
-    }
+    };
+    
+    this.addSerieToCollection = function(serie) {
+        return $http.post('services/tvshows/addtocollec', serie);
+    };
 } ]);

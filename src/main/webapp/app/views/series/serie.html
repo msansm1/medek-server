@@ -2,8 +2,11 @@
 	<div class="col-md-9 text-left">
 		<strong>{{ serie.title }}</strong>
 	</div>
-	<div class="col-md-3 text-right itemeditbutton" ng-click="editSerie(serie.id)">
+	<div class="col-md-3 text-right itemeditbutton" ng-click="editSerie(serie.id)" ng-if="serie.mycollec">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+	</div>
+	<div class="col-md-3 text-right itemeditbutton" ng-click="addSerieToMyCollec(serie)" ng-if="!serie.mycollec">
+		<span class="glyphicon glyphicon-plus-sign"></span>{{ 'addtocollection' | translate }}
 	</div>
 </div>
 <div class="itemimage text-center">

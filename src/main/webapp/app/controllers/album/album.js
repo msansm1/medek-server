@@ -226,7 +226,7 @@ function ($scope, $rootScope, $modalInstance, AlbumService, album) {
 			albumId: album.id,
 			userId: $rootScope.user.id,
 			rating: 0,
-			comment: 0,
+			comment: "",
 			signed: false
 	};
 

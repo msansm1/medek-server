@@ -128,5 +128,49 @@ function($scope, $rootScope, $stateParams, $location, $upload, MovieService, Sto
           });
         }
     };
+    
+    $scope.addMovieToMyCollec = function(movie) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/movie/addtocollec.html',
+            controller: 'MovieCollecController',
+            resolve: {
+                movie: function () {
+                    return movie;
+                }
+              }
+          });
+    };
 
 } ]);
+
+angular.module('medekApp.controllers').controller('MovieCollecController',[
+'$scope',
+'$rootScope',
+'$modalInstance',
+'MovieService',
+'movie',
+function ($scope, $rootScope, $modalInstance, MovieService, movie) {
+	$scope.movie = movie;
+	$scope.mymovie = {
+			movieId: movie.id,
+			userId: $rootScope.user.id,
+			rating: 0,
+			comment: ""
+	};
+
+    $scope.ok = function () {
+    	MovieService.addMovieToCollection($scope.mymovie).then (
+                function(response) {
+                    alert('Add successful');
+                    $modalInstance.close('success');
+                }, function(reason) {
+                    alert('Add failed');
+                    $modalInstance.close('fail');
+                });
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }]);

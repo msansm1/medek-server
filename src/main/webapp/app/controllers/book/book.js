@@ -150,4 +150,49 @@ function($scope, $rootScope, $stateParams, $location, $upload, BookService, Book
         }
     };
     
+    $scope.addBookToMyCollec = function(book) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/book/addtocollec.html',
+            controller: 'BookCollecController',
+            resolve: {
+                book: function () {
+                    return book;
+                }
+              }
+          });
+    };
+    
 } ]);
+
+angular.module('medekApp.controllers').controller('BookCollecController',[
+'$scope',
+'$rootScope',
+'$modalInstance',
+'BookService',
+'book',
+function ($scope, $rootScope, $modalInstance, BookService, book) {
+	$scope.book = book;
+	$scope.mybook = {
+			bookId: book.id,
+			userId: $rootScope.user.id,
+			rating: 0,
+			comment: "",
+			signed: false
+	};
+
+    $scope.ok = function () {
+    	BookService.addBookToCollection($scope.mybook).then (
+                function(response) {
+                    alert('Add successful');
+                    $modalInstance.close('success');
+                }, function(reason) {
+                    alert('Add failed');
+                    $modalInstance.close('fail');
+                });
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }]);

@@ -1,0 +1,25 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'addtocollection' | translate }} {{ movie.title }}</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'rating' | translate }}</span>
+		</div>
+		<div class="col-md-5 text-left">
+			<rating ng-model="mymovie.rating" max="5"></rating>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 text-right">
+			<span>{{ 'comment' | translate }}</span>
+		</div>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="mymovie.comment" name="movieComment" class="form-control"></input>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+</div>

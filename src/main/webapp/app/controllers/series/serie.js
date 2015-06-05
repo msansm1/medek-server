@@ -124,5 +124,49 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
           });
         }
     };
+    
+    $scope.addSerieToMyCollec = function(serie) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/serie/addtocollec.html',
+            controller: 'SerieCollecController',
+            resolve: {
+                serie: function () {
+                    return serie;
+                }
+              }
+          });
+    };
 
 } ]);
+
+angular.module('medekApp.controllers').controller('SerieCollecController',[
+'$scope',
+'$rootScope',
+'$modalInstance',
+'SerieService',
+'serie',
+function ($scope, $rootScope, $modalInstance, SerieService, serie) {
+	$scope.serie = serie;
+	$scope.myserie = {
+			serieId: serie.id,
+			userId: $rootScope.user.id,
+			rating: 0,
+			comment: ""
+	};
+
+    $scope.ok = function () {
+    	SerieService.addSerieToCollection($scope.myserie).then (
+                function(response) {
+                    alert('Add successful');
+                    $modalInstance.close('success');
+                }, function(reason) {
+                    alert('Add failed');
+                    $modalInstance.close('fail');
+                });
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }]);
