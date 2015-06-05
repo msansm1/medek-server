@@ -7,7 +7,15 @@ function($http, $rootScope) {
     };
     
     this.getAllUsers = function() {
-        return $http.post('services/admin/users/');
+        return $http.get('services/admin/users/');
+    };
+    
+    this.getUser = function(id) {
+        return $http.get('services/admin/users/'+id);
+    };
+    
+    this.saveUser = function(user) {
+        return $http.post('services/admin/users/', user);
     };
     
 } ]);

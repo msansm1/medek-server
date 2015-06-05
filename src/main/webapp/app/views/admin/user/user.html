@@ -1,0 +1,31 @@
+<form>
+<div class="row rownomargin itemtitle">
+	<div class="col-md-6 text-left">
+		<input type="text" ng-model="user.login" name="userLogin" class="form-control" required></input>
+	</div>
+	<div class="col-md-6 text-right itemeditbutton" ng-click="saveUser()">
+		<span class="glyphicon glyphicon-ok"></span>{{ 'save' | translate }}
+	</div>
+</div>
+<div class="iteminfos">
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'email' | translate }}</span>
+		</div>
+		<div class="col-md-6 text-left">
+			<input type="text" ng-model="user.email" name="userEmail" class="form-control" required></input>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-right">
+			<span>{{ 'password' | translate }}</span>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="user.password" name="userPassword" class="form-control"></input>
+		</div>
+		<div class="col-md-3 text-left">
+			<input type="text" ng-model="user.confpassword" name="userConfirmPassword" class="form-control"></input>
+		</div>
+	</div>
+</div>
+</form>
