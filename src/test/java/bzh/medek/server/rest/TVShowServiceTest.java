@@ -100,7 +100,8 @@ public class TVShowServiceTest {
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonShow tvshow = new JsonShow(null, "Stargate SG1", "Mickael !!!!", null, "", "", 1,
-        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>());
+        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
+        		false, 0);
         		
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
@@ -120,7 +121,8 @@ public class TVShowServiceTest {
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonShow tvshow = new JsonShow(2, "Stargate SG1 bis", "Mickael !!!!  !!!!", null, "", "", 1,
-        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>());
+        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
+        		false, 0);
 
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
