@@ -6,7 +6,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 prefix: 'app/languages/',
                 suffix: '.json'
             });
-            $translateProvider.preferredLanguage('en');
+            $translateProvider.preferredLanguage('fr');
         })
         .config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
             $locationProvider.html5Mode(true);
