@@ -9,7 +9,7 @@ function($scope, $rootScope, $stateParams, $modal, $location, UserService) {
     this.userLogin = $rootScope.user.login;
 
     if (typeof ($stateParams.userId) != 'undefined') {
-    	$scope.user = [ UserService.user($stateParams.userId)
+    	$scope.user = [ UserService.getUser($stateParams.userId)
                                .then(
 		                          function(response) {
 		                        	  $('.mainlist').addClass('col-md-4');

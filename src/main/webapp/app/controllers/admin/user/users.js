@@ -9,7 +9,7 @@ function($scope, $rootScope, $stateParams, $location, UserService) {
     this.userLogin = $rootScope.user.login;
     
     $scope.getUsers = function () {
-    	UserService.users()
+    	UserService.getAllUsers()
         .then(
            function(response) {
                console.log("Users : "+response.data);

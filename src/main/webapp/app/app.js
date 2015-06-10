@@ -129,6 +129,22 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/artists/editartist.html',
                 controller : 'ArtistController'
             })
+            // ADMIN
+            .state('admin', {
+                url: '/admin',
+                templateUrl : 'app/views/admin/home.html',
+                controller : 'AdminHomeController'
+            })
+            .state('admin.users', {
+                url: '/users',
+                templateUrl : 'app/views/admin/user/users.html',
+                controller : 'UsersController'
+            })
+            .state('admin.users.detail', {
+                url: '/:userId',
+                templateUrl : 'app/views/admin/user/user.html',
+                controller : 'UserController'
+            })
             // OTHERS
             .state('error', {
                 url: 'error',

@@ -11,6 +11,7 @@ import bzh.medek.server.conf.ClientMessage;
 import bzh.medek.server.error.MedekError;
 import bzh.medek.server.interceptor.RestRequestFilter;
 import bzh.medek.server.json.JsonClientMsg;
+import bzh.medek.server.json.admin.user.JsonAdminUser;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.artist.JsonArtist;
 import bzh.medek.server.json.auth.JsonLogin;
@@ -21,6 +22,7 @@ import bzh.medek.server.json.user.JsonUser;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.rest.BookService;
+import bzh.medek.server.rest.admin.AdminUserService;
 
 
 public class TestUtils {
@@ -48,6 +50,8 @@ public class TestUtils {
                 .addPackage(RestRequestFilter.class.getPackage())
                 .addPackage(JsonLogin.class.getPackage())
                 .addPackage(JsonArtist.class.getPackage())
+                .addPackage(JsonAdminUser.class.getPackage())
+                .addPackage(AdminUserService.class.getPackage())
                 .addAsLibraries(libsConf)
                 .addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
