@@ -8,7 +8,7 @@ function($scope, $rootScope, $translate, AuthService) {
     $rootScope.user = {};
     $rootScope.isConnected = false; 
     $scope.loginError = '';
-    $scope.language = '';
+    $scope.language = 'fr';
     $rootScope.authalerts = [];
     $scope.languages = [
         {name: 'English', key: 'en'},
