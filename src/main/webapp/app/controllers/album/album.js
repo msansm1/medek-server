@@ -12,19 +12,23 @@ angular.module('medekApp.controllers').controller('AlbumController',[
 function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumService, SupportService,
 		GenreService) {
     this.userLogin = $rootScope.user.login;
+    
+    $scope.getAlbum = function() {
+    	AlbumService.album($stateParams.albumId)
+        .then(
+           function(response) {
+         	  $('.mainlist').addClass('col-md-4');
+         	  $('.mainlist').removeClass('col-md-8');
+               console.log("Album : "+response.data);
+               $scope.album = response.data;
+               $('.itempanel').addClass('col-md-6');
+           }, function(reason) {
+               alert('FAILED !!!');
+           });
+    };
 
     if (typeof ($stateParams.albumId) != 'undefined') {
-    	$scope.album = [ AlbumService.album($stateParams.albumId)
-                               .then(
-		                          function(response) {
-		                        	  $('.mainlist').addClass('col-md-4');
-		                        	  $('.mainlist').removeClass('col-md-8');
-		                              console.log("Album : "+response.data);
-		                              $scope.album = response.data;
-		                              $('.itempanel').addClass('col-md-6');
-		                          }, function(reason) {
-		                              alert('FAILED !!!');
-		                          }) ];
+    	$scope.album = [ $scope.getAlbum() ];
     } else {
     	$scope.album = { id: null,
     					title: '',
@@ -89,6 +93,8 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
                 	$scope.$parent.getAlbums();
+                	$location.path('/albums/'+response.data.id);
+                    $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});
                 });
@@ -173,11 +179,7 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
         var modalInstance = $modal.open({
             templateUrl: 'app/views/album/addtocollec.html',
             controller: 'AlbumCollecController',
-            resolve: {
-                album: function () {
-                    return album;
-                }
-              }
+            scope: $scope
           });
     };
 
@@ -219,11 +221,9 @@ angular.module('medekApp.controllers').controller('AlbumCollecController',[
 '$rootScope',
 '$modalInstance',
 'AlbumService',
-'album',
-function ($scope, $rootScope, $modalInstance, AlbumService, album) {
-	$scope.album = album;
+function ($scope, $rootScope, $modalInstance, AlbumService) {
 	$scope.myalbum = {
-			albumId: album.id,
+			albumId: $scope.album.id,
 			userId: $rootScope.user.id,
 			rating: 0,
 			comment: "",
@@ -233,6 +233,7 @@ function ($scope, $rootScope, $modalInstance, AlbumService, album) {
     $scope.ok = function () {
     	AlbumService.addAlbumToCollection($scope.myalbum).then (
                 function(response) {
+                	$scope.getAlbum();
                     alert('Add successful');
                     $modalInstance.close('success');
                 }, function(reason) {

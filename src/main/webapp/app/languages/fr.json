@@ -23,6 +23,7 @@
 	"albums": "Albums",
 	"movies": "Films",
 	"series": "Séries",
+	"search" : "Recherche",
 	
 	"all": "Tous",
 	"mine": "Les miens",
@@ -60,5 +61,8 @@
 	"edittrack": "Editer la piste",
 	"artists": "Artistes",
 	"biolink": "Biographie",
-	"name": "Nom"
+	"name": "Nom",
+	
+	"admin": "Administration",
+	"users": "Utilisateurs"
 }

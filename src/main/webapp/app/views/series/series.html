@@ -4,7 +4,7 @@
 	</div>
 	<div class="col-md-8 mainlist">
 		<form>
-		    <input type="text" class="form-control listitem-search" id="filter" placeholder="Search">
+		    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
 		</form>
 		<div ng-repeat="serie in series" ng-include="'app/views/series/seriesdetails.html'"></div>
 	</div>

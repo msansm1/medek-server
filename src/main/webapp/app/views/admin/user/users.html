@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-8 mainlist">
 		<form>
-		    <input type="text" class="form-control listitem-search" id="filter" placeholder="Search">
+		    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
 		</form>
 		<div ng-repeat="user in users" ng-include="'app/views/admin/user/userdetails.html'"></div>
 	</div>
