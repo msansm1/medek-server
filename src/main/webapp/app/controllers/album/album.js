@@ -93,7 +93,7 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
                 	$scope.$parent.getAlbums();
-                	$location.path('/albums/'+response.data.id);
+                	$location.path('/albums/edit/'+response.data.id);
                     $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});
