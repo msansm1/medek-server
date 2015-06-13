@@ -105,6 +105,8 @@ function($scope, $rootScope, $stateParams, $location, $upload, MovieService, Sto
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Movie saved !'});
                 	$scope.$parent.getMovies();
+                	$location.path('/movies/edit/'+response.data.id);
+                    $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save movie failed'});
                 });

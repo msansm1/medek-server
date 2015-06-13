@@ -126,6 +126,8 @@ function($scope, $rootScope, $stateParams, $location, $upload, BookService, Book
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Book saved !'});
                 	$scope.$parent.getBooks();
+                	$location.path('/books/edit/'+response.data.id);
+                    $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save book failed'});
                 });

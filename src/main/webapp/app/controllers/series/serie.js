@@ -101,6 +101,8 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Serie saved !'});
                 	$scope.$parent.getSeries();
+                	$location.path('/series/edit/'+response.data.id);
+                    $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save serie failed'});
                 });
