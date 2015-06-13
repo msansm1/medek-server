@@ -35,11 +35,10 @@
 		</div>
 	</noscript>
 	<base href="/">
-
+	
+	<div ng-if="isConnected" ng-include="'app/views/header.html'"></div>	
 	<div class="container-fluid">
-		<div ng-if="isConnected" ng-include="'app/views/header.html'"></div>
-		
-		<div style="padding-top: 75px;">
+		<div class="row-fluid">
 	 		<div ui-view />
 	 	</div>
 	 </div>

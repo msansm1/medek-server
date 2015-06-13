@@ -1,38 +1,36 @@
-<header class="navbar navbar-default navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">
-				<img alt="Medek logo" src="img/logo_app.png" >
-			</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="/home">{{ 'home' | translate }}</a></li>
-                <li class="divider"></li>
-		        <li ng-class="{ active: isActive('/albums')}"><a href="/albums">{{ 'albums' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/books')}"><a href="/books">{{ 'books' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/movies')}"><a href="/movies">{{ 'movies' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/series')}"><a href="/series">{{ 'series' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/artists')}"><a href="/artists">{{ 'artists' | translate }}</a></li>
-		        <li ng-class="{ active: isActive('/admin')}"><a href="/admin">{{ 'admin' | translate }}</a></li>
-	        </ul>
-			<ul class="nav navbar-nav navbar-right persomenu">
-				<li><div class="btn-group" dropdown is-open="usermenuopen">
-				      <button type="button" class="btn btn-primary dropdown-toggle">
-				        {{ user.login }}<span class="caret"></span>
-				      </button>
-				      <ul class="dropdown-menu" role="menu">
-				        <li class="text-center"><button class="btn btn-link" ng-click="openProfile()">{{ 'myprofile' | translate }}</button></li>
-				        <li class="text-center"><a href="#">{{ 'friends' | translate }}</a></li>
-				        <li class="divider"></li>
-				        <li class="text-center"><a href="#" ng-click="logout()">{{ 'logout' | translate }}</a></li>
-				      </ul>
-				    </div>
-			    </li>
-                <li><p class="navbar-text"> </p></li>
-			</ul>
-		</div>
+<header class="navbar navbar-static-top bs-docs-nav mynavbar" role="banner">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#">
+			<img alt="Medek logo" src="img/logo_app.png" >
+		</a>
 	</div>
+	<nav class="collapse navbar-collapse bs-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="/home">{{ 'home' | translate }}</a></li>
+               <li class="divider"></li>
+	        <li ng-class="{ active: isActive('/albums')}"><a href="/albums">{{ 'albums' | translate }}</a></li>
+	        <li ng-class="{ active: isActive('/books')}"><a href="/books">{{ 'books' | translate }}</a></li>
+	        <li ng-class="{ active: isActive('/movies')}"><a href="/movies">{{ 'movies' | translate }}</a></li>
+	        <li ng-class="{ active: isActive('/series')}"><a href="/series">{{ 'series' | translate }}</a></li>
+	        <li ng-class="{ active: isActive('/artists')}"><a href="/artists">{{ 'artists' | translate }}</a></li>
+	        <li ng-class="{ active: isActive('/admin')}"><a href="/admin">{{ 'admin' | translate }}</a></li>
+        </ul>
+		<ul class="nav navbar-nav navbar-right persomenu">
+			<li><div class="btn-group" dropdown is-open="usermenuopen">
+			      <button type="button" class="btn btn-primary dropdown-toggle">
+			        {{ user.login }}<span class="caret"></span>
+			      </button>
+			      <ul class="dropdown-menu" role="menu">
+			        <li class="text-center"><button class="btn btn-link" ng-click="openProfile()">{{ 'myprofile' | translate }}</button></li>
+			        <li class="text-center"><a href="#">{{ 'friends' | translate }}</a></li>
+			        <li class="divider"></li>
+			        <li class="text-center"><a href="#" ng-click="logout()">{{ 'logout' | translate }}</a></li>
+			      </ul>
+			    </div>
+		    </li>
+               <li><p class="navbar-text"> </p></li>
+		</ul>
+	</nav>
 </header>
 <div>
 	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
