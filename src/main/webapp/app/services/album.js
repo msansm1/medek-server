@@ -21,4 +21,8 @@ function($http, $rootScope) {
     this.addAlbumToCollection = function(album) {
         return $http.post('services/albums/addtocollec', album);
     };
+
+    this.userAlbums = function(userId) {
+        return $http.get('services/albums/user/'+userId);
+    };
 } ]);

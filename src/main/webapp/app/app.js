@@ -47,8 +47,18 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             // ALBUMS
             .state('albums', {
+            	abstract: true,
                 url: '/albums',
                 templateUrl : 'app/views/album/albums.html',
+            })
+            .state('albums.all', {
+                url: '/all',
+                templateUrl : 'app/views/album/albumslist.html',
+                controller : 'AlbumsController'
+            })
+            .state('albums.mine', {
+                url: '/me',
+                templateUrl : 'app/views/album/albumslist.html',
                 controller : 'AlbumsController'
             })
             .state('albums.add', {
@@ -56,13 +66,33 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/album/addalbum.html',
                 controller : 'AlbumController'
             })
-            .state('albums.detail', {
+            .state('albums.all.album', {
+            	abstract: true,
                 url: '/:albumId',
+                templateUrl : 'app/views/album/albumpanel.html'
+            })
+            .state('albums.all.album.view', {
+                url: '/view',
                 templateUrl : 'app/views/album/album.html',
                 controller : 'AlbumController'
             })
-            .state('albums.edit', {
-                url: '/edit/:albumId',
+            .state('albums.all.album.edit', {
+                url: '/edit',
+                templateUrl : 'app/views/album/editalbum.html',
+                controller : 'AlbumController'
+            })
+            .state('albums.mine.album', {
+            	abstract: true,
+                url: '/:albumId',
+                templateUrl : 'app/views/album/albumpanel.html'
+            })
+            .state('albums.mine.album.view', {
+                url: '/view',
+                templateUrl : 'app/views/album/album.html',
+                controller : 'AlbumController'
+            })
+            .state('albums.mine.album.edit', {
+                url: '/edit',
                 templateUrl : 'app/views/album/editalbum.html',
                 controller : 'AlbumController'
             })

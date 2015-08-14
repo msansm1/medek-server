@@ -76,10 +76,10 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
 		                          }) ];
     
     $scope.editAlbum = function(id) {
-    	$location.path('/albums/edit/'+id);
+    	$location.path($location.path().substring(0,$location.path().length-5)+'/edit');
         $location.replace();
     }
-
+    
     // for date picker
     $scope.open = function($event) {
       $event.preventDefault();
