@@ -27,7 +27,11 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import bzh.medek.server.conf.Conf;
+import bzh.medek.server.gracenote.GracenoteException;
+import bzh.medek.server.gracenote.GracenoteMetadata;
+import bzh.medek.server.gracenote.GracenoteWebAPI;
 import bzh.medek.server.json.JsonSimpleResponse;
+import bzh.medek.server.json.album.JsonAddSearch;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.album.JsonMyAlbum;
 import bzh.medek.server.json.album.JsonTrack;
@@ -368,6 +372,43 @@ public class AlbumService extends Application {
 		ua.setRating(album.getRating());
 		useralbumDao.saveUseralbum(ua);
 		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
+	/**
+	 * POST /add/search : search an album from gracenote database
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("add/search")
+	public Response searchNewAlbum(JsonAddSearch album) {
+	    String clientID  = conf.getGracenoteClientID(); // Put your clientID here.
+	    String clientTag = conf.getGracenoteClientTag(); // Put your clientTag here.
+	    
+		try {
+			GracenoteWebAPI api = new GracenoteWebAPI(clientID, clientTag);
+			 // If you have a userID, you can specify it as the third parameter to constructor.
+	        String userID = api.register();
+	        System.out.println("UserID = " + userID);
+	        
+	        GracenoteMetadata results = api.searchAlbum(album.getArtist(), album.getName());
+	        
+	        for (Map<String, Object> a:results.getAlbums()) {
+	        	a.get("album_gnid");
+	        	a.get("album_artist_name");
+	        	a.get("album_title");
+	        	a.get("album_year");
+	        	a.get("genre");
+	        	GracenoteMetadata details = api.fetchAlbum(a.get("album_gnid").toString());
+	        	details.getAlbum(0);
+	        }
+	        
+	        
+		} catch (GracenoteException e) {
+			LOGGER.error("Whil searching album in gracenote : ", e);
+		}
+		return Response.ok(new JsonSimpleResponse(false),
 				MediaType.APPLICATION_JSON).build();
 	}
 

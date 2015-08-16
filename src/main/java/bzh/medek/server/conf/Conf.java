@@ -22,6 +22,8 @@ public class Conf {
     private static final String FS_BOOK = "book";
     private static final String FS_MOVIE = "movie";
     private static final String FS_TVSHOW = "tvshows";
+    private static final String PARAM_CLIENT_ID = "clientId";
+    private static final String PARAM_CLIENT_TAG = "clientTag";
     
     @Inject
     private ConfigurationDAO configurationDAO;
@@ -64,6 +66,26 @@ public class Conf {
     public String getTvshowsFS() {
         String fs = configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_TVSHOW + "/";
         return fs;
+    }
+
+    /**
+     * Return the cliet ID for Gracenote API
+     * 
+     * @return
+     */
+    public String getGracenoteClientID() {
+        String id = configurationDAO.getConfiguration(PARAM_CLIENT_ID).getValue();
+        return id;
+    }
+
+    /**
+     * Return the cliet tag for Gracenote API
+     * 
+     * @return
+     */
+    public String getGracenoteClientTag() {
+        String tag = configurationDAO.getConfiguration(PARAM_CLIENT_TAG).getValue();
+        return tag;
     }
     
 }
