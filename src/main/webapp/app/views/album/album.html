@@ -2,10 +2,10 @@
 	<div class="col-md-9 text-left">
 		<strong><i>{{ album.title }}</i></strong>
 	</div>
-	<div class="col-md-3 text-right itemeditbutton" ng-click="editAlbum(album.id)" ng-if="album.myview">
+	<div class="col-md-3 text-right itemeditbutton" ng-click="editAlbum(album.id)" ng-show="album.myview">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
 	</div>
-	<div class="col-md-3 text-right itemeditbutton" ng-click="addAlbumToMyCollec(album)" ng-if="!album.mycollec">
+	<div class="col-md-3 text-right itemeditbutton" ng-click="addAlbumToMyCollec(album)" ng-show="!album.mycollec">
 		<span class="glyphicon glyphicon-plus-sign"></span>{{ 'addtocollection' | translate }}
 	</div>
 	<div class="col-md-12 text-right">

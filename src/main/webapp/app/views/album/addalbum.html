@@ -1,57 +1,60 @@
-<form>
-<div class="row rownomargin itemtitle">
-	<div class="col-md-6 text-left">
-		<input type="text" ng-model="album.title" name="albumTitle" class="form-control" required></input>
-	</div>
-	<div class="col-md-6 text-right itemeditbutton" ng-click="saveAlbum()">
-		<span class="glyphicon glyphicon-ok"></span>{{ 'save' | translate }}
-	</div>
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'createalbum' | translate }}</h3>
 </div>
-<div class="itemimage text-right">
-	<img alt="cover" src="{{ album.cover }}" />
-</div>
-<div class="iteminfos">
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'artist' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="album.artistId" ng-options="artist.id as artist.name for artist in artists"></select>
+<div class="modal-body">
+	<form>
+		<div class="iteminfos">
+			<div class="col-md-3 text-right">
+				<span>{{ 'title' | translate }}</span>
+			</div>
+			<div class="col-md-6 text-left">
+				<input type="text" ng-model="album.title" name="albumTitle" class="form-control" required></input>
 			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'releaseDate' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="album.releaseDate" is-open="opened" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="album.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+		<div class="iteminfos">
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<span>{{ 'artist' | translate }}</span>
+				</div>
+				<div class="col-md-3 text-left">
+					<div class="controls">
+						<select ng-model="album.artistId" ng-options="artist.id as artist.name for artist in artists"></select>
+					</div>
+				</div>
+				<div class="col-md-3 text-right">
+					<span>{{ 'releaseDate' | translate }}</span>
+				</div>
+				<div class="col-md-3 text-left">
+		            <p class="input-group">
+		              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="album.releaseDate" is-open="opened" close-text="Close" />
+		              <span class="input-group-btn">
+		                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              </span>
+		            </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-right">
+					<span>{{ 'genre' | translate }}</span>
+				</div>
+				<div class="col-md-3 text-left">
+					<div class="controls">
+						<select ng-model="album.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+					</div>
+				</div>
+				<div class="col-md-3 text-right">
+					<span>{{ 'support' | translate }}</span>
+				</div>
+				<div class="col-md-3 text-left">
+					<div class="controls">
+						<select ng-model="album.supportId" ng-options="support.id as support.name for support in supports"></select>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'support' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="album.supportId" ng-options="support.id as support.name for support in supports"></select>
-			</div>
-		</div>
-	</div>
-	<div>
-		<span>{{ 'tracks' | translate }} ( {{ album.nbTracks }} )</span>
-	</div>
+	</form>
 </div>
-</form>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+</div>

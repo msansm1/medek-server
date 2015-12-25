@@ -1,5 +1,8 @@
-<div class="col-md-8 mainlist">
-	<form>
+<div class="col-md-8 row mainlist">
+	<div class="col-md-2 text-right itemeditbutton" ng-click="createAlbum()">
+		<span class="glyphicon glyphicon-plus"></span>{{ 'create' | translate }}
+	</div>
+	<form class="col-md-10">
 	    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
 	</form>
 	<div ng-repeat="album in albums" ng-include="'app/views/album/albumdetails.html'"></div>

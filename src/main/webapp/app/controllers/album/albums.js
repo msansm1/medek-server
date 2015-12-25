@@ -4,8 +4,9 @@ angular.module('medekApp.controllers').controller('AlbumsController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$modal',
 'AlbumService',
-function($scope, $rootScope, $stateParams, $location, AlbumService) {
+function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
     this.userLogin = $rootScope.user.login;
     
     $scope.getAlbums = function () {
@@ -42,5 +43,83 @@ function($scope, $rootScope, $stateParams, $location, AlbumService) {
     	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
+    
+    $scope.createAlbum = function() {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/album/addalbum.html',
+            controller: 'AddAlbumController'
+          });
+    };
 
 } ]);
+
+angular.module('medekApp.controllers').controller('AddAlbumController',[
+'$scope',
+'$rootScope',
+'$modalInstance',
+'AlbumService',
+'SupportService',
+'GenreService',
+function ($scope, $rootScope, $modalInstance, AlbumService, SupportService, GenreService) {
+	$scope.album = { id: null,
+			title: '',
+			cover: '',
+			releaseDate: null,
+			genre: '',
+			genreId: null,
+			nbTracks: 0,
+			support: '',
+			supportId: null,
+			artist: '',
+			artistId: null,
+			tracks: []
+	};
+    
+    $scope.supports = [ SupportService.supports()
+                        .then(
+	                          function(response) {
+	                              console.log("Supports : "+response.data);
+	                              $scope.supports = response.data;
+	                          }, function(reason) {
+	                              alert('FAILED !!!');
+	                          }) ];
+
+    $scope.genres = [ GenreService.genres()
+                        .then(
+	                          function(response) {
+	                              console.log("Genres : "+response.data);
+	                              $scope.genres = response.data;
+	                          }, function(reason) {
+	                              alert('FAILED !!!');
+	                          }) ];
+
+    $scope.artists = [ AlbumService.artists()
+                        .then(
+	                          function(response) {
+	                              console.log("Artists : "+response.data);
+	                              $scope.artists = response.data;
+	                          }, function(reason) {
+	                              alert('FAILED !!!');
+	                          }) ];
+	
+	$scope.saveAlbum = function() {
+    	AlbumService.saveAlbum($scope.album).then(
+                function(response) {
+                    $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
+                	$scope.$parent.getAlbums();
+                	$location.path('/albums/me/edit/'+response.data.id);
+                    $location.replace();
+                }, function(reason) {
+                    $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});
+                });
+    };
+	
+    $scope.ok = function () {
+    	$scope.saveAlbum();
+        $modalInstance.close('success');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }]);
