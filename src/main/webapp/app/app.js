@@ -66,33 +66,18 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/album/addalbum.html',
                 controller : 'AlbumController'
             })
-            .state('albums.all.album', {
-            	abstract: true,
-                url: '/:albumId',
-                templateUrl : 'app/views/album/albumpanel.html'
-            })
-            .state('albums.all.album.view', {
-                url: '/view',
+            .state('albums.all.view', {
+                url: '/view/:albumId',
                 templateUrl : 'app/views/album/album.html',
                 controller : 'AlbumController'
             })
-            .state('albums.all.album.edit', {
-                url: '/edit',
-                templateUrl : 'app/views/album/editalbum.html',
-                controller : 'AlbumController'
-            })
-            .state('albums.mine.album', {
-            	abstract: true,
-                url: '/:albumId',
-                templateUrl : 'app/views/album/albumpanel.html'
-            })
-            .state('albums.mine.album.view', {
-                url: '/view',
+            .state('albums.mine.view', {
+                url: '/view/:albumId',
                 templateUrl : 'app/views/album/album.html',
                 controller : 'AlbumController'
             })
-            .state('albums.mine.album.edit', {
-                url: '/edit',
+            .state('albums.mine.edit', {
+                url: '/edit/:albumId',
                 templateUrl : 'app/views/album/editalbum.html',
                 controller : 'AlbumController'
             })

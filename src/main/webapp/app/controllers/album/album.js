@@ -21,6 +21,11 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
          	  $('.mainlist').removeClass('col-md-8');
                console.log("Album : "+response.data);
                $scope.album = response.data;
+               if ($location.path().indexOf('/me/') > -1) {
+            	   $scope.album.myview = true;
+               } else {
+            	   $scope.album.myview = false;
+               }
                $('.itempanel').addClass('col-md-6');
            }, function(reason) {
                alert('FAILED !!!');
@@ -76,7 +81,8 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
 		                          }) ];
     
     $scope.editAlbum = function(id) {
-    	$location.path($location.path().substring(0,$location.path().length-5)+'/edit');
+    	$location.path('/albums/me/edit/'+id);
+    	//console.log($location.path().substring(0,$location.path().length-9)+'/edit/'+id);
         $location.replace();
     }
     
@@ -93,7 +99,7 @@ function($scope, $rootScope, $stateParams, $modal, $location, $upload, AlbumServ
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
                 	$scope.$parent.getAlbums();
-                	$location.path('/albums/edit/'+response.data.id);
+                	$location.path('/albums/me/edit/'+response.data.id);
                     $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});

@@ -33,7 +33,13 @@ function($scope, $rootScope, $stateParams, $location, AlbumService) {
     $scope.albums = [ $scope.getAlbums() ];
     
     $scope.openAlbum = function(id) {
-    	$location.path($location.path()+'/'+id+'/view');
+    	var index = 0;
+    	if ($location.path().indexOf('/me/') > -1) {
+     	   index = 10;
+        } else {
+     	   index = 11;
+        }
+    	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
 
