@@ -47,7 +47,8 @@ function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
     $scope.createAlbum = function() {
         var modalInstance = $modal.open({
             templateUrl: 'app/views/album/addalbum.html',
-            controller: 'AddAlbumController'
+            controller: 'AddAlbumController',
+            scope: $scope
           });
     };
 
@@ -101,14 +102,19 @@ function ($scope, $rootScope, $modalInstance, AlbumService, SupportService, Genr
 	                          }, function(reason) {
 	                              alert('FAILED !!!');
 	                          }) ];
+
+    // for date picker
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.opened = true;
+    };
 	
 	$scope.saveAlbum = function() {
     	AlbumService.saveAlbum($scope.album).then(
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Album saved !'});
-                	$scope.$parent.getAlbums();
-                	$location.path('/albums/me/edit/'+response.data.id);
-                    $location.replace();
+                	$scope.getAlbums();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save album failed'});
                 });

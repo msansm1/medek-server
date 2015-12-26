@@ -62,6 +62,7 @@
 	"artists": "Artists",
 	"biolink": "Biography",
 	"name": "Name",
+	"createalbum": "Create a new album",
 	
 	"admin": "Administration",
 	"users": "Users"

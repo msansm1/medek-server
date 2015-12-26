@@ -75,6 +75,22 @@
 	background-color: #F5F5F5;
 }
 
+.createinfos {
+	padding: 10px;
+	background-color: #FFF;
+}
+
+.itemcreatebutton {
+	font-size: 14px;
+	background-color: #FFF;
+	border-color: #AFAFAF;
+    border-width: 1px;
+    border-style: solid;
+    text-align: center;
+    height: 32px;
+    vertical-align: middle;
+}
+
 .tracklist {
 	border-color: #00F;
     border-width: 1px;
