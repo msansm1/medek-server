@@ -8,12 +8,12 @@
 		<ul class="nav navbar-nav">
 			<li><a href="/home">{{ 'home' | translate }}</a></li>
                <li class="divider"></li>
-	        <li ng-class="{ active: isActive('/albums')}"><a href="/albums/all">{{ 'albums' | translate }}</a></li>
-	        <li ng-class="{ active: isActive('/books')}"><a href="/books">{{ 'books' | translate }}</a></li>
-	        <li ng-class="{ active: isActive('/movies')}"><a href="/movies">{{ 'movies' | translate }}</a></li>
-	        <li ng-class="{ active: isActive('/series')}"><a href="/series">{{ 'series' | translate }}</a></li>
-	        <li ng-class="{ active: isActive('/artists')}"><a href="/artists">{{ 'artists' | translate }}</a></li>
-	        <li ng-class="{ active: isActive('/admin')}"><a href="/admin">{{ 'admin' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/albums')}"><a href="/albums/all" ng-class="{ mainmenuactive: isActive('/albums')}">{{ 'albums' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/books')}"><a href="/books" ng-class="{ mainmenuactive: isActive('/books')}">{{ 'books' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/movies')}"><a href="/movies" ng-class="{ mainmenuactive: isActive('/movies')}">{{ 'movies' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/series')}"><a href="/series" ng-class="{ mainmenuactive: isActive('/series')}">{{ 'series' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/artists')}"><a href="/artists" ng-class="{ mainmenuactive: isActive('/artists')}">{{ 'artists' | translate }}</a></li>
+	        <li ng-class="{ mainmenuactive: isActive('/admin')}"><a href="/admin" ng-class="{ mainmenuactive: isActive('/admin')}">{{ 'admin' | translate }}</a></li>
         </ul>
 		<ul class="nav navbar-nav navbar-right persomenu">
 			<li><div class="btn-group" dropdown is-open="usermenuopen">
