@@ -25,6 +25,10 @@ function($scope, $rootScope, $modal, $location, AuthService) {
     $rootScope.closeAlert = function(index) {
         $rootScope.alerts.splice(index, 1);
     };
+    
+    $rootScope.isActive = function (viewLocation) {
+        return $location.path().indexOf(viewLocation) === 0;
+    };
 } ]);
 
 angular.module('medekApp.controllers').controller('ProfileCtrl',[

@@ -3,9 +3,9 @@
 	<div class="col-md-2 text-right itemcreatebutton" ng-click="createAlbum()">
 		<span class="glyphicon glyphicon-plus"></span>{{ 'create' | translate }}
 	</div>
-	<div class="col-md-10">
+	<div class="col-md-10 itemsearch">
 	    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
-	    </div>
+	</div>
 	</form>
 	<div ng-repeat="album in albums" ng-include="'app/views/album/albumdetails.html'"></div>
 </div>

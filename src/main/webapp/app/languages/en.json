@@ -63,6 +63,11 @@
 	"biolink": "Biography",
 	"name": "Name",
 	"createalbum": "Create a new album",
+	"addtocollection": "Add to my collection",
+	"issigned": "Is signed ?",
+	"rating": "Rating",
+	"comment": "Comment",
+	"create": "Create",
 	
 	"admin": "Administration",
 	"users": "Users"
