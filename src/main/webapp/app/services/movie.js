@@ -21,4 +21,8 @@ function($http, $rootScope) {
     this.addMovieToCollection = function(movie) {
         return $http.post('services/movies/addtocollec', movie);
     };
+
+    this.userMovies = function(userId) {
+        return $http.get('services/movies/user/'+userId);
+    };
 } ]);

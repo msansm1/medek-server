@@ -1,80 +1,87 @@
-<form>
-<div class="row rownomargin itemtitle">
-	<div class="col-md-6 text-left">
-		<input type="text" ng-model="movie.title" name="movieTitle" class="form-control" required></input>
-	</div>
-	<div class="col-md-6 text-right itemeditbutton" ng-click="saveMovie()">
-		<span class="glyphicon glyphicon-ok"></span>{{ 'save' | translate }}
-	</div>
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'createmovie' | translate }}</h3>
 </div>
-<div class="itemimage text-right">
-	<img alt="cover" src="{{ movie.cover }}" />
-</div>
-<div class="iteminfos">
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'description' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-		<input type="text" ng-model="movie.description" name="movieDescription" class="form-control"></input>
-		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'releaseDate' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="movie.releaseDate" is-open="opened" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="movie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+<div class="modal-body">
+	<form>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'title' | translate }}</span>
+			</div>
+			<div class="col-md-6 text-left">
+				<input type="text" ng-model="movie.title" name="movieTitle" class="form-control" required></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span> </span>
 			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'support' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="movie.supportId" ng-options="support.id as support.name for support in supports"></select>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'description' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+			<input type="text" ng-model="movie.description" name="movieDescription" class="form-control"></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'releaseDate' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+	            <p class="input-group">
+	              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="movie.releaseDate" is-open="opened" close-text="Close" />
+	              <span class="input-group-btn">
+	                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              </span>
+	            </p>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'length' | translate }}</span>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'genre' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<div class="controls">
+					<select ng-model="movie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+				</div>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'support' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<div class="controls">
+					<select ng-model="movie.supportId" ng-options="support.id as support.name for support in supports"></select>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="movie.length" name="movieLength" class="form-control"></input>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'length' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="text" ng-model="movie.length" name="movieLength" class="form-control"></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'isCollector' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="checkbox" ng-model="movie.isCollector" name="movieIsCollector" class="form-control"></input>
+			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'isCollector' | translate }}</span>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'langs' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<span>{{ movie.langs }}</span>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'subtitles' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<span>{{ movie.subtitles }}</span>
+			</div>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="checkbox" ng-model="movie.isCollector" name="movieIsCollector" class="form-control"></input>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'langs' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<span>{{ movie.langs }}</span>
-		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'subtitles' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<span>{{ movie.subtitles }}</span>
-		</div>
-	</div>
+	</form>
 </div>
-</form>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+</div>

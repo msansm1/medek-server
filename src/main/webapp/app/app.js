@@ -30,7 +30,6 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 url: '/books',
                 templateUrl : 'app/views/book/books.html',
             })
-            
             .state('books.all', {
                 url: '/all',
                 templateUrl : 'app/views/book/bookslist.html',
@@ -89,21 +88,31 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             // MOVIES
             .state('movies', {
+            	abstract: true,
                 url: '/movies',
                 templateUrl : 'app/views/movie/movies.html',
+            })
+            .state('movies.all', {
+                url: '/all',
+                templateUrl : 'app/views/movie/movieslist.html',
                 controller : 'MoviesController'
             })
-            .state('movies.add', {
-                url: '/add',
-                templateUrl : 'app/views/movie/addmovie.html',
-                controller : 'MovieController'
+            .state('movies.mine', {
+                url: '/me',
+                templateUrl : 'app/views/movie/movieslist.html',
+                controller : 'MoviesController'
             })
-            .state('movies.detail', {
-                url: '/:movieId',
+            .state('movies.all.view', {
+                url: '/view/:movieId',
                 templateUrl : 'app/views/movie/movie.html',
                 controller : 'MovieController'
             })
-            .state('movies.edit', {
+            .state('movies.mine.view', {
+                url: '/view/:movieId',
+                templateUrl : 'app/views/movie/movie.html',
+                controller : 'MovieController'
+            })
+            .state('movies.mine.edit', {
                 url: '/edit/:movieId',
                 templateUrl : 'app/views/movie/editmovie.html',
                 controller : 'MovieController'

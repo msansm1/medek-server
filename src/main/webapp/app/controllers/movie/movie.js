@@ -4,12 +4,13 @@ angular.module('medekApp.controllers').controller('MovieController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$modal',
 '$upload',
 'MovieService',
 'StoryGenreService',
 'SupportService',
 'LangService',
-function($scope, $rootScope, $stateParams, $location, $upload, MovieService, StoryGenreService,
+function($scope, $rootScope, $stateParams, $location, $modal, $upload, MovieService, StoryGenreService,
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
 
@@ -21,6 +22,11 @@ function($scope, $rootScope, $stateParams, $location, $upload, MovieService, Sto
 		                        	  $('.mainlist').removeClass('col-md-8');
 		                              console.log("Movie : "+response.data);
 		                              $scope.movie = response.data;
+		                              if ($location.path().indexOf('/me/') > -1) {
+		                           	   $scope.movie.myview = true;
+		                              } else {
+		                           	   $scope.movie.myview = false;
+		                              }
 		                              $('.itempanel').addClass('col-md-6');
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
@@ -96,7 +102,7 @@ function($scope, $rootScope, $stateParams, $location, $upload, MovieService, Sto
 	};
     
     $scope.editMovie = function(id) {
-    	$location.path('/movies/edit/'+id);
+    	$location.path('/movies/me/edit/'+id);
         $location.replace();
     }
     

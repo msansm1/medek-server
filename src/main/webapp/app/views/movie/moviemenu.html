@@ -1,6 +1,5 @@
 <ul class="nav nav-pills nav-stacked leftmenu-menu">
   <li><strong>{{ 'movies' | translate }}</strong></li>
-  <li role="presentation" class="active"><a href="/movies">{{ 'all' | translate }}</a></li>
-  <li role="presentation"><a href="#">{{ 'mine' | translate }}</a></li>
-  <li role="presentation"><a href="/movies/add">{{ 'add' | translate }}</a></li>
+  <li role="presentation" ng-class="{ itemmenuactive: isActive('/movies/all')}"><a href="/movies/all" ng-class="{ itemmenuactive: isActive('/movies/all')}">{{ 'all' | translate }}</a></li>
+  <li role="presentation" ng-class="{ itemmenuactive: isActive('/movies/me')}"><a href="/movies/me" ng-class="{ itemmenuactive: isActive('/movies/me')}">{{ 'mine' | translate }}</a></li>
 </ul>
