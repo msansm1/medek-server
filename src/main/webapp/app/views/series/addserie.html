@@ -1,92 +1,101 @@
-<div class="row rownomargin itemtitle">
-	<div class="col-md-6 text-left">
-		<input type="text" ng-model="serie.title" name="serieTitle" class="form-control" required></input>
-	</div>
-	<div class="col-md-6 text-right itemeditbutton" ng-click="saveSerie()">
-		<span class="glyphicon glyphicon-ok"></span>{{ 'save' | translate }}
-	</div>
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'createserie' | translate }}</h3>
 </div>
-<div class="itemimage text-right">
-	<img alt="cover" src="{{ serie.cover }}" />
-</div>
-<div class="iteminfos">
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'description' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="serie.description" name="serieDescription" class="form-control"></input>
-		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'releaseDate' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="serie.releaseDate" is-open="opened" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'genre' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="serie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+<div class="modal-body">
+	<form>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'title' | translate }}</span>
+			</div>
+			<div class="col-md-6 text-left">
+				<input type="text" ng-model="serie.title" name="serieTitle" class="form-control" required></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span> </span>
 			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'support' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<div class="controls">
-				<select ng-model="serie.supportId" ng-options="support.id as support.name for support in supports"></select>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'description' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="text" ng-model="serie.description" name="serieDescription" class="form-control"></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'releaseDate' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+	            <p class="input-group">
+	              <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="serie.releaseDate" is-open="opened" close-text="Close" />
+	              <span class="input-group-btn">
+	                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              </span>
+	            </p>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'length' | translate }}</span>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'genre' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<div class="controls">
+					<select ng-model="serie.genreId" ng-options="genre.id as genre.name for genre in genres"></select>
+				</div>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'support' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<div class="controls">
+					<select ng-model="serie.supportId" ng-options="support.id as support.name for support in supports"></select>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="serie.length" name="serieLength" class="form-control"></input>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'length' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="text" ng-model="serie.length" name="serieLength" class="form-control"></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'season' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="text" ng-model="serie.season" name="serieSeason" class="form-control"></input>
+			</div>
 		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'season' | translate }}</span>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'series' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="text" ng-model="serie.series" name="serieSeries" class="form-control"></input>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'isSeriesDone' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<input type="checkbox" ng-model="serie.isSeriesDone" name="serieIsSeriesDone" class="form-control"></input>
+			</div>
 		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="serie.season" name="serieSeason" class="form-control"></input>
+		<div class="createinfos row">
+			<div class="col-md-3 text-right">
+				<span>{{ 'langs' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<span>{{ serie.langs }}</span>
+			</div>
+			<div class="col-md-3 text-right">
+				<span>{{ 'subtitles' | translate }}</span>
+			</div>
+			<div class="col-md-3 text-left">
+				<span>{{ serie.subtitles }}</span>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'series' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<input type="text" ng-model="serie.series" name="serieSeries" class="form-control"></input>
-		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'isSeriesDone' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<input type="checkbox" ng-model="serie.isSeriesDone" name="serieIsSeriesDone" class="form-control"></input>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3 text-right">
-			<span>{{ 'langs' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<span>{{ serie.langs }}</span>
-		</div>
-		<div class="col-md-3 text-right">
-			<span>{{ 'subtitles' | translate }}</span>
-		</div>
-		<div class="col-md-3 text-left">
-			<span>{{ serie.subtitles }}</span>
-		</div>
-	</div>
+	</form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
 </div>

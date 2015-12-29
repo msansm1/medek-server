@@ -2,13 +2,5 @@
 	<div class="col-md-2 leftmenu">
 		<div ng-include="'app/views/series/seriesmenu.html'"></div>
 	</div>
-	<div class="col-md-8 mainlist">
-		<form>
-		    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
-		</form>
-		<div ng-repeat="serie in series" ng-include="'app/views/series/seriesdetails.html'"></div>
-	</div>
-	<div class="itempanel">
-		<div ui-view />
-	</div>
+	<div ui-view />
 </div>

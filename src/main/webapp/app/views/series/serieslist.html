@@ -1,0 +1,14 @@
+<div class="col-md-8 mainlist">
+	<form>
+	<div class="col-md-2 text-right itemcreatebutton" ng-click="createSerie()">
+		<span class="glyphicon glyphicon-plus"></span>{{ 'create' | translate }}
+	</div>
+	<div class="col-md-10 itemsearch">
+	    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
+	</div>
+	</form>
+	<div ng-repeat="serie in series" ng-include="'app/views/series/seriesdetails.html'"></div>
+</div>
+<div class="itempanel">
+	<div ui-view />
+</div>

@@ -4,12 +4,13 @@ angular.module('medekApp.controllers').controller('SerieController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$modal',
 '$upload',
 'SerieService',
 'StoryGenreService',
 'SupportService',
 'LangService',
-function($scope, $rootScope, $stateParams, $location, $upload, SerieService, StoryGenreService,
+function($scope, $rootScope, $stateParams, $location, $modal, $upload, SerieService, StoryGenreService,
 		SupportService, LangService) {
     this.userLogin = $rootScope.user.login;
     
@@ -21,6 +22,11 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
 			                        	  $('.mainlist').removeClass('col-md-8');
 			                              console.log("Serie : "+response.data);
 			                              $scope.serie = response.data;
+			                              if ($location.path().indexOf('/me/') > -1) {
+			                           	   $scope.serie.myview = true;
+			                              } else {
+			                           	   $scope.serie.myview = false;
+			                              }
 			                              $('.itempanel').addClass('col-md-6');
 			                          }, function(reason) {
 			                              alert('FAILED !!!');
@@ -92,7 +98,7 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
 	};
     
     $scope.editSerie = function(id) {
-    	$location.path('/series/edit/'+id);
+    	$location.path('/series/me/edit/'+id);
         $location.replace();
     };
     
@@ -101,7 +107,7 @@ function($scope, $rootScope, $stateParams, $location, $upload, SerieService, Sto
                 function(response) {
                     $rootScope.alerts.push({type: 'success', msg: 'Serie saved !'});
                 	$scope.$parent.getSeries();
-                	$location.path('/series/edit/'+response.data.id);
+                	$location.path('/series/me/edit/'+response.data.id);
                     $location.replace();
                 }, function(reason) {
                     $rootScope.alerts.push({type: 'danger', msg: 'Save serie failed'});

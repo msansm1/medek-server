@@ -119,21 +119,31 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             // SERIES
             .state('series', {
+            	abstract: true,
                 url: '/series',
                 templateUrl : 'app/views/series/series.html',
+            })
+            .state('series.all', {
+                url: '/all',
+                templateUrl : 'app/views/series/serieslist.html',
                 controller : 'SeriesController'
             })
-            .state('series.add', {
-                url: '/add',
-                templateUrl : 'app/views/series/addserie.html',
-                controller : 'SerieController'
+            .state('series.mine', {
+                url: '/me',
+                templateUrl : 'app/views/series/serieslist.html',
+                controller : 'SeriesController'
             })
-            .state('series.detail', {
-                url: '/:serieId',
+            .state('series.all.view', {
+                url: '/view/:serieId',
                 templateUrl : 'app/views/series/serie.html',
                 controller : 'SerieController'
             })
-            .state('series.edit', {
+            .state('series.mine.view', {
+                url: '/view/:serieId',
+                templateUrl : 'app/views/series/serie.html',
+                controller : 'SerieController'
+            })
+            .state('series.mine.edit', {
                 url: '/edit/:serieId',
                 templateUrl : 'app/views/series/editserie.html',
                 controller : 'SerieController'
