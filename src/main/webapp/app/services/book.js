@@ -21,4 +21,8 @@ function($http, $rootScope) {
     this.addBookToCollection = function(book) {
         return $http.post('services/books/addtocollec', book);
     };
+
+    this.userBooks = function(userId) {
+        return $http.get('services/books/user/'+userId);
+    };
 } ]);

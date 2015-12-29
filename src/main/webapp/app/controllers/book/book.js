@@ -4,6 +4,7 @@ angular.module('medekApp.controllers').controller('BookController',[
 '$rootScope',
 '$stateParams',
 '$location',
+'$modal',
 '$upload',
 'BookService',
 'BookTypeService',
@@ -11,7 +12,7 @@ angular.module('medekApp.controllers').controller('BookController',[
 'EditorService',
 'LangService',
 'StoryGenreService',
-function($scope, $rootScope, $stateParams, $location, $upload, BookService, BookTypeService,
+function($scope, $rootScope, $stateParams, $location, $modal, $upload, BookService, BookTypeService,
 		CollectionService, EditorService, LangService, StoryGenreService) {
     this.userLogin = $rootScope.user.login;
     
@@ -23,6 +24,11 @@ function($scope, $rootScope, $stateParams, $location, $upload, BookService, Book
 	                        	  $('.mainlist').removeClass('col-md-8');
 	                              console.log("Book : "+response.data);
 	                              $scope.book = response.data;
+	                              if ($location.path().indexOf('/me/') > -1) {
+	                           	   $scope.book.myview = true;
+	                              } else {
+	                           	   $scope.book.myview = false;
+	                              }
 	                              $('.itempanel').addClass('col-md-6');
 	                          }, function(reason) {
 	                              alert('FAILED !!!');
@@ -117,7 +123,7 @@ function($scope, $rootScope, $stateParams, $location, $upload, BookService, Book
 	};
     
     $scope.editBook = function(id) {
-    	$location.path('/books/edit/'+id);
+    	$location.path('/books/me/edit/'+id);
         $location.replace();
     };
     

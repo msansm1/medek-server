@@ -2,7 +2,7 @@
 	<div class="col-md-9 text-left">
 		<strong><i>{{ book.title }}</i></strong>
 	</div>
-	<div class="col-md-3 text-right itemeditbutton" ng-click="editBook(book.id)" ng-if="book.mycollec">
+	<div class="col-md-3 text-right itemeditbutton" ng-click="editBook(book.id)" ng-show="book.myview">
 		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
 	</div>
 	<div class="col-md-3 text-right itemeditbutton" ng-click="addBookToMyCollec(book)" ng-if="!book.mycollec">

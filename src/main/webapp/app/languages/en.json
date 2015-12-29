@@ -68,6 +68,7 @@
 	"rating": "Rating",
 	"comment": "Comment",
 	"create": "Create",
+	"createbook": "Create a new book",
 	
 	"admin": "Administration",
 	"users": "Users"

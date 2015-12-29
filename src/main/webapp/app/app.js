@@ -26,21 +26,32 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             // BOOKS
             .state('books', {
+            	abstract: true,
                 url: '/books',
                 templateUrl : 'app/views/book/books.html',
+            })
+            
+            .state('books.all', {
+                url: '/all',
+                templateUrl : 'app/views/book/bookslist.html',
                 controller : 'BooksController'
             })
-            .state('books.add', {
-                url: '/add',
-                templateUrl : 'app/views/book/addbook.html',
-                controller : 'BookController'
+            .state('books.mine', {
+                url: '/me',
+                templateUrl : 'app/views/book/bookslist.html',
+                controller : 'BooksController'
             })
-            .state('books.detail', {
-                url: '/:bookId',
+            .state('books.all.view', {
+                url: '/view/:bookId',
                 templateUrl : 'app/views/book/book.html',
                 controller : 'BookController'
             })
-            .state('books.edit', {
+            .state('books.mine.view', {
+                url: '/view/:bookId',
+                templateUrl : 'app/views/book/book.html',
+                controller : 'BookController'
+            })
+            .state('books.mine.edit', {
                 url: '/edit/:bookId',
                 templateUrl : 'app/views/book/editbook.html',
                 controller : 'BookController'
@@ -60,11 +71,6 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 url: '/me',
                 templateUrl : 'app/views/album/albumslist.html',
                 controller : 'AlbumsController'
-            })
-            .state('albums.add', {
-                url: '/add',
-                templateUrl : 'app/views/album/addalbum.html',
-                controller : 'AlbumController'
             })
             .state('albums.all.view', {
                 url: '/view/:albumId',

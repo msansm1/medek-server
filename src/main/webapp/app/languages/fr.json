@@ -68,6 +68,7 @@
 	"rating": "Note",
 	"comment": "Commentaire",
 	"create": "Créer",
+	"createbook": "Créer un nouveau livre",
 	
 	"admin": "Administration",
 	"users": "Utilisateurs"
