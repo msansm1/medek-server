@@ -9,6 +9,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 import bzh.medek.server.conf.ClientMessage;
 import bzh.medek.server.error.MedekError;
+import bzh.medek.server.gracenote.GracenoteException;
 import bzh.medek.server.interceptor.RestRequestFilter;
 import bzh.medek.server.json.JsonClientMsg;
 import bzh.medek.server.json.admin.user.JsonAdminUser;
@@ -52,8 +53,11 @@ public class TestUtils {
                 .addPackage(JsonArtist.class.getPackage())
                 .addPackage(JsonAdminUser.class.getPackage())
                 .addPackage(AdminUserService.class.getPackage())
+                .addPackage(GracenoteException.class.getPackage())
                 .addAsLibraries(libsConf)
+                .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")
+                .addAsResource("drop.sql", "drop.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }

@@ -6,8 +6,6 @@
 	<!-- <engine>
 		<property name="deploymentExportPath">target/exploded-artifact-for-inspection</property>
 	</engine> -->
-	
-	<defaultProtocol type="Servlet 3.0" />
 
 	<container qualifier="jboss" default="true">
 		<configuration>
@@ -15,7 +13,6 @@
 			<property name="managementPort">9990</property>
 			<property name="username">admedek</property>
 			<property name="password">medek2014wildfly</property>
-        <property name="jbossHome">F:\dev\servers\wildfly-8.1.0.Final</property>
 		</configuration>
 	</container>
  
