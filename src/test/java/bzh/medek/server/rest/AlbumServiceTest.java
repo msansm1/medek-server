@@ -64,7 +64,8 @@ public class AlbumServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "/loguser/1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
@@ -81,7 +82,7 @@ public class AlbumServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
+        JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1/loguser/1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonAlbum.class);
@@ -98,7 +99,8 @@ public class AlbumServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonAlbum album = new JsonAlbum(null, "la ouache", null);
+        JsonAlbum album = new JsonAlbum(null, "la ouache", null, null, "BZH", 1,
+        		12, "CD", 1, "Matmatah", 1, true, 4, false, null);
 
         JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
@@ -117,7 +119,8 @@ public class AlbumServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonAlbum album = new JsonAlbum(1, "Master of puppets", null);
+        JsonAlbum album = new JsonAlbum(1, "Master of puppets", null, null, "Metal", 1,
+        		9, "CD", 1, "Metallica", 1, true, 5, false, null);
 
         JsonAlbum response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
                 .request(MediaType.APPLICATION_JSON)
@@ -160,6 +163,25 @@ public class AlbumServiceTest {
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No user album found", response.isEmpty());
+    }
+
+    /**
+     * Test for /services/albums GET with params
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(7)
+    public void callGetListParams() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "?from=0&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No album found", response.isEmpty());
     }
 
 	

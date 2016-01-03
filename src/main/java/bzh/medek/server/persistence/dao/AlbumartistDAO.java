@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import bzh.medek.server.persistence.entities.Albumartist;
+import bzh.medek.server.persistence.entities.AlbumartistPK;
 
 /**
  * DAO for ALBUMARTIST table
@@ -33,7 +34,7 @@ public class AlbumartistDAO extends Dao {
 				.getResultList();
 	}
 
-	public Albumartist getAlbumartist(Integer id) {
+	public Albumartist getAlbumartist(AlbumartistPK id) {
 		return em.find(Albumartist.class, id);
 	}
 }

@@ -49,4 +49,15 @@ public class AlbumDAO extends Dao {
 		q.setParameter("param1", id);
 		return q.getResultList();
 	}
+
+	public List<Album> getAlbumsForList(int index, int limit, String orderBy, String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("FROM Album ORDER BY "+orderBy+" "+dir, Album.class)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

@@ -50,4 +50,16 @@ public class UseralbumDAO extends Dao {
 		}
 		return null;
 	}
+	
+	public Useralbum getUseralbum(Integer albumId, String userToken) {
+		TypedQuery<Useralbum> q = em.createQuery("from Useralbum "
+				+ "WHERE id.album=:param1 AND userBean.token=:param2", Useralbum.class);
+		q.setParameter("param1", albumId);
+		q.setParameter("param2", userToken);
+		List<Useralbum> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
+	}
 }
