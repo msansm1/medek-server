@@ -5,6 +5,10 @@ function($http, $rootScope) {
     this.albums = function() {
         return $http.get('services/albums/loguser/'+$rootScope.user.id);
     };
+
+    this.albumlist = function(from, limit, orderBy, orderDir) {
+        return $http.get('services/albums?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
+    };
     
     this.album = function(id) {
         return $http.get('services/albums/'+id+'/loguser/'+$rootScope.user.id);

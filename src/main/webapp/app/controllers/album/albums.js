@@ -20,7 +20,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
                    alert('FAILED !!!');
                });
     	} else {
-        	AlbumService.albums()
+        	AlbumService.albumlist(0, 50, 'id', 'asc')
             .then(
                function(response) {
                    console.log("Albums : "+response.data);
