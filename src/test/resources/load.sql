@@ -52,7 +52,7 @@ INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
 
 INSERT INTO `ARTISTTYPE` (`ID`, `NAME`) VALUES (1, 'Groupe de musique'), (2, 'Auteur'), (3, 'Producteur'), (4, 'Réalisateur'), (5, 'Scénariste');
 
-INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (1, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (2, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (3, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL), (4, 'Matmatah', NULL, '1', 'Breton', NULL, NULL), (5, 'Nirvana', NULL, '1', 'Americain', NULL, NULL);
+INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (1, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (2, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (3, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL), (4, 'Matmatah', NULL, '1', 'Breton', NULL, NULL), (5, 'Nirvana', NULL, '1', 'Americain', NULL, NULL), (6, 'Rowling', 'JK', '2', 'Anglaise', NULL, NULL), (7, 'Weber', 'Franck', '2', 'Français', NULL, NULL);
 
 INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3), (2, 'La ouache', NULL, '1999-12-01 00:00:00', 2, 11, 3), (3, 'Master of puppets', NULL, '1986-12-01 00:00:00', 1, 9, 3), (4, 'In utero', NULL, '1990-12-01 00:00:00', 2, 13, 3), (5, 'Nevermind', NULL, '1992-12-01 00:00:00', 2, 12, 3), (6, 'Best of', NULL, '2005-12-01 00:00:00', 2, 15, 3), (7, 'Kill them all', NULL, '1981-12-01 00:00:00', 1, 8, 3);
 
@@ -62,9 +62,9 @@ INSERT INTO `ALBUMARTIST` (`ALBUM`, `ARTIST`, `TYPE`) VALUES ('1', '1', NULL), (
 
 INSERT INTO `TRACKARTIST` (`TRACK`, `ARTIST`, `TYPE`) VALUES ('1', '1', NULL), ('2', '1', NULL);
 
-INSERT INTO `BOOK` (`ID`, `TITLE`, `EDITOR`, `COLLECTION`, `COVER`, `DESCRIPTION`, `PUBLICATIONDATE`, `GENRE`, `TYPE`, `LANG`, `SERIES`, `BOOKNB`, `ISSERIEDONE`) VALUES (1, 'The Hobbit', 2, NULL, NULL, 'In a hole there was a Hobbit', '1937-05-01 00:00:00', 1, 1, 2, NULL, 1, 1);
+INSERT INTO `BOOK` (`ID`, `TITLE`, `EDITOR`, `COLLECTION`, `COVER`, `DESCRIPTION`, `PUBLICATIONDATE`, `GENRE`, `TYPE`, `LANG`, `SERIES`, `BOOKNB`, `ISSERIEDONE`) VALUES (1, 'The Hobbit', 2, NULL, NULL, 'In a hole there was a Hobbit', '1937-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (2, 'The Lord of the Rings', 2, NULL, NULL, 'The herbs of hobbits', '1939-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (3, 'Harry Potter', 2, NULL, NULL, 'Youp', '1984-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (4, 'The Cup of Fire', 2, NULL, NULL, 'Fwouh', '1990-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (5, 'Vacancies', 2, NULL, NULL, 'Youhou', '2013-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (6, 'Les Fourmis', 2, NULL, NULL, 'Tchtch', '1998-05-01 00:00:00', 1, 1, 2, NULL, 1, 1), (7, 'Les papillons', 2, NULL, NULL, 'Fwfwfw', '2007-05-01 00:00:00', 1, 1, 2, NULL, 1, 1);
 
-INSERT INTO `BOOKARTIST` (`BOOK`, `ARTIST`, `TYPE`) VALUES ('1', '2', NULL);
+INSERT INTO `BOOKARTIST` (`BOOK`, `ARTIST`, `TYPE`) VALUES ('1', '2', NULL), ('2', '2', NULL), ('3', '6', NULL), ('4', '6', NULL), ('5', '6', NULL), ('6', '7', NULL), ('7', '7', NULL);
 
 INSERT INTO `MOVIE` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `ISCOLLECTOR`) VALUES (1, 'Princesse Mononoké', NULL, '1999-12-02 00:00:00', NULL, 1, 1, NULL, 0);
 

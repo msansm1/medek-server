@@ -145,12 +145,13 @@ public class BookServiceTest {
 
     /**
      * Test for /services/books GET with params
+     * Page 1
      * 
      * @throws Exception
      */
     @Test
     @InSequence(6)
-    public void callGetListParams() throws Exception {
+    public void callGetListParamsPOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
@@ -160,6 +161,28 @@ public class BookServiceTest {
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No book found", response.isEmpty());
+        assertEquals("List page 1 does not contains 5 entries", Integer.valueOf(5), Integer.valueOf(response.size()));
+    }
+
+    /**
+     * Test for /services/books GET with params
+     * Page 2
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(7)
+    public void callGetListParamsPTwo() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "?from=6&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No book found", response.isEmpty());
+        assertEquals("List page 2 does not contains 2 entries", Integer.valueOf(2), Integer.valueOf(response.size()));
     }
 
 	
