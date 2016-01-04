@@ -52,13 +52,13 @@ INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
 
 INSERT INTO `ARTISTTYPE` (`ID`, `NAME`) VALUES (1, 'Groupe de musique'), (2, 'Auteur'), (3, 'Producteur'), (4, 'Réalisateur'), (5, 'Scénariste');
 
-INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (1, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (2, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (3, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL);
+INSERT INTO `ARTIST` (`ID`, `NAME`, `FIRSTNAME`, `TYPE`, `NATIONALITY`, `PICTURE`, `BIOLINK`) VALUES (1, 'Metallica', NULL, '1', 'Americain', NULL, NULL), (2, 'Tolkien', 'JRR', '2', 'Anglais', NULL, NULL), (3, 'Miyasaki', 'Hayao', '3', 'Japonais', NULL, NULL), (4, 'Matmatah', NULL, '1', 'Breton', NULL, NULL), (5, 'Nirvana', NULL, '1', 'Americain', NULL, NULL);
 
-INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3);
+INSERT INTO `ALBUM` (`ID`, `TITLE`, `COVER`, `RELEASEDATE`, `GENRE`, `NBTRACKS`, `SUPPORT`) VALUES (1, 'And justice for all', NULL, '1984-12-01 00:00:00', 1, 8, 3), (2, 'La ouache', NULL, '1999-12-01 00:00:00', 2, 11, 3), (3, 'Master of puppets', NULL, '1986-12-01 00:00:00', 1, 9, 3), (4, 'In utero', NULL, '1990-12-01 00:00:00', 2, 13, 3), (5, 'Nevermind', NULL, '1992-12-01 00:00:00', 2, 12, 3), (6, 'Best of', NULL, '2005-12-01 00:00:00', 2, 15, 3), (7, 'Kill them all', NULL, '1981-12-01 00:00:00', 1, 8, 3);
 
 INSERT INTO `TRACK` (`ID`, `ALBUM`, `TITLE`, `NUMBER`, `LENGTH`) VALUES (1, '1', 'Master of Puppets', '3', '7:50'), (2, '1', 'Orion', '8', '9:57');
 
-INSERT INTO `ALBUMARTIST` (`ALBUM`, `ARTIST`, `TYPE`) VALUES ('1', '1', NULL);
+INSERT INTO `ALBUMARTIST` (`ALBUM`, `ARTIST`, `TYPE`) VALUES ('1', '1', NULL), ('2', '4', NULL), ('3', '1', NULL), ('4', '5', NULL), ('5', '5', NULL), ('6', '5', NULL), ('7', '1', NULL);
 
 INSERT INTO `TRACKARTIST` (`TRACK`, `ARTIST`, `TYPE`) VALUES ('1', '1', NULL), ('2', '1', NULL);
 
