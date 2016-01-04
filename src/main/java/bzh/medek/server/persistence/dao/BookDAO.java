@@ -49,4 +49,16 @@ public class BookDAO extends Dao {
 		q.setParameter("param1", id);
 		return q.getResultList();
 	}
+
+	public List<Book> getBooksForList(int index, int limit, String orderBy,
+			String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("FROM Book ORDER BY "+orderBy+" "+dir, Book.class)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

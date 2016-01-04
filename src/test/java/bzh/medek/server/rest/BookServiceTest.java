@@ -80,7 +80,7 @@ public class BookServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonBook response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
+        JsonBook response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1/loguser/1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonBook.class);
@@ -141,6 +141,25 @@ public class BookServiceTest {
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No user book found", response.isEmpty());
+    }
+
+    /**
+     * Test for /services/books GET with params
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(6)
+    public void callGetListParams() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "?from=0&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No book found", response.isEmpty());
     }
 
 	

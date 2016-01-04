@@ -82,7 +82,7 @@ public class TVShowServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
+        JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1/loguser/1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonShow.class);
@@ -147,6 +147,25 @@ public class TVShowServiceTest {
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No user tvshow found", response.isEmpty());
+    }
+
+    /**
+     * Test for /services/tvshows GET with params
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(6)
+    public void callGetListParams() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "?from=0&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No tvshow found", response.isEmpty());
     }
 
 	

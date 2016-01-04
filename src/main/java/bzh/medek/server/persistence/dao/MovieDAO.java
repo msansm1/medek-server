@@ -68,4 +68,16 @@ public class MovieDAO extends Dao {
 		}
 		return null;
 	}
+
+	public List<Movie> getMoviesForList(int index, int limit, String orderBy,
+			String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("FROM Movie ORDER BY "+orderBy+" "+dir, Movie.class)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

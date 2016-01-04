@@ -49,4 +49,16 @@ public class UsermovieDAO extends Dao {
 		}
 		return null;
 	}
+
+	public Usermovie getUsermovie(Integer movieId, String token) {
+		TypedQuery<Usermovie> q = em.createQuery("from Usermovie "
+				+ "WHERE id.movie=:param1 AND userBean.token=:param2", Usermovie.class);
+		q.setParameter("param1", movieId);
+		q.setParameter("param2", token);
+		List<Usermovie> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
+	}
 }

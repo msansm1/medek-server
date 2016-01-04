@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,7 +19,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -38,6 +41,7 @@ import bzh.medek.server.persistence.dao.UsertvDAO;
 import bzh.medek.server.persistence.entities.Tvshow;
 import bzh.medek.server.persistence.entities.Usertv;
 import bzh.medek.server.persistence.entities.UsertvPK;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -77,6 +81,34 @@ public class TVShowService extends Application {
 		ArrayList<JsonShow> ls = new ArrayList<JsonShow>();
 		for (Tvshow s : shows) {
 			Usertv mys = usertvDAO.getUsertv(s.getId(), userId);
+			ls.add(new JsonShow(s.getId(), s.getTitle(), s.getDescription(), s
+					.getReleasedate(), s.getCover(),
+					(s.getSupportBean() != null) ? s.getSupportBean().getName()
+							: "", (s.getSupportBean() != null) ? s
+							.getSupportBean().getId() : null, (s
+							.getStorygenre() != null) ? s.getStorygenre()
+							.getName() : "", (s.getStorygenre() != null) ? s
+							.getStorygenre().getId() : null, s.getLength(), s
+							.getSeason(), s.getSeries(), s.getIsseriedone(),
+					null, null, (mys!=null)?true:false, (mys!=null)?mys.getRating():0));
+		}
+		return ls;
+	}
+
+	/**
+	 * GET /shows : retrieve all shows
+	 * 
+	 * @return
+	 */
+	@GET
+	public List<JsonShow> getAllWithParams(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
+		List<Tvshow> shows = showDao.getTvshowsForList(from, limit, orderBy, orderDir);
+		LOGGER.info("find " + shows.size() + " shows in the database");
+		ArrayList<JsonShow> ls = new ArrayList<JsonShow>();
+		for (Tvshow s : shows) {
+			Usertv mys = usertvDAO.getUsertv(s.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
 			ls.add(new JsonShow(s.getId(), s.getTitle(), s.getDescription(), s
 					.getReleasedate(), s.getCover(),
 					(s.getSupportBean() != null) ? s.getSupportBean().getName()

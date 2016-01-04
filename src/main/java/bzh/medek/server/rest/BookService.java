@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,7 +19,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -41,6 +44,7 @@ import bzh.medek.server.persistence.dao.UserbookDAO;
 import bzh.medek.server.persistence.entities.Book;
 import bzh.medek.server.persistence.entities.Userbook;
 import bzh.medek.server.persistence.entities.UserbookPK;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -99,6 +103,57 @@ public class BookService extends Application {
 				artistId = 0;
 			}
 			Userbook myb = userbookDAO.getUserbook(b.getId(), userId);
+			lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
+					(b.getEditorBean() != null) ? b.getEditorBean().getName()
+							: "", (b.getEditorBean() != null) ? b
+							.getEditorBean().getId() : 0, (b
+							.getCollectionBean() != null) ? b
+							.getCollectionBean().getName() : "", (b
+							.getCollectionBean() != null) ? b
+							.getCollectionBean().getId() : 0, b.getCover(), b
+							.getDescription(), b.getPublicationdate(), (b
+							.getStorygenre() != null) ? b.getStorygenre()
+							.getName() : "", (b.getStorygenre() != null) ? b
+							.getStorygenre().getId() : 0,
+					(b.getBooktype() != null) ? b.getBooktype().getName() : "",
+					(b.getBooktype() != null) ? b.getBooktype().getId() : 0, (b
+							.getBooktype() != null) ? b.getLangBean().getName()
+							: "", (b.getBooktype() != null) ? b.getLangBean()
+							.getId() : 0, b.getSeries(), b.getBooknb(), b
+							.getIsseriedone(), (myb != null) ? true : false,
+					(myb != null) ? myb.getRating() : 0, (myb != null) ? myb
+							.getIssigned() : false));
+		}
+		return lb;
+	}
+
+	/**
+	 * GET /books : retrieve all books
+	 * 
+	 * @return
+	 */
+	@GET
+	public List<JsonBook> getAllWithParams(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
+		List<Book> books = bookDao.getBooksForList(from, limit, orderBy, orderDir);
+		LOGGER.info("find " + books.size() + " books in the database");
+		ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
+		String artistName = "";
+		Integer artistId = 0;
+		for (Book b : books) {
+			if (!b.getBookartists().isEmpty()) {
+				artistName = b.getBookartists().get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ b.getBookartists().get(0).getArtistBean()
+								.getFirstname();
+				artistId = b.getBookartists().get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			Userbook myb = userbookDAO.getUserbook(b.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
 			lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
 					(b.getEditorBean() != null) ? b.getEditorBean().getName()
 							: "", (b.getEditorBean() != null) ? b

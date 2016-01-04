@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,7 +19,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -40,6 +43,7 @@ import bzh.medek.server.persistence.entities.Lang;
 import bzh.medek.server.persistence.entities.Movie;
 import bzh.medek.server.persistence.entities.Usermovie;
 import bzh.medek.server.persistence.entities.UsermoviePK;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -92,6 +96,42 @@ public class MovieService extends Application {
 				artistId = 0;
 			}
 			Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
+			lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
+					m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
+					m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
+					artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
+					(mym!=null)?true:false, (mym!=null)?mym.getRating():0));
+    	}
+    	return lm;
+    }
+
+    /**
+     *  GET /movies : retrieve all movies
+     * 
+     * @return
+     */
+    @GET
+    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
+		List<Movie> movies = movieDao.getMoviesForList(from, limit, orderBy, orderDir);
+    	LOGGER.info("find "+movies.size()+" movies in the database");
+    	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
+		String artistName = "";
+		Integer artistId = 0;
+    	for (Movie m : movies) {
+			if (!m.getMovieartists().isEmpty()) {
+				artistName = m.getMovieartists().get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ m.getMovieartists().get(0).getArtistBean()
+								.getFirstname();
+				artistId = m.getMovieartists().get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			Usermovie mym = usermovieDAO.getUsermovie(m.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
 			lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
 					m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
 					m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 

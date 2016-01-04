@@ -49,4 +49,16 @@ public class TvshowDAO extends Dao {
 		q.setParameter("param1", id);
 		return q.getResultList();
 	}
+
+	public List<Tvshow> getTvshowsForList(int index, int limit, String orderBy,
+			String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("FROM Tvshow ORDER BY "+orderBy+" "+dir, Tvshow.class)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

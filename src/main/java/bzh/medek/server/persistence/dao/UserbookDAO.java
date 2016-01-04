@@ -49,4 +49,16 @@ public class UserbookDAO extends Dao {
 		}
 		return null;
 	}
+
+	public Userbook getUserbook(Integer bookId, String token) {
+		TypedQuery<Userbook> q = em.createQuery("from Userbook "
+				+ "WHERE id.book=:param1 AND userBean.token=:param2", Userbook.class);
+		q.setParameter("param1", bookId);
+		q.setParameter("param2", token);
+		List<Userbook> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
+	}
 }

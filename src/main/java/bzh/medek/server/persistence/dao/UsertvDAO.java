@@ -50,4 +50,16 @@ public class UsertvDAO extends Dao {
 		}
 		return null;
 	}
+
+	public Usertv getUsertv(Integer tvId, String token) {
+		TypedQuery<Usertv> q = em.createQuery("from Usertv "
+				+ "WHERE id.tvshow=:param1 AND userBean.token=:param2", Usertv.class);
+		q.setParameter("param1", tvId);
+		q.setParameter("param2", token);
+		List<Usertv> res = q.getResultList();
+		if (!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
+	}
 }
