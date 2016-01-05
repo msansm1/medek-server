@@ -66,7 +66,7 @@ INSERT INTO `BOOK` (`ID`, `TITLE`, `EDITOR`, `COLLECTION`, `COVER`, `DESCRIPTION
 
 INSERT INTO `BOOKARTIST` (`BOOK`, `ARTIST`, `TYPE`) VALUES ('1', '2', NULL), ('2', '2', NULL), ('3', '6', NULL), ('4', '6', NULL), ('5', '6', NULL), ('6', '7', NULL), ('7', '7', NULL);
 
-INSERT INTO `MOVIE` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `ISCOLLECTOR`) VALUES (1, 'Princesse Mononoké', NULL, '1999-12-02 00:00:00', NULL, 1, 1, NULL, 0);
+INSERT INTO `MOVIE` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `ISCOLLECTOR`) VALUES (1, 'Princesse Mononoké', NULL, '1999-12-02 00:00:00', NULL, 1, 1, NULL, 0), (2, 'Le chateau dans le ciel', NULL, '1988-12-02 00:00:00', NULL, 1, 1, NULL, 0), (3, 'Mémoires de nos pères', NULL, '1999-12-02 00:00:00', NULL, 1, 1, NULL, 0), (4, 'Gran Torino', NULL, '2010-12-02 00:00:00', NULL, 1, 1, NULL, 0), (5, 'Invictus', NULL, '2012-12-02 00:00:00', NULL, 1, 1, NULL, 0), (6, 'Inception', NULL, '2013-12-02 00:00:00', NULL, 1, 1, NULL, 0), (7, 'The Dark Knight', NULL, '2012-12-02 00:00:00', NULL, 1, 1, NULL, 0);
 
 INSERT INTO `MOVIEARTIST` (`MOVIE`, `ARTIST`, `TYPE`) VALUES ('1', '3', NULL);
 
