@@ -33,6 +33,8 @@ public class LangDAOTest {
         		.addClass(LangDAO.class)
                 .addClass(Dao.class)
                 .addPackage(Lang.class.getPackage())
+                .addAsResource("drop.sql", "drop.sql")
+                .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
