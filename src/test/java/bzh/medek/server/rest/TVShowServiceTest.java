@@ -107,7 +107,7 @@ public class TVShowServiceTest {
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(tvshow, MediaType.APPLICATION_JSON), JsonShow.class);
-        assertEquals(Integer.valueOf(2), response.getId());
+        assertEquals(Integer.valueOf(8), response.getId());
     }
 
     /**
@@ -156,7 +156,7 @@ public class TVShowServiceTest {
      */
     @Test
     @InSequence(6)
-    public void callGetListParams() throws Exception {
+    public void callGetListParamsPOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
@@ -166,6 +166,27 @@ public class TVShowServiceTest {
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No tvshow found", response.isEmpty());
+        assertEquals("List page 1 does not contains 5 entries", Integer.valueOf(5), Integer.valueOf(response.size()));
+    }
+
+    /**
+     * Test for /services/tvshows GET with params
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(7)
+    public void callGetListParamsPTwo() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "?from=6&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No tvshow found", response.isEmpty());
+        assertEquals("List page 2 does not contains 2 entries", Integer.valueOf(2), Integer.valueOf(response.size()));
     }
 
 	

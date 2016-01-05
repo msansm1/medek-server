@@ -74,7 +74,7 @@ INSERT INTO `MOVIELANG` (`MOVIE`, `LANG`) VALUES ('1', '1'), ('1', '2');
 
 INSERT INTO `MOVIESUBTITLE` (`MOVIE`, `SUBTITLE`) VALUES ('1', '1'), ('1', '2');
 
-INSERT INTO `TVSHOW` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `season`, `SERIES`, `ISSERIEDONE`) VALUES (1, 'Justified s01', NULL, '2010-12-02 00:00:00', NULL, NULL, NULL, NULL, 1, 'Justified', 0);
+INSERT INTO `TVSHOW` (`ID`, `TITLE`, `DESCRIPTION`, `RELEASEDATE`, `COVER`, `SUPPORT`, `GENRE`, `LENGTH`, `season`, `SERIES`, `ISSERIEDONE`) VALUES (1, 'Justified s01', NULL, '2010-12-02 00:00:00', NULL, NULL, NULL, NULL, 1, 'Justified', 0), (2, 'Justified s02', NULL, '2011-12-02 00:00:00', NULL, NULL, NULL, NULL, 2, 'Justified', 0), (3, 'Once upon a time s01', NULL, '2010-12-02 00:00:00', NULL, NULL, NULL, NULL, 1, 'Once upon a time', 0), (4, 'Once upon a time s02', NULL, '2011-12-02 00:00:00', NULL, NULL, NULL, NULL, 2, 'Once upon a time', 0), (5, 'Hell on Wheels s01', NULL, '2010-12-02 00:00:00', NULL, NULL, NULL, NULL, 1, 'Hell on Wheels', 0), (6, 'Hell on Wheels s02', NULL, '2011-12-02 00:00:00', NULL, NULL, NULL, NULL, 2, 'Hell on Wheels', 0), (7, 'NCIS s09', NULL, '2010-12-02 00:00:00', NULL, NULL, NULL, NULL, 9, 'NCIS', 0);
 
 INSERT INTO `USERALBUM` (`USER`, `ALBUM`, `ISSIGNED`, `RATING`, `COMMENT`) VALUES ('1', '1', 0, 5, NULL);
 
