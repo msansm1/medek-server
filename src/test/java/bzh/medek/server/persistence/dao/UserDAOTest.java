@@ -33,6 +33,8 @@ public class UserDAOTest {
         		.addClass(UserDAO.class)
                 .addClass(Dao.class)
                 .addPackage(User.class.getPackage())
+                .addAsResource("drop.sql", "drop.sql")
+                .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -50,6 +52,7 @@ public class UserDAOTest {
     public void saveUserTest() {
         user.setLogin("login");
         user.setPassword("password");
+        user.setEmail("log@test.tt");
         dao.saveUser(user);
         Assert.assertNotNull("User is not created", user.getId());
     }

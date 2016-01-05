@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import bzh.medek.server.persistence.entities.Trackartist;
+import bzh.medek.server.persistence.entities.TrackartistPK;
 
 /**
  * DAO for TRACKARTIST table
@@ -33,7 +34,7 @@ public class TrackartistDAO extends Dao {
 				.getResultList();
 	}
 
-	public Trackartist getTrackartist(Integer id) {
-		return em.find(Trackartist.class, id);
+	public Trackartist getTrackartist(TrackartistPK taid) {
+		return em.find(Trackartist.class, taid);
 	}
 }

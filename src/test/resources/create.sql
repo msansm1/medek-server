@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `meddb`.`ARTIST` (  `ID` INT NOT NULL AUTO_INCREMENT,
 -- -----------------------------------------------------
 -- Table `meddb`.`SUPPORT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `meddb`.`SUPPORT` (  `ID` INT NOT NULL,  `NAME` VARCHAR(45) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `meddb`.`SUPPORT` (  `ID` INT NOT NULL AUTO_INCREMENT,  `NAME` VARCHAR(45) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -198,7 +198,7 @@ CREATE INDEX `FK_USAL_ALBUM_idx` ON `meddb`.`USERALBUM` (`ALBUM` ASC);
 -- -----------------------------------------------------
 -- Table `meddb`.`ARTISTTYPE`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `meddb`.`ARTISTTYPE` (  `ID` INT NOT NULL,  `NAME` VARCHAR(45) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `meddb`.`ARTISTTYPE` (  `ID` INT NOT NULL AUTO_INCREMENT,  `NAME` VARCHAR(45) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

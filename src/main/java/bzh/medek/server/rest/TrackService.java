@@ -122,15 +122,19 @@ public class TrackService extends Application {
 			if (track.getAlbumId() != null) {
 				t.setAlbumBean(albumDao.getAlbum(track.getAlbumId()));
 			}
-			Trackartist ta = new Trackartist();
 			TrackartistPK taid = new TrackartistPK();
 			taid.setTrack(t.getId().intValue());
 			taid.setArtist(track.getArtistId().intValue());
-			ta.setId(taid);
-			ta.setTrackBean(t);
-			ta.setArtistBean(artistDao.getArtist(track.getArtistId()));
-			trackartistDAO.saveTrackartist(ta);
-			t.addTrackartist(ta);
+			if (trackartistDAO.getTrackartist(taid) == null) {
+				Trackartist ta = new Trackartist();
+				ta.setId(taid);
+				ta.setTrackBean(t);
+				ta.setArtistBean(artistDao.getArtist(track.getArtistId()));
+				trackartistDAO.saveTrackartist(ta);
+				t.addTrackartist(ta);
+			} else {
+				
+			}
 			trackDao.updateTrack(t);
 		}
 		return jt;
