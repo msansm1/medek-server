@@ -5,6 +5,10 @@ function($http, $rootScope) {
     this.books = function() {
         return $http.get('services/books/loguser/'+$rootScope.user.id);
     };
+
+    this.booklist = function(from, limit, orderBy, orderDir) {
+        return $http.get('services/books?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
+    };
     
     this.book = function(id) {
         return $http.get('services/books/'+id+'/loguser/'+$rootScope.user.id);

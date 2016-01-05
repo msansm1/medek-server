@@ -5,6 +5,10 @@ function($http, $rootScope) {
     this.series = function() {
         return $http.get('services/tvshows/loguser/'+$rootScope.user.id);
     };
+
+    this.serieslist = function(from, limit, orderBy, orderDir) {
+        return $http.get('services/tvshows?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
+    };
     
     this.serie = function(id) {
         return $http.get('services/tvshows/'+id+'/loguser/'+$rootScope.user.id);

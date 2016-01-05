@@ -19,7 +19,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, SerieService) {
         	               alert('FAILED !!!');
         	           });
     	} else {
-        	SerieService.series().then(
+    		SerieService.serieslist(0, 50, 'id', 'asc').then(
         	           function(response) {
         	               console.log("Series : "+response.data);
         	               $scope.series = response.data;

@@ -19,7 +19,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, MovieService) {
                    alert('FAILED !!!');
                });
     	} else {
-        	MovieService.movies().then(
+    		MovieService.movielist(0, 50, 'id', 'asc').then(
 	           function(response) {
 	               console.log("Movies : "+response.data);
 	               $scope.movies = response.data;

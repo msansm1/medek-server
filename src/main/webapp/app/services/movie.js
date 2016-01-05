@@ -5,6 +5,10 @@ function($http, $rootScope) {
     this.movies = function() {
         return $http.get('services/movies/loguser/'+$rootScope.user.id);
     };
+
+    this.movielist = function(from, limit, orderBy, orderDir) {
+        return $http.get('services/movies?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
+    };
     
     this.movie = function(id) {
         return $http.get('services/movies/'+id+'/loguser/'+$rootScope.user.id);

@@ -19,7 +19,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, BookService) {
 	               alert('FAILED !!!');
 	           });
     	} else {
-        	BookService.books().then(
+    		BookService.booklist(0, 50, 'id', 'asc').then(
 	           function(response) {
 	               console.log("Books : "+response.data);
 	               $scope.books = response.data;
