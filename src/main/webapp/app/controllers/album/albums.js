@@ -8,8 +8,11 @@ angular.module('medekApp.controllers').controller('AlbumsController',[
 'AlbumService',
 function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
     this.userLogin = $rootScope.user.login;
+    $scope.filter = "";
+    $scope.listLarge = true;
     
     $scope.getAlbums = function () {
+        $scope.listLarge = true;
     	if ($location.path() === '/albums/me') {
         	AlbumService.userAlbums($rootScope.user.id)
             .then(
@@ -40,6 +43,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
         } else {
      	   index = 11;
         }
+        $scope.listLarge = false;
     	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
@@ -50,6 +54,10 @@ function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
             controller: 'AddAlbumController',
             scope: $scope
           });
+    };
+    
+    $scope.searchAlbums = function() {
+        console.log('search criteria : '+$scope.filter);
     };
 
 } ]);

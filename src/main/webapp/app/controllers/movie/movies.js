@@ -8,8 +8,11 @@ angular.module('medekApp.controllers').controller('MoviesController',[
 'MovieService',
 function($scope, $rootScope, $stateParams, $location, $modal, MovieService) {
     this.userLogin = $rootScope.user.login;
+    $scope.filter = "";
+    $scope.listLarge = true;
     
     $scope.getMovies = function() {
+        $scope.listLarge = true;
     	if ($location.path() === '/movies/me') {
             MovieService.userMovies($rootScope.user.id).then(
                function(response) {
@@ -38,6 +41,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, MovieService) {
         } else {
      	   index = 11;
         }
+        $scope.listLarge = false;
     	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
@@ -48,6 +52,10 @@ function($scope, $rootScope, $stateParams, $location, $modal, MovieService) {
             controller: 'AddMovieController',
             scope: $scope
           });
+    };
+    
+    $scope.searchMovies = function() {
+        console.log('search criteria : '+$scope.filter);
     };
 
 } ]);

@@ -8,8 +8,11 @@ angular.module('medekApp.controllers').controller('SeriesController',[
 'SerieService',
 function($scope, $rootScope, $stateParams, $location, $modal, SerieService) {
     this.userLogin = $rootScope.user.login;
+    $scope.filter = "";
+    $scope.listLarge = true;
     
     $scope.getSeries = function() {
+        $scope.listLarge = true;
     	if ($location.path() === '/series/me') {
         	SerieService.userSeries($rootScope.user.id).then(
         	           function(response) {
@@ -38,6 +41,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, SerieService) {
         } else {
      	   index = 11;
         }
+        $scope.listLarge = false;
     	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
@@ -48,6 +52,10 @@ function($scope, $rootScope, $stateParams, $location, $modal, SerieService) {
             controller: 'AddSerieController',
             scope: $scope
           });
+    };
+    
+    $scope.searchSeries = function() {
+        console.log('search criteria : '+$scope.filter);
     };
 
 } ]);

@@ -97,7 +97,6 @@ function($scope, $rootScope, $stateParams, $location, $modal, $upload, MovieServ
 	$scope.open = function($event) {
 		$event.preventDefault();
 		$event.stopPropagation();
-		
 		$scope.opened = true;
 	};
     

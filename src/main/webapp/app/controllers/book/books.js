@@ -8,8 +8,11 @@ angular.module('medekApp.controllers').controller('BooksController',[
 'BookService',
 function($scope, $rootScope, $stateParams, $location, $modal, BookService) {
     this.userLogin = $rootScope.user.login;
+    $scope.filter = "";
+    $scope.listLarge = true;
     
     $scope.getBooks = function() {
+        $scope.listLarge = true;
     	if ($location.path() === '/books/me') {
         	BookService.userBooks($rootScope.user.id).then(
 	           function(response) {
@@ -38,6 +41,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, BookService) {
         } else {
      	   index = 10;
         }
+        $scope.listLarge = false;
     	$location.path($location.path().substring(0,index)+'/view/'+id);
         $location.replace();
     };
@@ -48,6 +52,10 @@ function($scope, $rootScope, $stateParams, $location, $modal, BookService) {
             controller: 'AddBookController',
             scope: $scope
           });
+    };
+    
+    $scope.searchBooks = function() {
+        console.log('search criteria : '+$scope.filter);
     };
 
 } ]);
