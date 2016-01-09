@@ -3,10 +3,10 @@
 		<strong><i>{{ album.title }}</i></strong>
 	</div>
 	<div class="col-md-3 text-right itemeditbutton" ng-click="editAlbum(album.id)" ng-show="album.myview">
-		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+		<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;{{ 'edit' | translate }}
 	</div>
 	<div class="col-md-3 text-right itemeditbutton" ng-click="addAlbumToMyCollec(album)" ng-show="!album.mycollec">
-		<span class="glyphicon glyphicon-plus-sign"></span>{{ 'addtocollection' | translate }}
+		<span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;{{ 'addtocollection' | translate }}
 	</div>
 	<div class="col-md-12 text-right">
 		<strong>{{ album.artist }}</strong>

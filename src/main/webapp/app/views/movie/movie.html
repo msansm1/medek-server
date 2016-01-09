@@ -3,10 +3,10 @@
 		<strong>{{ movie.title }}</strong>
 	</div>
 	<div class="col-md-3 text-right itemeditbutton" ng-click="editMovie(movie.id)" ng-if="movie.myview">
-		<span class="glyphicon glyphicon-edit"></span>{{ 'edit' | translate }}
+		<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;{{ 'edit' | translate }}
 	</div>
 	<div class="col-md-3 text-right itemeditbutton" ng-click="addMovieToMyCollec(movie)" ng-if="!movie.mycollec">
-		<span class="glyphicon glyphicon-plus-sign"></span>{{ 'addtocollection' | translate }}
+		<span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;{{ 'addtocollection' | translate }}
 	</div>
 </div>
 <div class="itemimage text-center">
