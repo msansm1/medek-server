@@ -71,6 +71,7 @@
 	"createbook": "Create a new book",
 	"createmovie": "Create a new movie",
 	"createserie": "Create a new series",
+	"order": "Order",
 	
 	"admin": "Administration",
 	"users": "Users"
