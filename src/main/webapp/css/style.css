@@ -55,8 +55,15 @@
 	border-color: #384dff;
 	border-style: solid;
 	border-top-width: 0px;
-	background-color: #F0FFFF;
 	padding: 5px;
+}
+
+.listitem-item-odd {
+	background-color: #F0FFFF;
+}
+
+.listitem-item-even {
+	background-color: #FFF;
 }
 
 .itempanel {
