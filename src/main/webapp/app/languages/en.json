@@ -25,6 +25,12 @@
 	"series": "Series",
 	"search" : "Search",
 	
+	"mycollec" : "My collection",
+	"albumsnb" : "Albums",
+	"booksnb" : "Books",
+	"moviesnb" : "Movies",
+	"seriesnb" : "Series",
+	
 	"all": "All",
 	"mine": "Mine",
 	"add": "Add",

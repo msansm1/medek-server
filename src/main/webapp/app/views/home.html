@@ -1,4 +1,22 @@
 <div class="container-fluid">
 	<h1>{{ 'home' | translate }}</h1>
-	
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">{{ 'mycollec' | translate }}</div>
+			  <div class="panel-body">
+				  <dl class="dl-horizontal">
+					<dt>{{ 'albumsnb' | translate }}</dt>
+					<dd>{{ mycollec.albums.nb }}</dd>
+					<dt>{{ 'booksnb' | translate }}</dt>
+					<dd>{{ mycollec.books.nb }}</dd>
+					<dt>{{ 'moviesnb' | translate }}</dt>
+					<dd>{{ mycollec.movies.nb }}</dd>
+					<dt>{{ 'seriesnb' | translate }}</dt>
+					<dd>{{ mycollec.series.nb }}</dd>
+				  </dl>
+			  </div>
+			</div>
+		</div>
+	</div>
 </div>

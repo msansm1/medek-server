@@ -25,6 +25,12 @@
 	"series": "Séries",
 	"search" : "Recherche",
 	
+	"mycollec" : "Ma collection",
+	"albumsnb" : "Albums",
+	"booksnb" : "Livres",
+	"moviesnb" : "Films",
+	"seriesnb" : "Séries",
+	
 	"all": "Tous",
 	"mine": "Les miens",
 	"add": "Ajouter",
