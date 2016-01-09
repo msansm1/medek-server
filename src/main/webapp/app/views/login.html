@@ -32,8 +32,9 @@
 			</div>
 		</div>
 		<div class="control-group">
+		<br/>
 			<div class="controls">
-				<a ng-click="submitLogin()" class="btn btn-small btn-primary">{{ 'login' | translate }}</a>
+				<a ng-click="submitLogin()" ui-keypress="{13:'submitLogin()', 40:'submitLogin()', 'enter':'submitLogin()'}" class="btn btn-small btn-primary">{{ 'login' | translate }}</a>
 			</div>
 		</div>
 	</form>
