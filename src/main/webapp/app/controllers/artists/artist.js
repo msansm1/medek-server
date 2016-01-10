@@ -52,14 +52,6 @@ function($scope, $rootScope, $stateParams, $location, $upload, ArtistService, Ar
 		                          }, function(reason) {
 		                              alert('FAILED !!!');
 		                          }) ];
-
-	// for date picker
-	$scope.open = function($event) {
-		$event.preventDefault();
-		$event.stopPropagation();
-		
-		$scope.opened = true;
-	};
     
     $scope.editArtist = function(id) {
     	$location.path('/artists/edit/'+id);

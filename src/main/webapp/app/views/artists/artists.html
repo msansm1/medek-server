@@ -4,7 +4,15 @@
 	</div>
 	<div class="col-md-8 mainlist">
 		<form>
-		    <input type="text" class="form-control listitem-search" id="filter" placeholder="{{ 'search' | translate }}">
+			<div class="col-md-2 text-right itemcreatebutton" ng-click="createArtist()">
+				<span class="glyphicon glyphicon-plus"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'create' | translate }}</span>
+			</div>
+			<div class="col-md-8 itemsearch">
+			    <input type="text" class="form-control listitem-search" id="filter" ng-model="filter" placeholder="{{ 'search' | translate }}">
+			</div>
+			<div class="col-md-2 text-right itemcreatebutton" ng-click="searchArtists()">
+				<span class="glyphicon glyphicon-search"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'search' | translate }}</span>
+			</div>
 		</form>
 		<div ng-repeat="artist in artists" ng-include="'app/views/artists/artistsdetails.html'"></div>
 	</div>
