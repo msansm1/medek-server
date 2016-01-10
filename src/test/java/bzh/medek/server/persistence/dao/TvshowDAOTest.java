@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.home.SerieStats;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.persistence.entities.Tvshow;
 
@@ -35,6 +36,7 @@ public class TvshowDAOTest {
         		.addClass(JsonShow.class)
                 .addClass(Dao.class)
                 .addPackage(Tvshow.class.getPackage())
+                .addClass(SerieStats.class)
                 .addAsResource("drop.sql", "drop.sql")
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")

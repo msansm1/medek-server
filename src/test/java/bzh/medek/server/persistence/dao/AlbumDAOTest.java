@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.home.AlbumStats;
 import bzh.medek.server.persistence.entities.Album;
 
 /**
@@ -35,6 +36,7 @@ public class AlbumDAOTest {
         		.addClass(JsonAlbum.class)
                 .addClass(Dao.class)
                 .addPackage(Album.class.getPackage())
+                .addClass(AlbumStats.class)
                 .addAsResource("drop.sql", "drop.sql")
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")

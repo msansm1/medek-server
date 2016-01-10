@@ -5,7 +5,8 @@ angular.module('medekApp.controllers').controller('HomeController',[
 '$modal',
 '$location',
 'AuthService',
-function($scope, $rootScope, $modal, $location, AuthService) {
+'HomeService',
+function($scope, $rootScope, $modal, $location, AuthService, HomeService) {
     this.userLogin = $rootScope.user.login;
     $rootScope.alerts = [];
 
@@ -29,6 +30,14 @@ function($scope, $rootScope, $modal, $location, AuthService) {
     $rootScope.isActive = function (viewLocation) {
         return $location.path().indexOf(viewLocation) === 0;
     };
+    
+    $scope.mycollec = [ HomeService.mycollec().then(
+            function(response) {
+                console.log("mycollec : "+response.data);
+                $scope.mycollec = response.data;
+            }, function(reason) {
+                alert('FAILED !!!');
+            }) ];
 } ]);
 
 angular.module('medekApp.controllers').controller('ProfileCtrl',[

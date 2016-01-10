@@ -60,4 +60,15 @@ public class UserDAO extends Dao {
 		}
 		return null;
 	}
+
+	public User getUserByToken(String token) {
+		List<User> allUser = em
+				.createQuery("from User u where u.token=:token",
+						User.class).setParameter("token", token)
+				.getResultList();
+		if (!allUser.isEmpty()) {
+			return allUser.get(0);
+		}
+		return null;
+	}
 }

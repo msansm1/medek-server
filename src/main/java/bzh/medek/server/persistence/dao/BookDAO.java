@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import bzh.medek.server.json.book.JsonBook;
+import bzh.medek.server.json.home.BookStats;
 import bzh.medek.server.persistence.entities.Book;
 
 /**
@@ -60,5 +61,15 @@ public class BookDAO extends Dao {
 				.setFirstResult(index)
 				.setMaxResults(limit)
 				.getResultList();
+	}
+
+	public BookStats getUserStats(Integer userId) {
+		TypedQuery<BookStats> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.home.BookStats(COUNT(ub.bookBean.id))"
+						+ "from Userbook ub "
+						+ "where ub.id.user=:userId",
+						BookStats.class);
+		q.setParameter("userId", userId);
+		return q.getSingleResult();
 	}
 }

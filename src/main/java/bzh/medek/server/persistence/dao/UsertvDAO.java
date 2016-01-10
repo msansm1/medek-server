@@ -22,7 +22,6 @@ public class UsertvDAO extends Dao {
 
 	public void saveUsertv(Usertv usertv) {
 		em.persist(usertv);
-		em.refresh(usertv);
 	}
 
 	public void removeUsertv(Usertv usertv) {

@@ -134,7 +134,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, $upload, SerieServ
     
     $scope.addSerieToMyCollec = function(serie) {
         var modalInstance = $modal.open({
-            templateUrl: 'app/views/serie/addtocollec.html',
+            templateUrl: 'app/views/series/addtocollec.html',
             controller: 'SerieCollecController',
             resolve: {
                 serie: function () {

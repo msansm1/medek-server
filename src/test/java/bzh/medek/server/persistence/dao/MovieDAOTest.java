@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import bzh.medek.server.json.home.MovieStats;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.entities.Movie;
 
@@ -35,6 +36,7 @@ public class MovieDAOTest {
         		.addClass(JsonMovie.class)
                 .addClass(Dao.class)
                 .addPackage(Movie.class.getPackage())
+                .addClass(MovieStats.class)
                 .addAsResource("drop.sql", "drop.sql")
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")

@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.json.book.JsonBook;
+import bzh.medek.server.json.home.BookStats;
 import bzh.medek.server.persistence.entities.Book;
 
 /**
@@ -35,6 +36,7 @@ public class BookDAOTest {
         		.addClass(JsonBook.class)
                 .addClass(Dao.class)
                 .addPackage(Book.class.getPackage())
+                .addClass(BookStats.class)
                 .addAsResource("drop.sql", "drop.sql")
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")

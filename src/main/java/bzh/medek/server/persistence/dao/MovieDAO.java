@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import bzh.medek.server.json.home.MovieStats;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.persistence.entities.Movie;
 
@@ -79,5 +80,15 @@ public class MovieDAO extends Dao {
 				.setFirstResult(index)
 				.setMaxResults(limit)
 				.getResultList();
+	}
+
+	public MovieStats getUserStats(Integer userId) {
+		TypedQuery<MovieStats> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.home.MovieStats(COUNT(um.movieBean.id))"
+						+ "from Usermovie um "
+						+ "where um.id.user=:userId",
+						MovieStats.class);
+		q.setParameter("userId", userId);
+		return q.getSingleResult();
 	}
 }

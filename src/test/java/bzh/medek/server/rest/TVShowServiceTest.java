@@ -2,6 +2,7 @@ package bzh.medek.server.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.json.JsonLang;
+import bzh.medek.server.json.JsonSimpleResponse;
+import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.tvshow.JsonMyShow;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.utils.Constants;
 import bzh.medek.server.utils.TestConstants;
@@ -189,5 +193,39 @@ public class TVShowServiceTest {
         assertEquals("List page 2 does not contains 2 entries", Integer.valueOf(2), Integer.valueOf(response.size()));
     }
 
+    /**
+     * Test for /services/tvshows/addtocollec POST Test OK
+     * update
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(8)
+    public void callAddToCollec() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+        JsonMyShow show = new JsonMyShow(2, 1, 4, "");
+
+
+		@SuppressWarnings("unchecked")
+		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/user/1")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        int sizebefore = listbefore.size();
+        
+        JsonSimpleResponse response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/addtocollec")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(show, MediaType.APPLICATION_JSON), JsonSimpleResponse.class);
+        assertEquals("true", response.getOk());
+
+		@SuppressWarnings("unchecked")
+		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/user/1")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        int sizeafter = listafter.size();
+        assertTrue("not added correctly : "+sizebefore+" | "+sizeafter, (sizebefore+1)==sizeafter);
+    }
 	
 }

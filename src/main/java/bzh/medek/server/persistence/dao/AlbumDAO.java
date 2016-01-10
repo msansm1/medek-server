@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import bzh.medek.server.json.album.JsonAlbum;
+import bzh.medek.server.json.home.AlbumStats;
 import bzh.medek.server.persistence.entities.Album;
 
 /**
@@ -59,5 +60,15 @@ public class AlbumDAO extends Dao {
 				.setFirstResult(index)
 				.setMaxResults(limit)
 				.getResultList();
+	}
+
+	public AlbumStats getUserStats(Integer userId) {
+		TypedQuery<AlbumStats> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.home.AlbumStats(COUNT(ua.albumBean.id))"
+						+ "from Useralbum ua "
+						+ "where ua.id.user=:userId",
+						AlbumStats.class);
+		q.setParameter("userId", userId);
+		return q.getSingleResult();
 	}
 }

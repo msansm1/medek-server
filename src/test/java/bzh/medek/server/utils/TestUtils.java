@@ -17,6 +17,7 @@ import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.artist.JsonArtist;
 import bzh.medek.server.json.auth.JsonLogin;
 import bzh.medek.server.json.book.JsonBook;
+import bzh.medek.server.json.home.JsonCollectionStats;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.json.user.JsonUser;
@@ -54,6 +55,7 @@ public class TestUtils {
                 .addPackage(JsonAdminUser.class.getPackage())
                 .addPackage(AdminUserService.class.getPackage())
                 .addPackage(GracenoteException.class.getPackage())
+                .addPackage(JsonCollectionStats.class.getPackage())
                 .addAsLibraries(libsConf)
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")

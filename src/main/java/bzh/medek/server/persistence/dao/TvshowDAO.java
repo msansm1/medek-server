@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import bzh.medek.server.json.home.SerieStats;
 import bzh.medek.server.json.tvshow.JsonShow;
 import bzh.medek.server.persistence.entities.Tvshow;
 
@@ -60,5 +61,15 @@ public class TvshowDAO extends Dao {
 				.setFirstResult(index)
 				.setMaxResults(limit)
 				.getResultList();
+	}
+
+	public SerieStats getUserStats(Integer userId) {
+		TypedQuery<SerieStats> q = em.createQuery(
+				"SELECT NEW bzh.medek.server.json.home.SerieStats(COUNT(ut.tvshowBean.id))"
+						+ "from Usertv ut "
+						+ "where ut.id.user=:userId",
+						SerieStats.class);
+		q.setParameter("userId", userId);
+		return q.getSingleResult();
 	}
 }
