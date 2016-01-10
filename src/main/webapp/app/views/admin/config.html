@@ -1,0 +1,15 @@
+<div class="row">
+	<div class="col-md-10 mainlist">
+		<form>
+			<div class="col-md-2 text-right itemcreatebutton" ng-click="createUser()">
+				<span class="glyphicon glyphicon-plus"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'create' | translate }}</span>
+			</div>
+			<div class="col-md-8 itemsearch">
+			    <input type="text" class="form-control listitem-search" id="filter" ng-model="filter" placeholder="{{ 'search' | translate }}">
+			</div>
+			<div class="col-md-2 text-right itemcreatebutton" ng-click="searchUsers()">
+				<span class="glyphicon glyphicon-search"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'search' | translate }}</span>
+			</div>
+		</form>
+	</div>
+</div>

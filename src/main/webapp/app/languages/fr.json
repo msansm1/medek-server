@@ -81,5 +81,13 @@
 	"createartist": "Créer un nouvel artiste",
 	
 	"admin": "Administration",
-	"users": "Utilisateurs"
+	"users": "Utilisateurs",
+	"lists": "Listes de valeurs",
+	"config": "Configuration",
+	"collections": "Collections",
+	"editors": "Editeurs",
+	"genres": "Genres (musique)",
+	"langages": "Languages (audio, sous-titres, livres)",
+	"supports": "Supports",
+	"storygenres": "Genres (livres, films)"
 }

@@ -185,6 +185,16 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/admin/user/user.html',
                 controller : 'UserController'
             })
+            .state('admin.lists', {
+                url: '/lists',
+                templateUrl : 'app/views/admin/list/lists.html',
+                controller : 'ListsController'
+            })
+            .state('admin.config', {
+                url: '/config',
+                templateUrl : 'app/views/admin/config.html',
+                controller : 'ConfigController'
+            })
             // OTHERS
             .state('error', {
                 url: 'error',
