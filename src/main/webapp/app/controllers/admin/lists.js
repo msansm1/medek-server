@@ -3,11 +3,22 @@ angular.module('medekApp.controllers').controller('ListsController',[
 '$scope',
 '$rootScope',
 '$modal',
-function($scope, $rootScope, $modal) {
+'CollectionService',
+function($scope, $rootScope, $modal, CollectionService) {
     this.userLogin = $rootScope.user.login;
     $scope.lists = [];
     
-    $scope.lists.push({name : "collections"});
+    $scope.lists.push({name : "booktypes"});
+    
+    var collections = {name : "collections", items : []};
+    CollectionService.collections().then(
+       function(response) {
+           console.log("Collections : "+response.data);
+           collections.items = response.data;
+       }, function(reason) {
+           alert('FAILED !!!');
+       });
+    $scope.lists.push(collections);
     
     $scope.lists.push({name : "editors"});
     

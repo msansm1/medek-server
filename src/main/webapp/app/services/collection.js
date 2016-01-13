@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.collection = function(id) {
         return $http.get('services/collections/'+id);
     };
+    
+    this.createUpdate = function(collection) {
+        return $http.post('services/collections');
+    };
 } ]);
