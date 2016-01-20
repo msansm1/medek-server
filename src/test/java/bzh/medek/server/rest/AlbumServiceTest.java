@@ -133,7 +133,7 @@ public class AlbumServiceTest {
     }
 
     /**
-     * Test for /services/albums/user/{id} GET Test OK
+     * Test for /services/albums/user GET Test OK
      * 
      * @throws Exception
      */
@@ -143,11 +143,13 @@ public class AlbumServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/user/1")
+		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
-        assertFalse("No user album found", response.isEmpty());
+        assertFalse("No album found", response.isEmpty());
+        assertEquals("List page 1 does not contains 1 entrie", Integer.valueOf(1), Integer.valueOf(response.size()));
     }
 
     /**
@@ -224,7 +226,8 @@ public class AlbumServiceTest {
 
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/user/1")
+		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
@@ -237,7 +240,8 @@ public class AlbumServiceTest {
         assertEquals("true", response.getOk());
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/user/1")
+		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);

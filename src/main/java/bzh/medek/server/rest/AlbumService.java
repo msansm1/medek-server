@@ -279,16 +279,44 @@ public class AlbumService extends Application {
 	}
 
 	/**
-	 * GET /albums/user/{id} : retrieve albums for one user
+	 * GET /albums : retrieve albums for one user
 	 * 
-	 * @param id
-	 *            - user ID
+	 * 
 	 * @return
 	 */
 	@GET
-	@Path(value = "/user/{id}")
-	public List<JsonAlbum> getUserAlbums(@PathParam(value = "id") Integer id) {
-		return albumDao.getUsersAlbums(id);
+	@Path(value = "user")
+	public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
+			@QueryParam("userId") Integer userId) {
+		List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
+		LOGGER.info("find " + albums.size() + " albums in the database");
+		String artistName = "";
+		Integer artistId = 0;
+		List<Albumartist> aartists = null;
+		for (JsonAlbum a : albums) {
+			artistName = "";
+			artistId = 0;
+			aartists = albumDao.getAlbumArtists(a.getId());
+			if (!aartists.isEmpty()) {
+				artistName = aartists.get(0).getArtistBean()
+						.getName();
+				if (aartists.get(0).getArtistBean()
+								.getFirstname() != null) {
+					artistName += " " + aartists.get(0).getArtistBean()
+								.getFirstname();
+				}
+				artistId = aartists.get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			a.setArtist(artistName);
+			a.setArtistId(artistId);
+			a.setTracks(new ArrayList<JsonTrack>());
+		}
+		return albums;
 	}
 
 	/**

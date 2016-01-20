@@ -14,7 +14,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, AlbumService) {
     $scope.getAlbums = function () {
         $scope.listLarge = true;
     	if ($location.path() === '/albums/me') {
-        	AlbumService.userAlbums($rootScope.user.id)
+        	AlbumService.userAlbumlist(0, 50, 'a.id', 'asc', $rootScope.user.id)
             .then(
                function(response) {
                    console.log("Albums : "+response.data);

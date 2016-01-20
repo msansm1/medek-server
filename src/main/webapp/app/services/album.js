@@ -26,7 +26,7 @@ function($http, $rootScope) {
         return $http.post('services/albums/addtocollec', album);
     };
 
-    this.userAlbums = function(userId) {
-        return $http.get('services/albums/user/'+userId);
+    this.userAlbumlist = function(from, limit, orderBy, orderDir, userId) {
+        return $http.get('services/albums/user?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir+'&userId='+userId);
     };
 } ]);
