@@ -72,4 +72,22 @@ public class TvshowDAO extends Dao {
 		q.setParameter("userId", userId);
 		return q.getSingleResult();
 	}
+
+	public List<JsonShow> getUserTvshows(int index, int limit, String orderBy,
+			String orderDir, Integer userId) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("SELECT NEW bzh.medek.server.json.tvshow.JsonShow(t.id, t.title, "
+				+ "t.description, t.releasedate, t.cover, t.supportBean.name, t.supportBean.id, "
+				+ "t.storygenre.name, t.storygenre.id, t.length, t.season, t.series, "
+				+ "t.isseriedone, true, ut.rating) "
+				+ "FROM Tvshow t INNER JOIN t.usertvs ut "
+				+ "where ut.id.user=:param1 ORDER BY "+orderBy+" "+dir, JsonShow.class)
+				.setParameter("param1", userId)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

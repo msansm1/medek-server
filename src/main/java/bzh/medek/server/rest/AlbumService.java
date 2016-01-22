@@ -279,7 +279,7 @@ public class AlbumService extends Application {
 	}
 
 	/**
-	 * GET /albums : retrieve albums for one user
+	 * GET /albums/user : retrieve albums for one user
 	 * 
 	 * 
 	 * @return
@@ -296,8 +296,6 @@ public class AlbumService extends Application {
 		Integer artistId = 0;
 		List<Albumartist> aartists = null;
 		for (JsonAlbum a : albums) {
-			artistName = "";
-			artistId = 0;
 			aartists = albumDao.getAlbumArtists(a.getId());
 			if (!aartists.isEmpty()) {
 				artistName = aartists.get(0).getArtistBean()

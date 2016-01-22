@@ -42,6 +42,7 @@ import bzh.medek.server.persistence.dao.StorygenreDAO;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.dao.UserbookDAO;
 import bzh.medek.server.persistence.entities.Book;
+import bzh.medek.server.persistence.entities.Bookartist;
 import bzh.medek.server.persistence.entities.Userbook;
 import bzh.medek.server.persistence.entities.UserbookPK;
 import bzh.medek.server.utils.Constants;
@@ -283,16 +284,38 @@ public class BookService extends Application {
 	}
 
 	/**
-	 * GET /books/user/{id} : retrieve books for one user
+	 * GET /books/user : retrieve books for one user
 	 * 
-	 * @param id
-	 *            - user ID
 	 * @return
 	 */
 	@GET
-	@Path(value = "/user/{id}")
-	public List<JsonBook> getUserBooks(@PathParam(value = "id") Integer id) {
-		return bookDao.getUsersBooks(id);
+	@Path(value = "user")
+	public List<JsonBook> getUserBooks(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
+			@QueryParam("userId") Integer userId) {
+		List<JsonBook> books = bookDao.getUserBooksForList(from, limit, orderBy, orderDir, userId);
+		LOGGER.info("find " + books.size() + " books in the database");
+		String artistName = "";
+		Integer artistId = 0;
+		List<Bookartist> bartists = null;
+		for (JsonBook b : books) {
+			bartists = bookDao.getBookArtists(b.getId());
+			if (!bartists.isEmpty()) {
+				artistName = bartists.get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ bartists.get(0).getArtistBean()
+								.getFirstname();
+				artistId = bartists.get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			b.setAuthor(artistName);
+			b.setAuthorId(artistId);
+		}
+		return books;
 	}
 
 	/**

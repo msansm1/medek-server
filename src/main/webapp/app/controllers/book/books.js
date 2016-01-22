@@ -14,7 +14,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, BookService) {
     $scope.getBooks = function() {
         $scope.listLarge = true;
     	if ($location.path() === '/books/me') {
-        	BookService.userBooks($rootScope.user.id).then(
+        	BookService.userBooklist(0, 50, 'b.id', 'asc', $rootScope.user.id).then(
 	           function(response) {
 	               console.log("Books : "+response.data);
 	               $scope.books = response.data;

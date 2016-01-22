@@ -41,6 +41,7 @@ import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.dao.UsermovieDAO;
 import bzh.medek.server.persistence.entities.Lang;
 import bzh.medek.server.persistence.entities.Movie;
+import bzh.medek.server.persistence.entities.Movieartist;
 import bzh.medek.server.persistence.entities.Usermovie;
 import bzh.medek.server.persistence.entities.UsermoviePK;
 import bzh.medek.server.utils.Constants;
@@ -204,15 +205,39 @@ public class MovieService extends Application {
     }
 
     /**
-     *  GET /movies/user/{id} : retrieve movie for one user
+     *  GET /movies/user : retrieve movie for one user
      * 
      * @param id - user ID
      * @return
      */
     @GET
-    @Path(value = "/user/{id}")
-    public List<JsonMovie> getUserMovies(@PathParam(value = "id") Integer id) {
-    	return movieDao.getUsersMovies(id);
+    @Path(value = "user")
+    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
+			@QueryParam("userId") Integer userId) {
+		List<JsonMovie> movies = movieDao.getUserMovies(from, limit, orderBy, orderDir, userId);
+    	LOGGER.info("find "+movies.size()+" movies in the database");
+		String artistName = "";
+		Integer artistId = 0;
+		List<Movieartist> martists = null;
+    	for (JsonMovie m : movies) {
+			martists = movieDao.getMovieArtists(m.getId());
+			if (!martists.isEmpty()) {
+				artistName = martists.get(0).getArtistBean()
+						.getName()
+						+ " "
+						+ martists.get(0).getArtistBean()
+								.getFirstname();
+				artistId = martists.get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			m.setRealisator(artistName);
+			m.setRealisatorId(artistId);
+    	}
+    	return movies;
     }
 
     /**

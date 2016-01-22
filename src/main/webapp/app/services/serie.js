@@ -26,7 +26,7 @@ function($http, $rootScope) {
         return $http.post('services/tvshows/addtocollec', serie);
     };
 
-    this.userSeries = function(userId) {
-        return $http.get('services/tvshows/user/'+userId);
+    this.userSerieslist = function(from, limit, orderBy, orderDir, userId) {
+        return $http.get('services/tvshows/user?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir+'&userId='+userId);
     };
 } ]);

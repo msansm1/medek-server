@@ -73,6 +73,26 @@ public class JsonMovie {
 	public JsonMovie(Integer id, String title, String description,
 			Date releaseDate, String cover, String support, Integer supportId,
 			String genre, Integer genreId, String length, Boolean isCollector,
+			Boolean mycollec, Integer rating) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseDate = releaseDate;
+		this.cover = cover;
+		this.support = support;
+		this.supportId = supportId;
+		this.genre = genre;
+		this.genreId = genreId;
+		this.length = length;
+		this.isCollector = isCollector;
+		this.mycollec = mycollec;
+		this.rating = rating;
+	}
+
+	public JsonMovie(Integer id, String title, String description,
+			Date releaseDate, String cover, String support, Integer supportId,
+			String genre, Integer genreId, String length, Boolean isCollector,
 			String realisator, Integer realisatorId, String producer,
 			Integer producerId, String scenarist, Integer scenaristId,
 			List<JsonLang> langs, List<JsonLang> subtitles, Boolean mycollec,

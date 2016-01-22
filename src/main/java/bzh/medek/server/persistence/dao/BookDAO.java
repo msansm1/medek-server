@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.json.home.BookStats;
 import bzh.medek.server.persistence.entities.Book;
+import bzh.medek.server.persistence.entities.Bookartist;
 
 /**
  * DAO for BOOK table
@@ -71,5 +72,31 @@ public class BookDAO extends Dao {
 						BookStats.class);
 		q.setParameter("userId", userId);
 		return q.getSingleResult();
+	}
+
+	public List<JsonBook> getUserBooksForList(int index, int limit,
+			String orderBy, String orderDir, Integer userId) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("SELECT NEW bzh.medek.server.json.book.JsonBook(b.id, b.title, "
+				+ "b.editorBean.name, b.editorBean.id, b.collectionBean.name, b.collectionBean.id, "
+				+ "b.cover, b.description, b.publicationdate, b.storygenre.name, b.storygenre.id, "
+				+ "b.booktype.name, b.booktype.id, b.langBean.name, b.langBean.id, "
+				+ "b.series, b.booknb, b.isseriedone, "
+				+ "true, ub.rating, ub.issigned) "
+				+ "FROM Book b INNER JOIN b.userbooks ub "
+				+ "where ub.id.user=:param1 ORDER BY "+orderBy+" "+dir, JsonBook.class)
+				.setParameter("param1", userId)
+				.setFirstResult(index)
+				.setMaxResults(limit)
+				.getResultList();
+	}
+
+	public List<Bookartist> getBookArtists(Integer bookId) {
+		return em.createQuery("from Bookartist ba where ba.id.book=:param1", Bookartist.class)
+				.setParameter("param1", bookId)
+				.getResultList();
 	}
 }

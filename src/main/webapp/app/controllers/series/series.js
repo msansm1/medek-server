@@ -14,7 +14,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, SerieService) {
     $scope.getSeries = function() {
         $scope.listLarge = true;
     	if ($location.path() === '/series/me') {
-        	SerieService.userSeries($rootScope.user.id).then(
+        	SerieService.userSerieslist(0, 50, 't.id', 'asc', $rootScope.user.id).then(
         	           function(response) {
         	               console.log("Series : "+response.data);
         	               $scope.series = response.data;

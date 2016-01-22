@@ -188,16 +188,18 @@ public class TVShowService extends Application {
 	}
 
 	/**
-	 * GET /shows/user/{id} : retrieve shows for one user
+	 * GET /shows/user : retrieve shows for one user
 	 * 
-	 * @param id
-	 *            - user ID
+	 * 
 	 * @return
 	 */
 	@GET
-	@Path(value = "/user/{id}")
-	public List<JsonShow> getUserShows(@PathParam(value = "id") Integer id) {
-		return showDao.getUsersTvshows(id);
+	@Path(value = "/user")
+	public List<JsonShow> getUserShows (@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
+			@QueryParam("userId") Integer userId) {
+		return showDao.getUserTvshows(from, limit, orderBy, orderDir, userId);
 	}
 
     /**

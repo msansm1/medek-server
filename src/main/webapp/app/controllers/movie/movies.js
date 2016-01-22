@@ -14,7 +14,7 @@ function($scope, $rootScope, $stateParams, $location, $modal, MovieService) {
     $scope.getMovies = function() {
         $scope.listLarge = true;
     	if ($location.path() === '/movies/me') {
-            MovieService.userMovies($rootScope.user.id).then(
+            MovieService.userMovielist(0, 50, 'm.id', 'asc', $rootScope.user.id).then(
                function(response) {
                    console.log("Movies : "+response.data);
                    $scope.movies = response.data;
