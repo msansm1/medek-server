@@ -37,6 +37,22 @@ public class JsonShow {
 	}
 
 	public JsonShow(Integer id, String title, String description,
+			Date releaseDate, String cover, String length, Integer season,
+			String series, Boolean isSeriesDone) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseDate = releaseDate;
+		this.cover = cover;
+		this.length = length;
+		this.season = season;
+		this.series = series;
+		this.isSeriesDone = isSeriesDone;
+	}
+
+
+	public JsonShow(Integer id, String title, String description,
 			Date releaseDate, String cover, String support, Integer supportId,
 			String genre, Integer genreId, String length, Integer season,
 			String series, Boolean isSeriesDone) {

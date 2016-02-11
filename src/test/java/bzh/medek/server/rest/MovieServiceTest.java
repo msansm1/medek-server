@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.json.JsonSimpleResponse;
-import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.movie.JsonMovie;
 import bzh.medek.server.json.movie.JsonMyMovie;
 import bzh.medek.server.utils.Constants;
@@ -141,7 +140,7 @@ public class MovieServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonMovie> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=m.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
@@ -206,7 +205,7 @@ public class MovieServiceTest {
 
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonMovie> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=m.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
@@ -220,7 +219,7 @@ public class MovieServiceTest {
         assertEquals("true", response.getOk());
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonMovie> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=m.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)

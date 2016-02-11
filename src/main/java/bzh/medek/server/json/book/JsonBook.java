@@ -48,6 +48,30 @@ public class JsonBook {
 	}
 
 	public JsonBook(Integer id, String title,
+			String editor, Integer editorId, String cover, String description,
+			Date publicationDate, String genre, Integer genreId, String type,
+			Integer typeId, String lang, Integer langId, String series,
+			Integer bookNb, Boolean isSerieDone) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.editor = editor;
+		this.editorId = editorId;
+		this.cover = cover;
+		this.description = description;
+		this.publicationDate = publicationDate;
+		this.genre = genre;
+		this.genreId = genreId;
+		this.type = type;
+		this.typeId = typeId;
+		this.lang = lang;
+		this.langId = langId;
+		this.series = series;
+		this.bookNb = bookNb;
+		this.isSerieDone = isSerieDone;
+	}
+
+	public JsonBook(Integer id, String title,
 			String editor, Integer editorId, String collection,
 			Integer collectionId, String cover, String description,
 			Date publicationDate, String genre, Integer genreId, String type,

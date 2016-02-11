@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import bzh.medek.server.json.JsonSimpleResponse;
-import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.book.JsonBook;
 import bzh.medek.server.json.book.JsonMyBook;
 import bzh.medek.server.utils.Constants;
@@ -130,33 +129,13 @@ public class BookServiceTest {
     }
 
     /**
-     * Test for /services/books/user/{id} GET Test OK
-     * 
-     * @throws Exception
-     */
-    @Test
-    @InSequence(5)
-    public void callGetUserBooks() throws Exception {
-        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-
-        @SuppressWarnings("unchecked")
-		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .get(List.class);
-        assertFalse("No book found", response.isEmpty());
-        assertEquals("List page 1 does not contains 1 entrie", Integer.valueOf(1), Integer.valueOf(response.size()));
-    }
-
-    /**
      * Test for /services/books GET with params
      * Page 1
      * 
      * @throws Exception
      */
     @Test
-    @InSequence(6)
+    @InSequence(5)
     public void callGetListParamsPOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
@@ -177,7 +156,7 @@ public class BookServiceTest {
      * @throws Exception
      */
     @Test
-    @InSequence(7)
+    @InSequence(6)
     public void callGetListParamsPTwo() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
@@ -192,6 +171,26 @@ public class BookServiceTest {
     }
 
     /**
+     * Test for /services/books/user GET Test OK
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(7)
+    public void callGetUserBooks() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        assertFalse("No book found", response.isEmpty());
+        assertEquals("List page 1 does not contains 2 entry", Integer.valueOf(2), Integer.valueOf(response.size()));
+    }
+
+    /**
      * Test for /services/books/addtocollec POST Test OK
      * update
      * 
@@ -201,11 +200,11 @@ public class BookServiceTest {
     @InSequence(8)
     public void callAddToCollec() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonMyBook book = new JsonMyBook(2, 1, 4, "", false);
+        JsonMyBook book = new JsonMyBook(4, 1, 4, "", false);
 
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonBook> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
@@ -219,7 +218,7 @@ public class BookServiceTest {
         assertEquals("true", response.getOk());
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonBook> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)

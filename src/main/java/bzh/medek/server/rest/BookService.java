@@ -43,6 +43,7 @@ import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.dao.UserbookDAO;
 import bzh.medek.server.persistence.entities.Book;
 import bzh.medek.server.persistence.entities.Bookartist;
+import bzh.medek.server.persistence.entities.Collection;
 import bzh.medek.server.persistence.entities.Userbook;
 import bzh.medek.server.persistence.entities.UserbookPK;
 import bzh.medek.server.utils.Constants;
@@ -311,6 +312,11 @@ public class BookService extends Application {
 			} else {
 				artistName = "";
 				artistId = 0;
+			}
+			if (bookDao.getBook(b.getId()).getCollectionBean() != null) {
+				Collection c = bookDao.getBook(b.getId()).getCollectionBean();
+				b.setCollection(c.getName());
+				b.setCollectionId(c.getId());
 			}
 			b.setAuthor(artistName);
 			b.setAuthorId(artistId);

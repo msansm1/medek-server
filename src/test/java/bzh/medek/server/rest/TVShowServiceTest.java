@@ -209,7 +209,7 @@ public class TVShowServiceTest {
 
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonShow> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
@@ -223,7 +223,7 @@ public class TVShowServiceTest {
         assertEquals("true", response.getOk());
 
 		@SuppressWarnings("unchecked")
-		List<JsonAlbum> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
+		List<JsonShow> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
 				+ "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
                 .request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)

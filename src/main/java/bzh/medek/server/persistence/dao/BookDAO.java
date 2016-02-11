@@ -81,13 +81,13 @@ public class BookDAO extends Dao {
 			dir = orderDir;
 		}
 		return em.createQuery("SELECT NEW bzh.medek.server.json.book.JsonBook(b.id, b.title, "
-				+ "b.editorBean.name, b.editorBean.id, b.collectionBean.name, b.collectionBean.id, "
+				+ "b.editorBean.name, b.editorBean.id, "
 				+ "b.cover, b.description, b.publicationdate, b.storygenre.name, b.storygenre.id, "
 				+ "b.booktype.name, b.booktype.id, b.langBean.name, b.langBean.id, "
 				+ "b.series, b.booknb, b.isseriedone, "
 				+ "true, ub.rating, ub.issigned) "
 				+ "FROM Book b INNER JOIN b.userbooks ub "
-				+ "where ub.id.user=:param1 ORDER BY "+orderBy+" "+dir, JsonBook.class)
+				+ "WHERE ub.userBean.id=:param1 ORDER BY "+orderBy+" "+dir, JsonBook.class)
 				.setParameter("param1", userId)
 				.setFirstResult(index)
 				.setMaxResults(limit)
