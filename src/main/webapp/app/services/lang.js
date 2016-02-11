@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.lang = function(id) {
         return $http.get('services/langs/'+id);
     };
+    
+    this.createUpdate = function(lang) {
+        return $http.post('services/langs', lang);
+    };
 } ]);

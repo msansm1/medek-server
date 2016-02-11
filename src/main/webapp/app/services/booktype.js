@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.booktype = function(id) {
         return $http.get('services/booktypes/'+id);
     };
+    
+    this.createUpdate = function(booktype) {
+        return $http.post('services/booktypes', booktype);
+    };
 } ]);

@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.support = function(id) {
         return $http.get('services/supports/'+id);
     };
+    
+    this.createUpdate = function(support) {
+        return $http.post('services/supports', support);
+    };
 } ]);

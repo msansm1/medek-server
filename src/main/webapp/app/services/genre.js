@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.genre = function(id) {
         return $http.get('services/genres/'+id);
     };
+    
+    this.createUpdate = function(genre) {
+        return $http.post('services/genres', genre);
+    };
 } ]);

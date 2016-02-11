@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.editor = function(id) {
         return $http.get('services/editors/'+id);
     };
+    
+    this.createUpdate = function(editor) {
+        return $http.post('services/editors', editor);
+    };
 } ]);

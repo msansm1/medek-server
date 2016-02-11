@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.artisttype = function(id) {
         return $http.get('services/artisttypes/'+id);
     };
+    
+    this.createUpdate = function(artisttype) {
+        return $http.post('services/artisttypes', artisttype);
+    };
 } ]);

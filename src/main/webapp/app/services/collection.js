@@ -11,6 +11,6 @@ function($http, $rootScope) {
     };
     
     this.createUpdate = function(collection) {
-        return $http.post('services/collections');
+        return $http.post('services/collections', collection);
     };
 } ]);

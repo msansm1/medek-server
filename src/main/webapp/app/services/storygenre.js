@@ -9,4 +9,8 @@ function($http, $rootScope) {
     this.storygenre = function(id) {
         return $http.get('services/storygenres/'+id);
     };
+    
+    this.createUpdate = function(storygenre) {
+        return $http.post('services/storygenres', storygenre);
+    };
 } ]);
