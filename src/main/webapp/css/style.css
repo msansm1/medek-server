@@ -144,3 +144,14 @@
 .eventrack {
 	background-color: #FFFFFF;
 }
+
+.admin-list-header {
+	background-color: #F5F5F5;
+	border-color: #666;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.admin-list-item {
+	background-color: #EAEAEA;
+}

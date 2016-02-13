@@ -16,7 +16,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
     this.userLogin = $rootScope.user.login;
     $scope.lists = [];
     
-    var booktypes = {name : "booktypes", items : [] };
+    var booktypes = {name : "booktypes", iscollapsed: true, items : [] };
     BookTypeService.booktypes().then(
     	       function(response) {
     	           console.log("Booktypes : "+response.data);
@@ -26,7 +26,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
     	       });
     $scope.lists.push(booktypes);
     
-    var collections = {name : "collections", items : []};
+    var collections = {name : "collections", iscollapsed: true, items : []};
     CollectionService.collections().then(
        function(response) {
            console.log("Collections : "+response.data);
@@ -36,7 +36,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
        });
     $scope.lists.push(collections);
     
-    var editors = {name : "editors", items : []};
+    var editors = {name : "editors", iscollapsed: true, items : []};
     EditorService.editors().then(
     	       function(response) {
     	           console.log("Editors : "+response.data);
@@ -46,7 +46,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
     	       });
     $scope.lists.push(editors);
     
-    var genres = {name : "genres", items : []};
+    var genres = {name : "genres", iscollapsed: true, items : []};
     GenreService.genres().then(
  	       function(response) {
  	           console.log("Genres : "+response.data);
@@ -56,7 +56,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
  	       });
     $scope.lists.push(genres);
     
-    var langages = {name : "langages", items : []};
+    var langages = {name : "langages", iscollapsed: true, items : []};
     LangService.langs().then(
   	       function(response) {
   	           console.log("Langages : "+response.data);
@@ -66,7 +66,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
   	       });
     $scope.lists.push(langages);
     
-    var supports = {name : "supports", items : []};
+    var supports = {name : "supports", iscollapsed: true, items : []};
     SupportService.supports().then(
   	       function(response) {
   	           console.log("Supports : "+response.data);
@@ -76,7 +76,7 @@ function($scope, $rootScope, $modal, CollectionService, ArtistTypeService, BookT
   	       });
      $scope.lists.push(supports);
     
-    var storygenres = {name : "storygenres", items : []};
+    var storygenres = {name : "storygenres", iscollapsed: true, items : []};
     StoryGenreService.storygenres().then(
   	       function(response) {
   	           console.log("StoryGenres : "+response.data);
