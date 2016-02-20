@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.artist.JsonArtisttype;
 import bzh.medek.server.persistence.dao.ArtisttypeDAO;
 import bzh.medek.server.persistence.entities.Artisttype;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class ArtistTypeService extends Application {
 	    	artisttypeDao.saveArtisttype(l);
 	    	jartisttype.setId(l.getId());
     	} else {
-        	Artisttype l = artisttypeDao.getArtisttype(artisttype.getId());
-	    	l.setName(artisttype.getName());
-        	artisttypeDao.updateArtisttype(l);
+    		if (artisttype.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			artisttypeDao.removeArtisttype(artisttypeDao.getArtisttype(artisttype.getId()));
+    		} else {
+	        	Artisttype l = artisttypeDao.getArtisttype(artisttype.getId());
+		    	l.setName(artisttype.getName());
+	        	artisttypeDao.updateArtisttype(l);
+    		}
     	}
     	return jartisttype;
     }

@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.book.JsonCollection;
 import bzh.medek.server.persistence.dao.CollectionDAO;
 import bzh.medek.server.persistence.entities.Collection;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class CollectionService extends Application {
 	    	collectionDao.saveCollection(l);
 	    	jcollection.setId(l.getId());
     	} else {
-        	Collection l = collectionDao.getCollection(collection.getId());
-	    	l.setName(collection.getName());
-        	collectionDao.updateCollection(l);
+    		if (collection.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			collectionDao.removeCollection(collectionDao.getCollection(collection.getId()));
+    		} else {
+	        	Collection l = collectionDao.getCollection(collection.getId());
+		    	l.setName(collection.getName());
+	        	collectionDao.updateCollection(l);
+    		}
     	}
     	return jcollection;
     }

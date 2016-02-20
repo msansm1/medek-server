@@ -10,6 +10,8 @@ public class Constants {
 
     public static final String HTTP_HEADER_TOKEN = "securtoken";
     
+    public static final String DELETED = "deleted";
+    
     private Constants() {
     }
 

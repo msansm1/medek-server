@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.JsonSupport;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.entities.Support;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class SupportService extends Application {
 	    	supportDao.saveSupport(s);
 	    	jsupport.setId(s.getId());
     	} else {
-        	Support s = supportDao.getSupport(support.getId());
-	    	s.setName(support.getName());
-        	supportDao.updateSupport(s);
+    		if (support.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			supportDao.removeSupport(supportDao.getSupport(support.getId()));
+    		} else {
+	        	Support s = supportDao.getSupport(support.getId());
+		    	s.setName(support.getName());
+	        	supportDao.updateSupport(s);
+    		}
     	}
     	return jsupport;
     }

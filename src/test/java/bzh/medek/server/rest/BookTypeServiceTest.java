@@ -125,5 +125,38 @@ public class BookTypeServiceTest {
         assertEquals("msansm1", response.getName());
     }
 
+    /**
+     * Test for /services/booktypes POST Test OK
+     * delete
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(5)
+    public void callDelete() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonBooktype> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        
+        JsonBooktype booktype = new JsonBooktype(2, Constants.DELETED);
+        JsonBooktype response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(booktype, MediaType.APPLICATION_JSON), JsonBooktype.class);
+        assertEquals(Constants.DELETED, response.getName());
+
+        @SuppressWarnings("unchecked")
+		List<JsonBooktype> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+
+        assertEquals(listbefore.size()-1, listafter.size());
+    }
+
 	
 }

@@ -1,0 +1,28 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'editlist' | translate }} {{ list.name }}</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-6">
+			<div ng-repeat="item in list.items">
+				<div ng-if="item.name != 'deleted'">
+					<div class="col-md-9 text-left admin-list-item">
+						<span>{{ item.name }}</span>
+					</div>
+					<div class="col-md-3 text-right admin-list-item">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeItem(item)"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 text-right">
+			<span>{{ 'createitem' | translate }}</span>
+			<input type="text" ng-model="newitem" name="newitem" class="form-control" ></input>
+			<button class="btn btn-success" ng-click="addItem()">{{ 'additem' | translate }}</button>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ok' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'cancel' | translate }}</button>
+</div>

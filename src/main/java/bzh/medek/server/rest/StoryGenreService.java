@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.JsonStorygenre;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
 import bzh.medek.server.persistence.entities.Storygenre;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class StoryGenreService extends Application {
 	    	storygenreDao.saveStorygenre(s);
 	    	jstorygenre.setId(s.getId());
     	} else {
-        	Storygenre s = storygenreDao.getStorygenre(storygenre.getId());
-	    	s.setName(storygenre.getName());
-        	storygenreDao.updateStorygenre(s);
+    		if (storygenre.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			storygenreDao.removeStorygenre(storygenreDao.getStorygenre(storygenre.getId()));
+    		} else {
+	        	Storygenre s = storygenreDao.getStorygenre(storygenre.getId());
+		    	s.setName(storygenre.getName());
+	        	storygenreDao.updateStorygenre(s);
+    		}
     	}
     	return jstorygenre;
     }

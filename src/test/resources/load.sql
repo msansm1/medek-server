@@ -40,15 +40,15 @@ INSERT INTO `STORYGENRE` (`ID`, `NAME`) VALUES (1, 'Aventure'), (2, 'Action');
 
 INSERT INTO `SUPPORT` (`ID`, `NAME`) VALUES (1, 'DVD'), (2, 'Blu-ray'), (3, 'CD'), (4, 'Dématérialisé');
 
-INSERT INTO `LANG` (`ID`, `NAME`) VALUES (1, 'Français'), (2, 'Anglais');
+INSERT INTO `LANG` (`ID`, `NAME`) VALUES (1, 'Français'), (2, 'Anglais'), (3, 'Allemand');
 
-INSERT INTO `EDITOR` (`ID`, `NAME`) VALUES (1, 'Dupuis'), (2, 'Livre de Poche');
+INSERT INTO `EDITOR` (`ID`, `NAME`) VALUES (1, 'Dupuis'), (2, 'Livre de Poche'), (3, 'Dargaud');
 
 INSERT INTO `COLLECTION` (`ID`, `NAME`) VALUES (1, 'Yoko Tsuno'), (2, 'Le Disque Monde');
 
 INSERT INTO `BOOKTYPE` (`ID`, `NAME`) VALUES (1, 'Roman'), (2, 'B.D.');
 
-INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock');
+INSERT INTO `GENRE` (`ID`, `NAME`) VALUES (1, 'Metal'), (2, 'Rock'), (3, 'Pop');
 
 INSERT INTO `ARTISTTYPE` (`ID`, `NAME`) VALUES (1, 'Groupe de musique'), (2, 'Auteur'), (3, 'Producteur'), (4, 'Réalisateur'), (5, 'Scénariste');
 

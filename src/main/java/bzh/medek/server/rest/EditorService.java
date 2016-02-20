@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.book.JsonEditor;
 import bzh.medek.server.persistence.dao.EditorDAO;
 import bzh.medek.server.persistence.entities.Editor;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class EditorService extends Application {
 	    	editorDao.saveEditor(l);
 	    	jeditor.setId(l.getId());
     	} else {
-        	Editor l = editorDao.getEditor(editor.getId());
-	    	l.setName(editor.getName());
-        	editorDao.updateEditor(l);
+    		if (editor.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			editorDao.removeEditor(editorDao.getEditor(editor.getId()));
+    		} else {
+	        	Editor l = editorDao.getEditor(editor.getId());
+		    	l.setName(editor.getName());
+	        	editorDao.updateEditor(l);
+    		}
     	}
     	return jeditor;
     }

@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.album.JsonGenre;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.entities.Genre;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class GenreService extends Application {
 	    	genreDao.saveGenre(s);
 	    	jgenre.setId(s.getId());
     	} else {
-        	Genre s = genreDao.getGenre(genre.getId());
-	    	s.setName(genre.getName());
-        	genreDao.updateGenre(s);
+    		if (genre.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			genreDao.removeGenre(genreDao.getGenre(genre.getId()));
+    		} else {
+	        	Genre s = genreDao.getGenre(genre.getId());
+		    	s.setName(genre.getName());
+	        	genreDao.updateGenre(s);
+    		}
     	}
     	return jgenre;
     }

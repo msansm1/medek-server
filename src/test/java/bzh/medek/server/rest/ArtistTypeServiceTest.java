@@ -125,5 +125,38 @@ public class ArtistTypeServiceTest {
         assertEquals("msansm1", response.getName());
     }
 
+    /**
+     * Test for /services/artisttypes POST Test OK
+     * delete
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(5)
+    public void callDelete() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonArtisttype> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        
+        JsonArtisttype artisttype = new JsonArtisttype(2, Constants.DELETED);
+        JsonArtisttype response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(artisttype, MediaType.APPLICATION_JSON), JsonArtisttype.class);
+        assertEquals(Constants.DELETED, response.getName());
+
+        @SuppressWarnings("unchecked")
+		List<JsonArtisttype> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+
+        assertEquals(listbefore.size()-1, listafter.size());
+    }
+
 	
 }

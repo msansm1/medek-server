@@ -125,5 +125,38 @@ public class SupportServiceTest {
         assertEquals("msansm1", response.getName());
     }
 
+    /**
+     * Test for /services/supports POST Test OK
+     * delete
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(5)
+    public void callDelete() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonSupport> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        
+        JsonSupport support = new JsonSupport(2, Constants.DELETED);
+        JsonSupport response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(support, MediaType.APPLICATION_JSON), JsonSupport.class);
+        assertEquals(Constants.DELETED, response.getName());
+
+        @SuppressWarnings("unchecked")
+		List<JsonSupport> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+
+        assertEquals(listbefore.size()-1, listafter.size());
+    }
+
 	
 }

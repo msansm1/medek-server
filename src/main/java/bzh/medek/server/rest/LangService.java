@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.JsonLang;
 import bzh.medek.server.persistence.dao.LangDAO;
 import bzh.medek.server.persistence.entities.Lang;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class LangService extends Application {
 	    	langDao.saveLang(l);
 	    	jlang.setId(l.getId());
     	} else {
-        	Lang l = langDao.getLang(lang.getId());
-	    	l.setName(lang.getName());
-        	langDao.updateLang(l);
+    		if (lang.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			langDao.removeLang(langDao.getLang(lang.getId()));
+    		} else {
+	        	Lang l = langDao.getLang(lang.getId());
+		    	l.setName(lang.getName());
+	        	langDao.updateLang(l);
+    		}
     	}
     	return jlang;
     }

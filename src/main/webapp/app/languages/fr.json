@@ -90,5 +90,8 @@
 	"genres": "Genres (musique)",
 	"langages": "Languages (audio, sous-titres, livres)",
 	"supports": "Supports",
-	"storygenres": "Genres (livres, films)"
+	"storygenres": "Genres (livres, films)",
+	"editlist": "Editer la liste",
+	"createitem": "Créer un nouvel élément",
+	"additem": "Ajouter cet élément"
 }

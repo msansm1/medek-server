@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import bzh.medek.server.json.book.JsonBooktype;
 import bzh.medek.server.persistence.dao.BooktypeDAO;
 import bzh.medek.server.persistence.entities.Booktype;
+import bzh.medek.server.utils.Constants;
 
 @Stateless
 @ApplicationPath("/services")
@@ -81,9 +82,13 @@ public class BookTypeService extends Application {
 	    	booktypeDao.saveBooktype(l);
 	    	jbooktype.setId(l.getId());
     	} else {
-        	Booktype l = booktypeDao.getBooktype(booktype.getId());
-	    	l.setName(booktype.getName());
-        	booktypeDao.updateBooktype(l);
+    		if (booktype.getName().equalsIgnoreCase(Constants.DELETED)) {
+    			booktypeDao.removeBooktype(booktypeDao.getBooktype(booktype.getId()));
+    		} else {
+	        	Booktype l = booktypeDao.getBooktype(booktype.getId());
+		    	l.setName(booktype.getName());
+	        	booktypeDao.updateBooktype(l);
+    		}
     	}
     	return jbooktype;
     }

@@ -125,5 +125,38 @@ public class CollectionServiceTest {
         assertEquals("msansm1", response.getName());
     }
 
+    /**
+     * Test for /services/collections POST Test OK
+     * delete
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(5)
+    public void callDelete() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonCollection> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        
+        JsonCollection collection = new JsonCollection(2, Constants.DELETED);
+        JsonCollection response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(collection, MediaType.APPLICATION_JSON), JsonCollection.class);
+        assertEquals(Constants.DELETED, response.getName());
+
+        @SuppressWarnings("unchecked")
+		List<JsonCollection> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+
+        assertEquals(listbefore.size()-1, listafter.size());
+    }
+
 	
 }

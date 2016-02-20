@@ -1,9 +1,14 @@
 <div class="row rownomargin admin-list-header" ng-click="openList(list.name)">
 	<div class="col-md-1 text-left">
-		<button type="button" class="btn btn-link" ng-click="list.iscollapsed = !list.iscollapsed">collapse</button>
+		<button type="button" class="btn btn-link" ng-click="list.iscollapsed = !list.iscollapsed">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="list.iscollapsed"></span>
+			<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="!list.iscollapsed"></span>
+		</button>
 	</div>
 	<div class="col-md-1 text-left">
-		<button type="button" class="btn btn-link" ng-click="editList(list.name)">edit</button>
+		<button type="button" class="btn btn-link" ng-click="editList(list.name, list.items)">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+		</button>
 	</div>
 	<div class="col-md-6 text-left">
 		<span>{{ list.name | translate }}</span>

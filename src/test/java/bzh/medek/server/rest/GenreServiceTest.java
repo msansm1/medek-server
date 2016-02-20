@@ -125,5 +125,38 @@ public class GenreServiceTest {
         assertEquals("msansm1", response.getName());
     }
 
+    /**
+     * Test for /services/genres POST Test OK
+     * delete
+     * 
+     * @throws Exception
+     */
+    @Test
+    @InSequence(5)
+    public void callDelete() throws Exception {
+        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+
+        @SuppressWarnings("unchecked")
+		List<JsonGenre> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+        
+        JsonGenre genre = new JsonGenre(3, Constants.DELETED);
+        JsonGenre response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .post(Entity.entity(genre, MediaType.APPLICATION_JSON), JsonGenre.class);
+        assertEquals(Constants.DELETED, response.getName());
+
+        @SuppressWarnings("unchecked")
+		List<JsonGenre> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .get(List.class);
+
+        assertEquals(listbefore.size()-1, listafter.size());
+    }
+
 	
 }
