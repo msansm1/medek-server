@@ -3,8 +3,6 @@ package bzh.medek.server.conf;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import bzh.medek.server.persistence.dao.ConfigurationDAO;
 
 /**
@@ -15,7 +13,6 @@ import bzh.medek.server.persistence.dao.ConfigurationDAO;
  */
 @Stateless
 public class Conf {
-    private static final Logger LOGGER = Logger.getLogger(Conf.class.getName());
     
     private static final String PARAM_FS = "filesystem";
     private static final String FS_ALBUM = "album";
@@ -34,8 +31,7 @@ public class Conf {
      * @return
      */
     public String getAlbumFS() {
-        String fs = configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_ALBUM + "/";
-        return fs;
+        return configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_ALBUM + "/";
     }
 
     /**
@@ -44,8 +40,7 @@ public class Conf {
      * @return
      */
     public String getBookFS() {
-        String fs = configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_BOOK + "/";
-        return fs;
+        return configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_BOOK + "/";
     }
 
     /**
@@ -54,8 +49,7 @@ public class Conf {
      * @return
      */
     public String getMovieFS() {
-        String fs = configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_MOVIE + "/";
-        return fs;
+        return configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_MOVIE + "/";
     }
 
     /**
@@ -64,8 +58,7 @@ public class Conf {
      * @return
      */
     public String getTvshowsFS() {
-        String fs = configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_TVSHOW + "/";
-        return fs;
+        return configurationDAO.getConfiguration(PARAM_FS).getValue() + FS_TVSHOW + "/";
     }
 
     /**
@@ -74,8 +67,7 @@ public class Conf {
      * @return
      */
     public String getGracenoteClientID() {
-        String id = configurationDAO.getConfiguration(PARAM_CLIENT_ID).getValue();
-        return id;
+        return configurationDAO.getConfiguration(PARAM_CLIENT_ID).getValue();
     }
 
     /**
@@ -84,8 +76,7 @@ public class Conf {
      * @return
      */
     public String getGracenoteClientTag() {
-        String tag = configurationDAO.getConfiguration(PARAM_CLIENT_TAG).getValue();
-        return tag;
+        return configurationDAO.getConfiguration(PARAM_CLIENT_TAG).getValue();
     }
     
 }
