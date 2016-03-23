@@ -12,6 +12,7 @@ import bzh.medek.server.error.MedekError;
 import bzh.medek.server.gracenote.GracenoteException;
 import bzh.medek.server.interceptor.RestRequestFilter;
 import bzh.medek.server.json.JsonClientMsg;
+import bzh.medek.server.json.admin.JsonConfParam;
 import bzh.medek.server.json.admin.user.JsonAdminUser;
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.artist.JsonArtist;
@@ -56,6 +57,7 @@ public class TestUtils {
                 .addPackage(AdminUserService.class.getPackage())
                 .addPackage(GracenoteException.class.getPackage())
                 .addPackage(JsonCollectionStats.class.getPackage())
+                .addPackage(JsonConfParam.class.getPackage())
                 .addAsLibraries(libsConf)
                 .addAsResource("create.sql", "create.sql")
                 .addAsResource("load.sql", "load.sql")
