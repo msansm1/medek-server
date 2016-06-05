@@ -192,7 +192,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             .state('admin.config', {
                 url: '/config',
-                templateUrl : 'app/views/admin/config.html',
+                templateUrl : 'app/views/admin/config/config.html',
                 controller : 'ConfigController'
             })
             // OTHERS
