@@ -33,7 +33,7 @@ public class AlbumDAOTest {
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "albumdao.war")
         		.addClass(AlbumDAO.class)
-        		.addClass(JsonAlbum.class)
+        		.addPackage(JsonAlbum.class.getPackage())
                 .addClass(Dao.class)
                 .addPackage(Album.class.getPackage())
                 .addClass(AlbumStats.class)
