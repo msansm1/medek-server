@@ -78,19 +78,22 @@ public class FriendService extends Application {
      */
     @POST
     @Path(value = "/{userId}/{id}")
-    public JsonFriend getOne(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id, 
+    public JsonFriend createUpdate(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id, 
     		JsonFriend friend) {
     	JsonFriend jf = friend;
     	FriendPK fpk = new FriendPK();
     	fpk.setFriend(jf.getFriendId());
     	fpk.setUser(jf.getUserId());
     	Friend f = friendDAO.getFriend(fpk);
-    	f.setIsaccepted(jf.getAccepted());
-    	f.setIssharedcollection(jf.getSharedCollection());
     	if (f == null) {
+    		f = new Friend();
     		f.setId(fpk);
+        	f.setIsaccepted(jf.getAccepted());
+        	f.setIssharedcollection(jf.getSharedCollection());
     		friendDAO.saveFriend(f);
     	} else {
+        	f.setIsaccepted(jf.getAccepted());
+        	f.setIssharedcollection(jf.getSharedCollection());
     		friendDAO.updateFriend(f);
     	}
     	return jf;

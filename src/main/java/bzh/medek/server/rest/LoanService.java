@@ -118,14 +118,13 @@ public class LoanService extends Application {
     }
 
     /**
-     *  POST /loans/{userId} : save / update loan
+     *  POST /loans : save / update loan
      * 
      * @param userId
      * @return
      */
     @POST
-    @Path(value = "/{userId}")
-    public JsonLoan getOne(@PathParam(value = "userId") Integer userId, JsonLoan loan) {
+    public JsonLoan getOne(JsonLoan loan) {
     	JsonLoan jl = loan;
     	if (jl.getId() == null) {
     		Loan l = new Loan();
