@@ -1,0 +1,20 @@
+<div class="col-md-8 mainlist">
+	<form>
+		<div class="col-md-2 text-right itemcreatebutton" ng-click="createLoan()">
+			<span class="glyphicon glyphicon-plus"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'create' | translate }}</span>
+		</div>
+		<div class="col-md-6 itemsearch">
+		    <input type="text" class="form-control listitem-search" id="filter" ng-model="filter" placeholder="{{ 'search' | translate }}">
+		</div>
+		<div class="col-md-2 text-right itemcreatebutton" ng-click="searchLoans()">
+			<span class="glyphicon glyphicon-search"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'search' | translate }}</span>
+		</div>
+		<div class="col-md-2 text-right itemcreatebutton" ng-click="orderList()">
+			<span class="glyphicon glyphicon-sort"></span><span ng-if="listLarge">&nbsp;&nbsp;{{ 'order' | translate }}</span>
+		</div>
+	</form>
+	<div ng-repeat="loan in loans" ng-include="'app/views/loan/loandetails.html'"></div>
+</div>
+<div class="itempanel">
+	<div ui-view />
+</div>
