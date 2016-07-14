@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,7 +12,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -38,17 +41,20 @@ public class FriendService extends Application {
 	public FriendService () {
 	}
 
-    /**
+	/**
      *  GET /friends/{userId} : retrieve all friends for an user
      * 
      * @param userId
-     * @return
-     */
-    @GET
+	 * @return
+	 */
+	@GET
     @Path(value = "/{userId}")
-    public List<JsonFriend> getAll(@PathParam(value = "userId") Integer userId) {
-    	return friendDAO.getFriendsForUser(userId);
-    }
+	public List<JsonFriend> getAllWithParams(@Context HttpServletRequest request,
+			@PathParam(value = "userId") Integer userId,
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
+		return friendDAO.getFriendsListForUser(userId, from, limit, orderBy, orderDir);
+	}
 
     /**
      *  GET /friends/{userId}/{id} : retrieve one friend for one user

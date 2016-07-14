@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,7 +13,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -52,18 +55,21 @@ public class LoanService extends Application {
 	public LoanService () {
 	}
 
-    /**
-     *  GET /loans/loanto/{userId} : retrieve all loans to an user
-     * 
+	/**
+	 * GET /loans/loanto/{userId} : retrieve all loans to an user with params
+	 * 
      * @param userId
      * @return
      */
     @GET
     @Path(value = "/loanto/{userId}")
-    public List<JsonLoan> getLoansFor(@PathParam(value = "userId") Integer userId) {
-    	List<Loan> ll = userDAO.getUser(userId).getLoans2();
+	public List<JsonLoan> getAllWithParams(@Context HttpServletRequest request, 
+			@PathParam(value = "userId") Integer userId,
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
+		List<Loan> ll = loanDAO.getLoansForList(userId, from, limit, orderBy, orderDir);
     	return getJsonLoansFromLoans(userId, ll);
-    }
+	}
 
     /**
      *  GET /loans/borrow/{userId} : retrieve all borrows of an user

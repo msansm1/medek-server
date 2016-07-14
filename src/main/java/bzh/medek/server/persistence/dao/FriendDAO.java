@@ -67,4 +67,20 @@ public class FriendDAO extends Dao {
 		}
 		return null;
 	}
+
+	public List<JsonFriend> getFriendsListForUser(Integer userId, int from, int limit, String orderBy, String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("SELECT NEW bzh.medek.server.json.friend.JsonFriend(f.id.user, f.id.friend, "
+				+ "f.user1.login, f.isaccepted, f.issharedcollection)"
+				+ "from Friend f "
+				+ "where f.id.user=:userId"
+				+ " ORDER BY "+orderBy+" "+dir, JsonFriend.class)
+				.setParameter("userId", userId)
+				.setFirstResult(from)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

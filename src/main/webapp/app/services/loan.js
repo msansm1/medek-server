@@ -2,10 +2,6 @@ angular.module('medekApp.services').service('LoanService', [
 '$http', 
 '$rootScope', 
 function($http, $rootScope) {
-    this.loans = function(id) {
-        return $http.get('services/loans/loanto/'+id);
-    };
-
     this.loanslist = function(id, from, limit, orderBy, orderDir) {
         return $http.get('services/loans/loanto/'+id+'?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
     };

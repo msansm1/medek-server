@@ -2,10 +2,6 @@ angular.module('medekApp.services').service('FriendService', [
 '$http', 
 '$rootScope', 
 function($http, $rootScope) {
-    this.friends = function(id) {
-        return $http.get('services/friends/'+id);
-    };
-
     this.friendslist = function(id, from, limit, orderBy, orderDir) {
         return $http.get('services/friends/'+id+'?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
     };
