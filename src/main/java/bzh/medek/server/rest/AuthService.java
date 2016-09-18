@@ -55,7 +55,7 @@ public class AuthService extends Application {
 			JsonLogin jlogin) {
 		User u = userDao.getUserByLogin(jlogin.getLogin());
 		if (u != null) {
-			LOGGER.info("Login to connect : " + jlogin.getLogin());
+			LOGGER.info("Login to connect : " + jlogin.getLogin() + "  ====   "+Crypt.crypt(jlogin.getLogin(), jlogin.getPassword()));
 			if (Crypt.crypt(jlogin.getLogin(), jlogin.getPassword()).equals(u.getPassword())) {
 				String token = UUID.randomUUID().toString();
 				u.setToken(token);

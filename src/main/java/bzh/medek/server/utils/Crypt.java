@@ -15,7 +15,7 @@ public class Crypt {
         String pwd = pass + "1209AB@!/" + login;
         try
         {
-            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            MessageDigest crypt = MessageDigest.getInstance("SHA-256");
             crypt.reset();
             crypt.update(pwd.getBytes("UTF-8"));
             sha1 = byteToHex(crypt.digest());

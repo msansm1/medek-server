@@ -35,7 +35,7 @@ INSERT INTO `DATABASE` (`ID`, `VERSION`) VALUES (NULL, '0.7');
 
 INSERT INTO `CONFIGURATION` (`PARAMETER`, `VALUE`) VALUES ('filesystem', '/opt/medek/fs/');
 
-INSERT INTO `USER` (`ID`, `LOGIN`, `PASSWORD`, `EMAIL`, `TOKEN`, `MOBILE_TOKEN`) VALUES (1, 'msansm1', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'msansm1@test.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a', null), (2, 'testarq', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'test@arq.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a34', null);
+INSERT INTO `USER` (`ID`, `LOGIN`, `PASSWORD`, `EMAIL`, `TOKEN`, `MOBILE_TOKEN`) VALUES (1, 'msansm1', '7161759d184494851cc10d02a8037f2f9e98953329e3e30976e8a44be4c80cc9', 'msansm1@test.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a', null), (2, 'testarq', '6fbd2e3d96a64f4e28faba23a7860234ba842d84', 'test@arq.bzh', '0277d058-f407-47d0-9e1c-797376e7da1a34', null);
 
 INSERT INTO `STORYGENRE` (`ID`, `NAME`) VALUES (1, 'Aventure'), (2, 'Action');
 
