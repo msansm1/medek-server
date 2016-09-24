@@ -145,16 +145,7 @@ function ($scope, $rootScope, $modalInstance, MovieService, StoryGenreService,
     };
 
     $scope.ok = function () {
-    	MovieService.addMovieToCollection($scope.mymovie).then (
-                function(response) {
-                	$scope.saveMovie();
-                	$scope.getMovies();
-                    alert('Add successful');
-                    $modalInstance.close('success');
-                }, function(reason) {
-                    alert('Add failed');
-                    $modalInstance.close('fail');
-                });
+    	$scope.saveMovie();
         $modalInstance.close('success');
     };
 
