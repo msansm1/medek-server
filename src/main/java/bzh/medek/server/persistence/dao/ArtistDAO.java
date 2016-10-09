@@ -57,4 +57,14 @@ public class ArtistDAO extends Dao {
 		return em.createQuery("from Artist a WHERE a.artisttype.id IN ('3','4','5')", Artist.class)
 				.getResultList();
 	}
+
+	public Artist findArtistByName(String artist) {
+		List<Artist> la = em.createQuery("from Artist", Artist.class)
+				.getResultList();
+		if (la.isEmpty()) {
+			return null;
+		} else {
+			return la.get(0);
+		}
+	}
 }

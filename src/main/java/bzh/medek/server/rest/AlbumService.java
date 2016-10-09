@@ -41,6 +41,7 @@ import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
 import bzh.medek.server.persistence.dao.AlbumartistDAO;
 import bzh.medek.server.persistence.dao.ArtistDAO;
+import bzh.medek.server.persistence.dao.ArtisttypeDAO;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
@@ -49,6 +50,7 @@ import bzh.medek.server.persistence.dao.UseralbumDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.persistence.entities.Albumartist;
 import bzh.medek.server.persistence.entities.AlbumartistPK;
+import bzh.medek.server.persistence.entities.Artist;
 import bzh.medek.server.persistence.entities.Track;
 import bzh.medek.server.persistence.entities.Useralbum;
 import bzh.medek.server.persistence.entities.UseralbumPK;
@@ -81,6 +83,8 @@ public class AlbumService extends Application {
 	UserDAO userDAO;
 	@Inject
 	UseralbumDAO useralbumDao;
+	@Inject
+	ArtisttypeDAO artisttypeDAO;
 
 	public AlbumService() {
 	}
@@ -239,10 +243,24 @@ public class AlbumService extends Application {
 			Albumartist aa = new Albumartist();
 			AlbumartistPK aaid = new AlbumartistPK();
 			aaid.setAlbum(a.getId().intValue());
-			aaid.setArtist(album.getArtistId().intValue());
-			aa.setId(aaid);
-			aa.setAlbumBean(a);
-			aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+			if (ja.getArtistId() != null) {
+				aaid.setArtist(album.getArtistId().intValue());
+				aa.setId(aaid);
+				aa.setAlbumBean(a);
+				aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+			} else {
+				Artist artist = artistDao.findArtistByName(ja.getArtist());
+				if (artist ==null) {
+					artist = new Artist();
+					artist.setName(ja.getArtist());
+					artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+					artistDao.saveArtist(artist);
+				}
+				aaid.setArtist(artist.getId().intValue());
+				aa.setId(aaid);
+				aa.setAlbumBean(a);
+				aa.setArtistBean(artist);
+			}
 			albumArtistDao.saveAlbumartist(aa);
 			a.addAlbumartist(aa);
 			albumDao.updateAlbum(a);
