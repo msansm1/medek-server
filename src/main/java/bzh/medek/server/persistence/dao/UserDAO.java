@@ -38,13 +38,20 @@ public class UserDAO extends Dao {
 		return em.find(User.class, id);
 	}
 
+    @SuppressWarnings("unchecked")
 	public Integer tokenExists(String authToken) {
-        @SuppressWarnings("unchecked")
         List<Integer> l = em.createQuery("select id from User u where u.token = :param1")
                 .setParameter("param1", authToken)
                 .getResultList();
         if (l.isEmpty()) {
-            return null;
+        	l = em.createQuery("select id from User u where u.mobileToken = :param1")
+                .setParameter("param1", authToken)
+                .getResultList();
+        	if (l.isEmpty()) {
+        		return null;
+        	} else {
+                return l.get(0);
+            }
         } else {
             return l.get(0);
         }

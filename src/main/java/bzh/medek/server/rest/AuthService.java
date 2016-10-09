@@ -73,6 +73,34 @@ public class AuthService extends Application {
 	}
 
 	/**
+	 * POST /login/mobile : login for user
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("/login/mobile")
+	public Response loginMobileUser(@Context HttpServletRequest request,
+			JsonLogin jlogin) {
+		User u = userDao.getUserByLogin(jlogin.getLogin());
+		if (u != null) {
+			LOGGER.info("Login to connect : " + jlogin.getLogin());
+			if (Crypt.crypt(jlogin.getLogin(), jlogin.getPassword()).equals(u.getPassword())) {
+				String token = UUID.randomUUID().toString();
+				u.setMobileToken(token);
+				userDao.updateUser(u);
+				return Response.ok(
+						new JsonAuth(u.getId(), u.getLogin(), u.getEmail(),
+								null, null, null, token),
+						MediaType.APPLICATION_JSON).build();
+			} else {
+				LOGGER.info("!!!  Wrong password");
+			}
+		}
+		return Response.status(Response.Status.UNAUTHORIZED)
+				.entity("Wrong Login or Password").build();
+	}
+
+	/**
 	 * POST /logout : logout for user
 	 * 
 	 * @return
