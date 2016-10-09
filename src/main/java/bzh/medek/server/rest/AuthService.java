@@ -114,4 +114,18 @@ public class AuthService extends Application {
 		return "ok";
 	}
 
+	/**
+	 * POST /logout/mobile : logout for user
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("/logout/mobile")
+	public String logoutMobileUser(JsonAuth user) {
+		User u = userDao.getUser(user.getId().intValue());
+		u.setMobileToken(null);
+		userDao.updateUser(u);
+		return "ok";
+	}
+
 }
