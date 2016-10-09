@@ -21,6 +21,9 @@ public class Album implements Serializable {
 	@Column(name="ID", unique=true, nullable=false)
 	private Integer id;
 
+	@Column(name="CDS")
+	private Integer cds;
+
 	@Column(name="COVER", length=45)
 	private String cover;
 
@@ -69,6 +72,14 @@ public class Album implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getCds() {
+		return cds;
+	}
+
+	public void setCds(Integer cds) {
+		this.cds = cds;
 	}
 
 	public String getCover() {

@@ -20,3 +20,4 @@ src/main/webapp/META-INF/maven/medek-server/medek-server/pom.xml
 .settings/org.eclipse.wst.jsdt.ui.superType.container
 .settings/org.eclipse.wst.jsdt.ui.superType.name
 .settings/org.eclipse.wst.validation.prefs
+/bin/

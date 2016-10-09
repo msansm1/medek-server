@@ -20,6 +20,9 @@ public class Track implements Serializable {
 	@Column(name="ID", unique=true, nullable=false)
 	private Integer id;
 
+	@Column(name="CD")
+	private Integer cd;
+
 	@Column(name="LENGTH", length=45)
 	private String length;
 
@@ -47,6 +50,14 @@ public class Track implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getCd() {
+		return cd;
+	}
+
+	public void setCd(Integer cd) {
+		this.cd = cd;
 	}
 
 	public String getLength() {
