@@ -5,6 +5,7 @@ public class JsonTrack {
 	private Integer albumId;
 	private String title;
 	private Integer trackNb;
+	private Integer cd;
 	private String length;
 	private String artist;
 	private Integer artistId;
@@ -20,6 +21,19 @@ public class JsonTrack {
 		this.albumId = albumId;
 		this.title = title;
 		this.trackNb = trackNb;
+		this.length = length;
+		this.artist = artist;
+		this.artistId = artistId;
+	}
+
+	public JsonTrack(Integer id, Integer albumId, String title, Integer cd,
+			Integer trackNb, String length, String artist, Integer artistId) {
+		super();
+		this.id = id;
+		this.albumId = albumId;
+		this.title = title;
+		this.trackNb = trackNb;
+		this.cd = cd;
 		this.length = length;
 		this.artist = artist;
 		this.artistId = artistId;
@@ -55,6 +69,14 @@ public class JsonTrack {
 
 	public void setTrackNb(Integer trackNb) {
 		this.trackNb = trackNb;
+	}
+
+	public Integer getCd() {
+		return cd;
+	}
+
+	public void setCd(Integer cd) {
+		this.cd = cd;
 	}
 
 	public String getLength() {

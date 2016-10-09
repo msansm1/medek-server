@@ -52,6 +52,8 @@ import bzh.medek.server.persistence.entities.Albumartist;
 import bzh.medek.server.persistence.entities.AlbumartistPK;
 import bzh.medek.server.persistence.entities.Artist;
 import bzh.medek.server.persistence.entities.Track;
+import bzh.medek.server.persistence.entities.Trackartist;
+import bzh.medek.server.persistence.entities.TrackartistPK;
 import bzh.medek.server.persistence.entities.Useralbum;
 import bzh.medek.server.persistence.entities.UseralbumPK;
 import bzh.medek.server.utils.Constants;
@@ -161,16 +163,24 @@ public class AlbumService extends Application {
 				artistId = 0;
 			}
 			Useralbum mya = useralbumDao.getUseralbum(a.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
+			List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
+			List<JsonTrack> lt = new ArrayList<JsonTrack>();
+			for (Track t : tracks) {
+				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
+						.getNumber(), t.getLength(), t.getTrackartists().get(0)
+						.getArtistBean().getName(), t.getTrackartists().get(0)
+						.getArtistBean().getId()));
+			}
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
 					.getReleasedate(), (a.getGenreBean() != null) ? a
 					.getGenreBean().getName() : "",
 					(a.getGenreBean() != null) ? a.getGenreBean().getId()
-							: null, a.getNbtracks(),
+							: null, a.getCds(), a.getNbtracks(),
 					(a.getSupportBean() != null) ? a.getSupportBean().getName()
 							: "", (a.getSupportBean() != null) ? a
 							.getSupportBean().getId() : null, artistName, artistId,
 							(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
-							(mya!=null)?mya.getIssigned():false, new ArrayList<JsonTrack>()));
+							(mya!=null)?mya.getIssigned():false, lt));
 		}
 		return la;
 	}
@@ -233,6 +243,7 @@ public class AlbumService extends Application {
 			a.setTitle(album.getTitle());
 			a.setCover(album.getCover());
 			a.setReleasedate(album.getReleaseDate());
+			a.setCds(ja.getCds());
 			if (album.getGenreId() != null) {
 				a.setGenreBean(genreDAO.getGenre(album.getGenreId()));
 			}
@@ -265,6 +276,36 @@ public class AlbumService extends Application {
 			a.addAlbumartist(aa);
 			albumDao.updateAlbum(a);
 			ja.setId(a.getId());
+			for (JsonTrack t : ja.getTracks()) {
+				Track track = new Track();
+				track.setCd(t.getCd());
+				track.setTitle(t.getTitle());
+				track.setAlbumBean(a);
+				track.setLength(t.getLength());
+				track.setNumber(t.getTrackNb());
+				trackDao.saveTrack(track);
+				Trackartist ta = new Trackartist();
+				TrackartistPK taid = new TrackartistPK();
+				taid.setTrack(track.getId().intValue());
+				if (t.getArtistId() != null) {
+					taid.setArtist(t.getArtistId().intValue());
+					ta.setId(taid);
+					ta.setTrackBean(track);
+					ta.setArtistBean(artistDao.getArtist(album.getArtistId()));
+				} else {
+					Artist artist = artistDao.findArtistByName(t.getArtist());
+					if (artist ==null) {
+						artist = new Artist();
+						artist.setName(t.getArtist());
+						artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+						artistDao.saveArtist(artist);
+					}
+					taid.setArtist(artist.getId().intValue());
+					ta.setId(taid);
+					ta.setTrackBean(track);
+					ta.setArtistBean(artist);
+				}
+			}
 		} else {
 			Album a = albumDao.getAlbum(album.getId());
 			LOGGER.info("find " + a.getTitle()
@@ -330,7 +371,15 @@ public class AlbumService extends Application {
 			}
 			a.setArtist(artistName);
 			a.setArtistId(artistId);
-			a.setTracks(new ArrayList<JsonTrack>());
+			List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
+			List<JsonTrack> lt = new ArrayList<JsonTrack>();
+			for (Track t : tracks) {
+				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
+						.getNumber(), t.getLength(), t.getTrackartists().get(0)
+						.getArtistBean().getName(), t.getTrackartists().get(0)
+						.getArtistBean().getId()));
+			}
+			a.setTracks(lt);
 		}
 		return albums;
 	}
