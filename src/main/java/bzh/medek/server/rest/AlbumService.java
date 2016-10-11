@@ -45,6 +45,7 @@ import bzh.medek.server.persistence.dao.ArtisttypeDAO;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
+import bzh.medek.server.persistence.dao.TrackartistDAO;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.dao.UseralbumDAO;
 import bzh.medek.server.persistence.entities.Album;
@@ -87,6 +88,8 @@ public class AlbumService extends Application {
 	UseralbumDAO useralbumDao;
 	@Inject
 	ArtisttypeDAO artisttypeDAO;
+	@Inject
+	TrackartistDAO trackartistDAO;
 
 	public AlbumService() {
 	}
@@ -253,23 +256,24 @@ public class AlbumService extends Application {
 			Albumartist aa = new Albumartist();
 			AlbumartistPK aaid = new AlbumartistPK();
 			aaid.setAlbum(a.getId().intValue());
+			Artist albumArtist = artistDao.findArtistByName(ja.getArtist());
 			if (ja.getArtistId() != null) {
+				albumArtist = artistDao.getArtist(album.getArtistId());
 				aaid.setArtist(album.getArtistId().intValue());
 				aa.setId(aaid);
 				aa.setAlbumBean(a);
 				aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
 			} else {
-				Artist artist = artistDao.findArtistByName(ja.getArtist());
-				if (artist ==null) {
-					artist = new Artist();
-					artist.setName(ja.getArtist());
-					artist.setArtisttype(artisttypeDAO.getArtisttype(1));
-					artistDao.saveArtist(artist);
+				if (albumArtist ==null) {
+					albumArtist = new Artist();
+					albumArtist.setName(ja.getArtist());
+					albumArtist.setArtisttype(artisttypeDAO.getArtisttype(1));
+					artistDao.saveArtist(albumArtist);
 				}
-				aaid.setArtist(artist.getId().intValue());
+				aaid.setArtist(albumArtist.getId().intValue());
 				aa.setId(aaid);
 				aa.setAlbumBean(a);
-				aa.setArtistBean(artist);
+				aa.setArtistBean(albumArtist);
 			}
 			albumArtistDao.saveAlbumartist(aa);
 			a.addAlbumartist(aa);
@@ -293,31 +297,34 @@ public class AlbumService extends Application {
 					ta.setArtistBean(artistDao.getArtist(album.getArtistId()));
 				} else {
 					if (!t.getArtist().isEmpty()) {
-						Artist artist = artistDao.findArtistByName(t.getArtist());
-						if (artist ==null) {
-							artist = new Artist();
-							artist.setName(t.getArtist());
-							artist.setArtisttype(artisttypeDAO.getArtisttype(1));
-							artistDao.saveArtist(artist);
+						if (t.getArtist().equalsIgnoreCase(albumArtist.getName())) {
+							taid.setArtist(albumArtist.getId().intValue());
+							ta.setId(taid);
+							ta.setTrackBean(track);
+							ta.setArtistBean(albumArtist);
+						} else {
+							Artist artist = artistDao.findArtistByName(t.getArtist());
+							if (artist == null) {
+								artist = new Artist();
+								artist.setName(t.getArtist());
+								artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+								artistDao.saveArtist(artist);
+							}
+							taid.setArtist(artist.getId().intValue());
+							ta.setId(taid);
+							ta.setTrackBean(track);
+							ta.setArtistBean(artist);
 						}
-						taid.setArtist(artist.getId().intValue());
-						ta.setId(taid);
-						ta.setTrackBean(track);
-						ta.setArtistBean(artist);
 					} else {
-						Artist artist = artistDao.findArtistByName(ja.getArtist());
-						if (artist == null) {
-							artist = new Artist();
-							artist.setName(ja.getArtist());
-							artist.setArtisttype(artisttypeDAO.getArtisttype(1));
-							artistDao.saveArtist(artist);
-						}
-						taid.setArtist(artist.getId().intValue());
+						taid.setArtist(albumArtist.getId().intValue());
 						ta.setId(taid);
 						ta.setTrackBean(track);
-						ta.setArtistBean(artist);
+						ta.setArtistBean(albumArtist);
 					}
 				}
+				trackartistDAO.saveTrackartist(ta);
+				track.addTrackartist(ta);
+				trackDao.updateTrack(track);
 			}
 		} else {
 			Album a = albumDao.getAlbum(album.getId());

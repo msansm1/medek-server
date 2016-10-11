@@ -59,7 +59,8 @@ public class ArtistDAO extends Dao {
 	}
 
 	public Artist findArtistByName(String artist) {
-		List<Artist> la = em.createQuery("from Artist", Artist.class)
+		List<Artist> la = em.createQuery("from Artist where name=:name", Artist.class)
+				.setParameter("name", artist)
 				.getResultList();
 		if (la.isEmpty()) {
 			return null;
