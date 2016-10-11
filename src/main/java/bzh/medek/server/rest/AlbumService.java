@@ -167,9 +167,8 @@ public class AlbumService extends Application {
 			List<JsonTrack> lt = new ArrayList<JsonTrack>();
 			for (Track t : tracks) {
 				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
-						.getNumber(), t.getLength(), t.getTrackartists().get(0)
-						.getArtistBean().getName(), t.getTrackartists().get(0)
-						.getArtistBean().getId()));
+						.getNumber(), t.getLength(), t.getTrackartists().get(0).getArtistBean().getName(),
+						t.getTrackartists().get(0).getArtistBean().getId()));
 			}
 			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
 					.getReleasedate(), (a.getGenreBean() != null) ? a
@@ -293,17 +292,31 @@ public class AlbumService extends Application {
 					ta.setTrackBean(track);
 					ta.setArtistBean(artistDao.getArtist(album.getArtistId()));
 				} else {
-					Artist artist = artistDao.findArtistByName(t.getArtist());
-					if (artist ==null) {
-						artist = new Artist();
-						artist.setName(t.getArtist());
-						artist.setArtisttype(artisttypeDAO.getArtisttype(1));
-						artistDao.saveArtist(artist);
+					if (!t.getArtist().isEmpty()) {
+						Artist artist = artistDao.findArtistByName(t.getArtist());
+						if (artist ==null) {
+							artist = new Artist();
+							artist.setName(t.getArtist());
+							artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+							artistDao.saveArtist(artist);
+						}
+						taid.setArtist(artist.getId().intValue());
+						ta.setId(taid);
+						ta.setTrackBean(track);
+						ta.setArtistBean(artist);
+					} else {
+						Artist artist = artistDao.findArtistByName(ja.getArtist());
+						if (artist == null) {
+							artist = new Artist();
+							artist.setName(ja.getArtist());
+							artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+							artistDao.saveArtist(artist);
+						}
+						taid.setArtist(artist.getId().intValue());
+						ta.setId(taid);
+						ta.setTrackBean(track);
+						ta.setArtistBean(artist);
 					}
-					taid.setArtist(artist.getId().intValue());
-					ta.setId(taid);
-					ta.setTrackBean(track);
-					ta.setArtistBean(artist);
 				}
 			}
 		} else {
