@@ -14,7 +14,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
+import bzh.medek.server.json.home.AlbumStats;
+import bzh.medek.server.json.home.BookStats;
 import bzh.medek.server.json.home.JsonCollectionStats;
+import bzh.medek.server.json.home.MovieStats;
+import bzh.medek.server.json.home.SerieStats;
 import bzh.medek.server.persistence.dao.AlbumDAO;
 import bzh.medek.server.persistence.dao.BookDAO;
 import bzh.medek.server.persistence.dao.MovieDAO;
@@ -59,13 +63,36 @@ public class HomeService extends Application {
 	 */
 	@GET
 	@Path("/mycollec")
-	public JsonCollectionStats loginUser(@Context HttpServletRequest request) {
-		User user = userDao.getUserByToken(request.getHeader(Constants.HTTP_HEADER_TOKEN));
+	public JsonCollectionStats userStats(@Context HttpServletRequest request) {
 		JsonCollectionStats stats = new JsonCollectionStats();
-		stats.setAlbums(albumDAO.getUserStats(user.getId()));
-		stats.setBooks(bookDAO.getUserStats(user.getId()));
-		stats.setMovies(movieDAO.getUserStats(user.getId()));
-		stats.setSeries(tvshowDAO.getUserStats(user.getId()));
+		User user = userDao.getUserByToken(request.getHeader(Constants.HTTP_HEADER_TOKEN));
+		if (user != null) {
+			stats.setAlbums(albumDAO.getUserStats(user.getId()));
+			stats.setBooks(bookDAO.getUserStats(user.getId()));
+			stats.setMovies(movieDAO.getUserStats(user.getId()));
+			stats.setSeries(tvshowDAO.getUserStats(user.getId()));
+		} else {
+			stats.setAlbums(new AlbumStats(Long.valueOf(0)));
+			stats.setBooks(new BookStats(Long.valueOf(0)));
+			stats.setMovies(new MovieStats(Long.valueOf(0)));
+			stats.setSeries(new SerieStats(Long.valueOf(0)));
+		}
+		return stats;
+	}
+	
+	/**
+	 * GET /allcollec : collection stats (for all database)
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("/allcollec")
+	public JsonCollectionStats allStats() {
+		JsonCollectionStats stats = new JsonCollectionStats();
+		stats.setAlbums(new AlbumStats(Long.valueOf(albumDAO.getAlbums().size())));
+		stats.setBooks(new BookStats(Long.valueOf(bookDAO.getBooks().size())));
+		stats.setMovies(new MovieStats(Long.valueOf(movieDAO.getMovies().size())));
+		stats.setSeries(new SerieStats(Long.valueOf(tvshowDAO.getTvshows().size())));
 		return stats;
 	}
 
