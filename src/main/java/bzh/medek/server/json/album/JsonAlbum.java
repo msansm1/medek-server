@@ -101,7 +101,7 @@ public class JsonAlbum {
 	public JsonAlbum(Integer id, String title, String cover,
 			Date releaseDate, String genre, Integer genreId,
 			String support, Integer supportId, Integer nbTracks,
-			Integer cds, Boolean mycollec) {
+			Integer cds) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -113,7 +113,6 @@ public class JsonAlbum {
 		this.support = support;
 		this.supportId = supportId;
 		this.cds = cds;
-		this.mycollec = mycollec;
 	}
 
 	public JsonAlbum(Integer id, String title, String cover,
