@@ -371,10 +371,11 @@ public class AlbumService extends Application {
 			@QueryParam("userId") Integer userId) {
 		List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
 		LOGGER.info("find " + albums.size() + " albums in the database");
-		String artistName = "";
-		Integer artistId = 0;
-		List<Albumartist> aartists = null;
+		String artistName;
+		Integer artistId;
+		List<Albumartist> aartists;
 		for (JsonAlbum a : albums) {
+			a.setMycollec(true);
 			aartists = albumDao.getAlbumArtists(a.getId());
 			if (!aartists.isEmpty()) {
 				artistName = aartists.get(0).getArtistBean()

@@ -118,6 +118,26 @@ public class JsonAlbum {
 	public JsonAlbum(Integer id, String title, String cover,
 			Date releaseDate, String genre, Integer genreId,
 			String support, Integer supportId, Integer nbTracks,
+			Integer cds, Integer rating,
+			Boolean signed) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.cover = cover;
+		this.releaseDate = releaseDate;
+		this.genre = genre;
+		this.genreId = genreId;
+		this.nbTracks = nbTracks;
+		this.support = support;
+		this.supportId = supportId;
+		this.cds = cds;
+		this.rating = rating;
+		this.signed = signed;
+	}
+
+	public JsonAlbum(Integer id, String title, String cover,
+			Date releaseDate, String genre, Integer genreId,
+			String support, Integer supportId, Integer nbTracks,
 			Integer cds, Boolean mycollec, Integer rating,
 			Boolean signed) {
 		super();

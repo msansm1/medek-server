@@ -73,9 +73,18 @@ public class UserDAO extends Dao {
 				.createQuery("from User u where u.token=:token",
 						User.class).setParameter("token", token)
 				.getResultList();
-		if (!allUser.isEmpty()) {
-			return allUser.get(0);
-		}
-		return null;
+        if (allUser.isEmpty()) {
+    		allUser = em
+    				.createQuery("from User u where u.mobileToken=:token",
+    						User.class).setParameter("token", token)
+    				.getResultList();
+        	if (allUser.isEmpty()) {
+        		return null;
+        	} else {
+                return allUser.get(0);
+            }
+        } else {
+            return allUser.get(0);
+        }
 	}
 }

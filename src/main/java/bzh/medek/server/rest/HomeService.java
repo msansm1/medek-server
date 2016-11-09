@@ -1,5 +1,7 @@
 package bzh.medek.server.rest;
 
+import java.util.Enumeration;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
