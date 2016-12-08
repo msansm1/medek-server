@@ -95,48 +95,6 @@ public class AlbumService extends Application {
 	}
 
 	/**
-	 * GET /albums/loguser/{id} : retrieve all albums with logged user
-	 * 
-	 * @return
-	 */
-	@GET
-	@Path(value = "loguser/{id}")
-	public List<JsonAlbum> getAll(@PathParam(value = "id") Integer userId) {
-		List<Album> albums = albumDao.getAlbums();
-		LOGGER.info("find " + albums.size() + " albums in the database");
-		ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
-		String artistName = "";
-		Integer artistId = 0;
-		for (Album a : albums) {
-			if (!a.getAlbumartists().isEmpty()) {
-				artistName = a.getAlbumartists().get(0).getArtistBean()
-						.getName();
-				if (a.getAlbumartists().get(0).getArtistBean()
-								.getFirstname() != null) {
-					artistName += " " + a.getAlbumartists().get(0).getArtistBean()
-								.getFirstname();
-				}
-				artistId = a.getAlbumartists().get(0).getArtistBean().getId();
-			} else {
-				artistName = "";
-				artistId = 0;
-			}
-			Useralbum mya = useralbumDao.getUseralbum(a.getId(), userId);
-			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
-					.getReleasedate(), (a.getGenreBean() != null) ? a
-					.getGenreBean().getName() : "",
-					(a.getGenreBean() != null) ? a.getGenreBean().getId()
-							: null, a.getNbtracks(),
-					(a.getSupportBean() != null) ? a.getSupportBean().getName()
-							: "", (a.getSupportBean() != null) ? a
-							.getSupportBean().getId() : null, artistName, artistId,
-							(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
-							(mya!=null)?mya.getIssigned():false, new ArrayList<JsonTrack>()));
-		}
-		return la;
-	}
-
-	/**
 	 * GET /albums : retrieve all albums
 	 * 
 	 * 
@@ -148,9 +106,9 @@ public class AlbumService extends Application {
 			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
 		List<Album> albums = albumDao.getAlbumsForList(from, limit, orderBy, orderDir);
 		LOGGER.info("find " + albums.size() + " albums in the database");
-		ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
-		String artistName = "";
-		Integer artistId = 0;
+		ArrayList<JsonAlbum> la = new ArrayList<>();
+		String artistName;
+		Integer artistId;
 		for (Album a : albums) {
 			if (!a.getAlbumartists().isEmpty()) {
 				artistName = a.getAlbumartists().get(0).getArtistBean()
@@ -167,40 +125,98 @@ public class AlbumService extends Application {
 			}
 			Useralbum mya = useralbumDao.getUseralbum(a.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
 			List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
-			List<JsonTrack> lt = new ArrayList<JsonTrack>();
+			List<JsonTrack> lt = new ArrayList<>();
 			for (Track t : tracks) {
 				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
 						.getNumber(), t.getLength(), t.getTrackartists().get(0).getArtistBean().getName(),
 						t.getTrackartists().get(0).getArtistBean().getId()));
 			}
-			la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a
-					.getReleasedate(), (a.getGenreBean() != null) ? a
-					.getGenreBean().getName() : "",
-					(a.getGenreBean() != null) ? a.getGenreBean().getId()
-							: null, a.getCds(), a.getNbtracks(),
-					(a.getSupportBean() != null) ? a.getSupportBean().getName()
-							: "", (a.getSupportBean() != null) ? a
-							.getSupportBean().getId() : null, artistName, artistId,
-							(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
-							(mya!=null)?mya.getIssigned():false, lt));
+			JsonAlbum ja = new JsonAlbum().setId(a.getId()).setTitle(a.getTitle()).
+					setCover(a.getCover()).setReleaseDate(a.getReleasedate()).
+					setCds(a.getCds()).setNbTracks(tracks.size()).setTracks(lt)
+					.setArtist(artistName).setArtistId(artistId);
+			if (a.getGenreBean() != null) {
+				ja.setGenre(a.getGenreBean().getName()).setGenreId(a.getGenreBean().getId());
+			} else {
+				ja.setGenre("").setGenreId(null);
+			}
+			if (a.getSupportBean() != null) {
+				ja.setSupport(a.getSupportBean().getName()).setSupportId(a.getSupportBean().getId());
+			} else {
+				ja.setSupport("").setSupportId(null);
+			}
+			if (mya != null) {
+				ja.setMycollec(true).setRating(mya.getRating()).setSigned(mya.getIssigned());
+			} else {
+				ja.setMycollec(false).setRating(0).setSigned(false);
+			}
+			la.add(ja);
 		}
 		return la;
 	}
 
 	/**
-	 * GET /albums/{id}/loguser/{userid} : retrieve one album
+	 * GET /albums/user : retrieve albums for one user
+	 * 
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path(value = "user")
+	public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, 
+			@QueryParam("from") int from, @QueryParam("limit") int limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
+			@QueryParam("userId") Integer userId) {
+		List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
+		LOGGER.info("find " + albums.size() + " albums in the database");
+		String artistName;
+		Integer artistId;
+		List<Albumartist> aartists;
+		for (JsonAlbum a : albums) {
+			a.setMycollec(true);
+			aartists = albumDao.getAlbumArtists(a.getId());
+			if (!aartists.isEmpty()) {
+				artistName = aartists.get(0).getArtistBean()
+						.getName();
+				if (aartists.get(0).getArtistBean()
+								.getFirstname() != null) {
+					artistName += " " + aartists.get(0).getArtistBean()
+								.getFirstname();
+				}
+				artistId = aartists.get(0).getArtistBean().getId();
+			} else {
+				artistName = "";
+				artistId = 0;
+			}
+			a.setArtist(artistName);
+			a.setArtistId(artistId);
+			List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
+			List<JsonTrack> lt = new ArrayList<>();
+			for (Track t : tracks) {
+				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
+						.getNumber(), t.getLength(), t.getTrackartists().get(0)
+						.getArtistBean().getName(), t.getTrackartists().get(0)
+						.getArtistBean().getId()));
+			}
+			a.setTracks(lt);
+		}
+		return albums;
+	}
+
+	/**
+	 * GET /albums/{id} : retrieve one album
 	 * 
 	 * @param id
 	 * @return
 	 */
 	@GET
-	@Path(value = "{id}/loguser/{userid}")
-	public JsonAlbum getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
+	@Path(value = "{id}")
+	public JsonAlbum getOne(@Context HttpServletRequest request, @PathParam(value = "id") Integer id) {
 		Album a = albumDao.getAlbum(id);
 		LOGGER.info("find " + a.getTitle() + " album in the database");
 		List<Track> tracks = trackDao.getTracksForAlbum(id);
 		LOGGER.info("find " + tracks.size() + " tracks for album : " + id);
-		List<JsonTrack> lt = new ArrayList<JsonTrack>();
+		List<JsonTrack> lt = new ArrayList<>();
 		for (Track t : tracks) {
 			lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t
 					.getNumber(), t.getLength(), t.getTrackartists().get(0)
@@ -218,17 +234,27 @@ public class AlbumService extends Application {
 			}
 			artistId = a.getAlbumartists().get(0).getArtistBean().getId();
 		}
-		Useralbum mya = useralbumDao.getUseralbum(id, userId);
-		return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(),
-				a.getReleasedate(), (a.getGenreBean() != null) ? a
-						.getGenreBean().getName() : "",
-				(a.getGenreBean() != null) ? a.getGenreBean().getId() : null,
-				tracks.size(), (a.getSupportBean() != null) ? a
-						.getSupportBean().getName() : "",
-				(a.getSupportBean() != null) ? a.getSupportBean().getId()
-						: null, artistName, artistId, 
-						(mya!=null)?true:false, (mya!=null)?mya.getRating():0, 
-						(mya!=null)?mya.getIssigned():false, lt);
+		Useralbum mya = useralbumDao.getUseralbum(a.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
+		JsonAlbum ja = new JsonAlbum().setId(a.getId()).setTitle(a.getTitle()).
+				setCover(a.getCover()).setReleaseDate(a.getReleasedate()).
+				setCds(a.getCds()).setNbTracks(tracks.size()).setTracks(lt)
+				.setArtist(artistName).setArtistId(artistId);
+		if (a.getGenreBean() != null) {
+			ja.setGenre(a.getGenreBean().getName()).setGenreId(a.getGenreBean().getId());
+		} else {
+			ja.setGenre("").setGenreId(null);
+		}
+		if (a.getSupportBean() != null) {
+			ja.setSupport(a.getSupportBean().getName()).setSupportId(a.getSupportBean().getId());
+		} else {
+			ja.setSupport("").setSupportId(null);
+		}
+		if (mya != null) {
+			ja.setMycollec(true).setRating(mya.getRating()).setSigned(mya.getIssigned());
+		} else {
+			ja.setMycollec(false).setRating(0).setSigned(false);
+		}
+		return ja;
 	}
 
 	/**
@@ -355,54 +381,6 @@ public class AlbumService extends Application {
 			albumDao.updateAlbum(a);
 		}
 		return ja;
-	}
-
-	/**
-	 * GET /albums/user : retrieve albums for one user
-	 * 
-	 * 
-	 * @return
-	 */
-	@GET
-	@Path(value = "user")
-	public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, 
-			@QueryParam("from") int from, @QueryParam("limit") int limit,
-			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
-			@QueryParam("userId") Integer userId) {
-		List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
-		LOGGER.info("find " + albums.size() + " albums in the database");
-		String artistName;
-		Integer artistId;
-		List<Albumartist> aartists;
-		for (JsonAlbum a : albums) {
-			a.setMycollec(true);
-			aartists = albumDao.getAlbumArtists(a.getId());
-			if (!aartists.isEmpty()) {
-				artistName = aartists.get(0).getArtistBean()
-						.getName();
-				if (aartists.get(0).getArtistBean()
-								.getFirstname() != null) {
-					artistName += " " + aartists.get(0).getArtistBean()
-								.getFirstname();
-				}
-				artistId = aartists.get(0).getArtistBean().getId();
-			} else {
-				artistName = "";
-				artistId = 0;
-			}
-			a.setArtist(artistName);
-			a.setArtistId(artistId);
-			List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
-			List<JsonTrack> lt = new ArrayList<JsonTrack>();
-			for (Track t : tracks) {
-				lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t
-						.getNumber(), t.getLength(), t.getTrackartists().get(0)
-						.getArtistBean().getName(), t.getTrackartists().get(0)
-						.getArtistBean().getId()));
-			}
-			a.setTracks(lt);
-		}
-		return albums;
 	}
 
 	/**
