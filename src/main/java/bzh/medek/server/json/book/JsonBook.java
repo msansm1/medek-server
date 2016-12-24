@@ -135,184 +135,207 @@ public class JsonBook {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public JsonBook setId(Integer id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public JsonBook setAuthor(String author) {
 		this.author = author;
+		return this;
 	}
 
 	public String getEditor() {
 		return editor;
 	}
 
-	public void setEditor(String editor) {
+	public JsonBook setEditor(String editor) {
 		this.editor = editor;
+		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public JsonBook setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 
 	public String getCollection() {
 		return collection;
 	}
 
-	public void setCollection(String collection) {
+	public JsonBook setCollection(String collection) {
 		this.collection = collection;
+		return this;
 	}
 
 	public String getCover() {
 		return cover;
 	}
 
-	public void setCover(String cover) {
+	public JsonBook setCover(String cover) {
 		this.cover = cover;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public JsonBook setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public Date getPublicationDate() {
 		return publicationDate;
 	}
 
-	public void setPublicationDate(Date publicationDate) {
+	public JsonBook setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
+		return this;
 	}
 
 	public String getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public JsonBook setGenre(String genre) {
 		this.genre = genre;
+		return this;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public JsonBook setType(String type) {
 		this.type = type;
+		return this;
 	}
 
 	public String getLang() {
 		return lang;
 	}
 
-	public void setLang(String lang) {
+	public JsonBook setLang(String lang) {
 		this.lang = lang;
+		return this;
 	}
 
 	public String getSeries() {
 		return series;
 	}
 
-	public void setSeries(String series) {
+	public JsonBook setSeries(String series) {
 		this.series = series;
+		return this;
 	}
 
 	public Integer getBookNb() {
 		return bookNb;
 	}
 
-	public void setBookNb(Integer bookNb) {
+	public JsonBook setBookNb(Integer bookNb) {
 		this.bookNb = bookNb;
+		return this;
 	}
 
 	public Boolean getIsSerieDone() {
 		return isSerieDone;
 	}
 
-	public void setIsSerieDone(Boolean isSerieDone) {
+	public JsonBook setIsSerieDone(Boolean isSerieDone) {
 		this.isSerieDone = isSerieDone;
+		return this;
 	}
 
 	public Integer getAuthorId() {
 		return authorId;
 	}
 
-	public void setAuthorId(Integer authorId) {
+	public JsonBook setAuthorId(Integer authorId) {
 		this.authorId = authorId;
+		return this;
 	}
 
 	public Integer getEditorId() {
 		return editorId;
 	}
 
-	public void setEditorId(Integer editorId) {
+	public JsonBook setEditorId(Integer editorId) {
 		this.editorId = editorId;
+		return this;
 	}
 
 	public Integer getCollectionId() {
 		return collectionId;
 	}
 
-	public void setCollectionId(Integer collectionId) {
+	public JsonBook setCollectionId(Integer collectionId) {
 		this.collectionId = collectionId;
+		return this;
 	}
 
 	public Integer getGenreId() {
 		return genreId;
 	}
 
-	public void setGenreId(Integer genreId) {
+	public JsonBook setGenreId(Integer genreId) {
 		this.genreId = genreId;
+		return this;
 	}
 
 	public Integer getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(Integer typeId) {
+	public JsonBook setTypeId(Integer typeId) {
 		this.typeId = typeId;
+		return this;
 	}
 
 	public Integer getLangId() {
 		return langId;
 	}
 
-	public void setLangId(Integer langId) {
+	public JsonBook setLangId(Integer langId) {
 		this.langId = langId;
+		return this;
 	}
 
 	public Boolean getMycollec() {
 		return mycollec;
 	}
 
-	public void setMycollec(Boolean mycollec) {
+	public JsonBook setMycollec(Boolean mycollec) {
 		this.mycollec = mycollec;
+		return this;
 	}
 
 	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public JsonBook setRating(Integer rating) {
 		this.rating = rating;
+		return this;
 	}
 
 	public Boolean getSigned() {
 		return signed;
 	}
 
-	public void setSigned(Boolean signed) {
+	public JsonBook setSigned(Boolean signed) {
 		this.signed = signed;
+		return this;
 	}
 
 }
