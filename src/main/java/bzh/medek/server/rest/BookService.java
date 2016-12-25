@@ -90,9 +90,9 @@ public class BookService extends Application {
 			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
 		List<Book> books = bookDao.getBooksForList(from, limit, orderBy, orderDir);
 		LOGGER.info("find " + books.size() + " books in the database");
-		ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
-		String artistName = "";
-		Integer artistId = 0;
+		ArrayList<JsonBook> lb = new ArrayList<>();
+		String artistName;
+		Integer artistId;
 		for (Book b : books) {
 			if (!b.getBookartists().isEmpty()) {
 				artistName = b.getBookartists().get(0).getArtistBean()
@@ -106,26 +106,46 @@ public class BookService extends Application {
 				artistId = 0;
 			}
 			Userbook myb = userbookDAO.getUserbook(b.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
-			lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
-					(b.getEditorBean() != null) ? b.getEditorBean().getName()
-							: "", (b.getEditorBean() != null) ? b
-							.getEditorBean().getId() : 0, (b
-							.getCollectionBean() != null) ? b
-							.getCollectionBean().getName() : "", (b
-							.getCollectionBean() != null) ? b
-							.getCollectionBean().getId() : 0, b.getCover(), b
-							.getDescription(), b.getPublicationdate(), (b
-							.getStorygenre() != null) ? b.getStorygenre()
-							.getName() : "", (b.getStorygenre() != null) ? b
-							.getStorygenre().getId() : 0,
-					(b.getBooktype() != null) ? b.getBooktype().getName() : "",
-					(b.getBooktype() != null) ? b.getBooktype().getId() : 0, (b
-							.getBooktype() != null) ? b.getLangBean().getName()
-							: "", (b.getBooktype() != null) ? b.getLangBean()
-							.getId() : 0, b.getSeries(), b.getBooknb(), b
-							.getIsseriedone(), (myb != null) ? true : false,
-					(myb != null) ? myb.getRating() : 0, (myb != null) ? myb
-							.getIssigned() : false));
+			JsonBook jb = new JsonBook().setId(b.getId()).setTitle(b.getTitle()).
+					setCover(b.getCover()).setPublicationDate(b.getPublicationdate()).
+					setAuthor(artistName).setAuthorId(artistId).setDescription(b.getDescription()).
+					setSeries(b.getSeries()).setIsSerieDone(b.getIsseriedone()).setBookNb(b.getBooknb());
+			if (b.getEditorBean() != null) {
+				jb.setEditor(b.getEditorBean().getName())
+				.setEditorId(b.getEditorBean().getId());
+			} else {
+				jb.setEditor("").setEditorId(null);
+			}
+			if (b.getCollectionBean() != null) {
+				jb.setCollection(b.getCollectionBean().getName())
+				.setCollectionId(b.getCollectionBean().getId());
+			} else {
+				jb.setCollection("").setCollectionId(null);
+			}
+			if (b.getStorygenre() != null) {
+				jb.setGenre(b.getStorygenre().getName()).
+				setGenreId(b.getStorygenre().getId());
+			} else {
+				jb.setGenre("").setGenreId(null);
+			}
+			if (b.getBooktype() != null) {
+				jb.setType(b.getBooktype().getName()).
+				setTypeId(b.getBooktype().getId());
+			} else {
+				jb.setType("").setTypeId(null);
+			}
+			if (b.getLangBean() != null) {
+				jb.setLang(b.getLangBean().getName()).
+				setLangId(b.getLangBean().getId());
+			} else {
+				jb.setLang("").setLangId(null);
+			}
+			if (myb != null) {
+				jb.setMycollec(true).setRating(myb.getRating()).setSigned(myb.getIssigned());
+			} else {
+				jb.setMycollec(false).setRating(0).setSigned(false);
+			}
+			lb.add(jb);
 		}
 		return lb;
 	}
