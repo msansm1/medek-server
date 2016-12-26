@@ -520,6 +520,29 @@ public class AlbumService extends Application {
 	}
 
 	/**
+	 * POST /removefromcollec : remove album from user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("removefromcollec")
+	public Response removeFromCollection(JsonMyAlbum album) {
+		Useralbum ua = new Useralbum();
+		UseralbumPK uaid = new UseralbumPK();
+		uaid.setAlbum(album.getAlbumId().intValue());
+		uaid.setUser(album.getUserId().intValue());
+		ua.setId(uaid);
+		ua.setAlbumBean(albumDao.getAlbum(album.getAlbumId()));
+		ua.setUserBean(userDAO.getUser(album.getUserId()));
+		ua.setIssigned(album.getSigned());
+		ua.setComment(album.getComment());
+		ua.setRating(album.getRating());
+		useralbumDao.removeUseralbum(ua);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
+	/**
 	 * POST /add/search : search an album from gracenote database
 	 * 
 	 * @return
