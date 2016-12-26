@@ -276,4 +276,26 @@ public class TVShowService extends Application {
 				MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * POST /removefromcollec : remove tvshow from user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("removefromcollec")
+	public Response removeFromCollection(JsonMyShow show) {
+		Usertv ut = new Usertv();
+		UsertvPK umid = new UsertvPK();
+		umid.setTvshow(show.getSerieId().intValue());
+		umid.setUser(show.getUserId().intValue());
+		ut.setId(umid);
+		ut.setTvshowBean(showDao.getTvshow(show.getSerieId()));
+		ut.setUserBean(userDAO.getUser(show.getUserId()));
+		ut.setComment(show.getComment());
+		ut.setRating(show.getRating());
+		usertvDAO.removeUsertv(ut);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
 }

@@ -435,4 +435,27 @@ public class BookService extends Application {
 				MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * POST /removefromcollec : remove book from user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("removefromcollec")
+	public Response removeFromCollection(JsonMyBook book) {
+		Userbook ub = new Userbook();
+		UserbookPK ubid = new UserbookPK();
+		ubid.setBook(book.getBookId().intValue());
+		ubid.setUser(book.getUserId().intValue());
+		ub.setId(ubid);
+		ub.setBookBean(bookDao.getBook(book.getBookId()));
+		ub.setUserBean(userDAO.getUser(book.getUserId()));
+		ub.setIssigned(book.getSigned());
+		ub.setComment(book.getComment());
+		ub.setRating(book.getRating());
+		userbookDAO.removeUserbook(ub);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
+
 }

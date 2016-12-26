@@ -304,5 +304,27 @@ public class MovieService extends Application {
 		return Response.ok(new JsonSimpleResponse(true),
 				MediaType.APPLICATION_JSON).build();
 	}
+
+	/**
+	 * POST /removefromcollec : remove movie from user's collection
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("removefromcollec")
+	public Response removeFromCollection(JsonMyMovie movie) {
+		Usermovie um = new Usermovie();
+		UsermoviePK umid = new UsermoviePK();
+		umid.setMovie(movie.getMovieId().intValue());
+		umid.setUser(movie.getUserId().intValue());
+		um.setId(umid);
+		um.setMovieBean(movieDao.getMovie(movie.getMovieId()));
+		um.setUserBean(userDAO.getUser(movie.getUserId()));
+		um.setComment(movie.getComment());
+		um.setRating(movie.getRating());
+		usermovieDAO.removeUsermovie(um);
+		return Response.ok(new JsonSimpleResponse(true),
+				MediaType.APPLICATION_JSON).build();
+	}
     
 }
