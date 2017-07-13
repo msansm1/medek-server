@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.JsonStorygenre;
 import bzh.medek.server.persistence.dao.StorygenreDAO;
@@ -30,31 +30,31 @@ import bzh.medek.server.utils.Constants;
 public class StoryGenreService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(StoryGenreService.class);
-    
+
     @Inject
     StorygenreDAO storygenreDao;
-	
-	public StoryGenreService () {
-	}
+
+    public StoryGenreService() {
+    }
 
     /**
-     *  GET /storygenres : retrieve all storygenres
+     * GET /storygenres : retrieve all storygenres
      * 
      * @return
      */
     @GET
     public List<JsonStorygenre> getAll() {
-    	List<Storygenre> storygenres = storygenreDao.getStorygenres();
-    	LOGGER.info("find "+storygenres.size()+" storygenres in the database");
-    	ArrayList<JsonStorygenre> ls = new ArrayList<JsonStorygenre>();
-    	for (Storygenre s:storygenres) {
-    		ls.add(new JsonStorygenre(s.getId(), s.getName()));
-    	}
-    	return ls;
+        List<Storygenre> storygenres = storygenreDao.getStorygenres();
+        LOGGER.info("find " + storygenres.size() + " storygenres in the database");
+        ArrayList<JsonStorygenre> ls = new ArrayList<JsonStorygenre>();
+        for (Storygenre s : storygenres) {
+            ls.add(new JsonStorygenre(s.getId(), s.getName()));
+        }
+        return ls;
     }
 
     /**
-     *  GET /storygenres/{id} : retrieve one storygenre
+     * GET /storygenres/{id} : retrieve one storygenre
      * 
      * @param id
      * @return
@@ -62,35 +62,36 @@ public class StoryGenreService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonStorygenre getOne(@PathParam(value = "id") Integer id) {
-    	Storygenre s = storygenreDao.getStorygenre(id);
-    	LOGGER.info("find "+s.getName()+" storygenre in the database");
-    	return new JsonStorygenre(s.getId(), s.getName());
+        Storygenre s = storygenreDao.getStorygenre(id);
+        LOGGER.info("find " + s.getName() + " storygenre in the database");
+        return new JsonStorygenre(s.getId(), s.getName());
     }
 
     /**
-     *  POST /storygenres : create / update one storygenre
+     * POST /storygenres : create / update one storygenre
      * 
-     * @param JsonStorygenre storygenre
+     * @param JsonStorygenre
+     *            storygenre
      * @return
      */
     @POST
     public JsonStorygenre createUpdateOne(JsonStorygenre storygenre) {
-    	JsonStorygenre jstorygenre = storygenre;
-    	if (storygenre.getId() == null) {
-	    	Storygenre s = new Storygenre();
-	    	s.setName(storygenre.getName());
-	    	storygenreDao.saveStorygenre(s);
-	    	jstorygenre.setId(s.getId());
-    	} else {
-    		if (storygenre.getName().equalsIgnoreCase(Constants.DELETED)) {
-    			storygenreDao.removeStorygenre(storygenreDao.getStorygenre(storygenre.getId()));
-    		} else {
-	        	Storygenre s = storygenreDao.getStorygenre(storygenre.getId());
-		    	s.setName(storygenre.getName());
-	        	storygenreDao.updateStorygenre(s);
-    		}
-    	}
-    	return jstorygenre;
+        JsonStorygenre jstorygenre = storygenre;
+        if (storygenre.getId() == null) {
+            Storygenre s = new Storygenre();
+            s.setName(storygenre.getName());
+            storygenreDao.saveStorygenre(s);
+            jstorygenre.setId(s.getId());
+        } else {
+            if (storygenre.getName().equalsIgnoreCase(Constants.DELETED)) {
+                storygenreDao.removeStorygenre(storygenreDao.getStorygenre(storygenre.getId()));
+            } else {
+                Storygenre s = storygenreDao.getStorygenre(storygenre.getId());
+                s.setName(storygenre.getName());
+                storygenreDao.updateStorygenre(s);
+            }
+        }
+        return jstorygenre;
     }
-	
+
 }

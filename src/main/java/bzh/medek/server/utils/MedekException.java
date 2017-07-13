@@ -1,6 +1,6 @@
 package bzh.medek.server.utils;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 public class MedekException extends Exception {
 

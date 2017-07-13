@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.home.JsonCollectionStats;
 import bzh.medek.server.persistence.dao.AlbumDAO;
@@ -36,37 +36,37 @@ import bzh.medek.server.utils.Constants;
 @Produces(MediaType.APPLICATION_JSON)
 public class HomeService extends Application {
 
-	private static final Logger LOGGER = Logger.getLogger(HomeService.class);
+    private static final Logger LOGGER = Logger.getLogger(HomeService.class);
 
-	@Inject
-	UserDAO userDao;
-	@Inject
-	AlbumDAO albumDAO;
-	@Inject
-	BookDAO bookDAO;
-	@Inject
-	MovieDAO movieDAO;
-	@Inject
-	TvshowDAO tvshowDAO;
+    @Inject
+    UserDAO userDao;
+    @Inject
+    AlbumDAO albumDAO;
+    @Inject
+    BookDAO bookDAO;
+    @Inject
+    MovieDAO movieDAO;
+    @Inject
+    TvshowDAO tvshowDAO;
 
-	public HomeService() {
-	}
+    public HomeService() {
+    }
 
-	/**
-	 * GET /mycollec : collection stats for an user
-	 * 
-	 * @return
-	 */
-	@GET
-	@Path("/mycollec")
-	public JsonCollectionStats loginUser(@Context HttpServletRequest request) {
-		User user = userDao.getUserByToken(request.getHeader(Constants.HTTP_HEADER_TOKEN));
-		JsonCollectionStats stats = new JsonCollectionStats();
-		stats.setAlbums(albumDAO.getUserStats(user.getId()));
-		stats.setBooks(bookDAO.getUserStats(user.getId()));
-		stats.setMovies(movieDAO.getUserStats(user.getId()));
-		stats.setSeries(tvshowDAO.getUserStats(user.getId()));
-		return stats;
-	}
+    /**
+     * GET /mycollec : collection stats for an user
+     * 
+     * @return
+     */
+    @GET
+    @Path("/mycollec")
+    public JsonCollectionStats loginUser(@Context HttpServletRequest request) {
+        User user = userDao.getUserByToken(request.getHeader(Constants.HTTP_HEADER_TOKEN));
+        JsonCollectionStats stats = new JsonCollectionStats();
+        stats.setAlbums(albumDAO.getUserStats(user.getId()));
+        stats.setBooks(bookDAO.getUserStats(user.getId()));
+        stats.setMovies(movieDAO.getUserStats(user.getId()));
+        stats.setSeries(tvshowDAO.getUserStats(user.getId()));
+        return stats;
+    }
 
 }

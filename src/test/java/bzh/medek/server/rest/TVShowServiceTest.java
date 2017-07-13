@@ -12,11 +12,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -39,7 +39,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class TVShowServiceTest {
     private static final Logger LOGGER = Logger.getLogger(TVShowServiceTest.class);
@@ -69,9 +69,8 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No tvshow found", response.isEmpty());
     }
@@ -87,15 +86,13 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1/loguser/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonShow.class);
         assertEquals("Justified s01", response.getTitle());
     }
 
     /**
-     * Test for /services/tvshows POST Test OK
-     * creation
+     * Test for /services/tvshows POST Test OK creation
      * 
      * @throws Exception
      */
@@ -103,20 +100,17 @@ public class TVShowServiceTest {
     @InSequence(3)
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonShow tvshow = new JsonShow(null, "Stargate SG1", "Mickael !!!!", null, "", "", 1,
-        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
-        		false, 0);
-        		
+        JsonShow tvshow = new JsonShow(null, "Stargate SG1", "Mickael !!!!", null, "", "", 1, "", 1, "89", 3, "ui",
+                true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(), false, 0);
+
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(tvshow, MediaType.APPLICATION_JSON), JsonShow.class);
         assertEquals(Integer.valueOf(8), response.getId());
     }
 
     /**
-     * Test for /services/tvshows POST Test OK
-     * update
+     * Test for /services/tvshows POST Test OK update
      * 
      * @throws Exception
      */
@@ -124,13 +118,11 @@ public class TVShowServiceTest {
     @InSequence(4)
     public void callUpdate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonShow tvshow = new JsonShow(2, "Stargate SG1 bis", "Mickael !!!!  !!!!", null, "", "", 1,
-        		"", 1, "89", 3, "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
-        		false, 0);
+        JsonShow tvshow = new JsonShow(2, "Stargate SG1 bis", "Mickael !!!!  !!!!", null, "", "", 1, "", 1, "89", 3,
+                "ui", true, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(), false, 0);
 
         JsonShow response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(tvshow, MediaType.APPLICATION_JSON), JsonShow.class);
         assertEquals("Stargate SG1 bis", response.getTitle());
     }
@@ -146,10 +138,10 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonAlbum> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonAlbum> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No tvshow found", response.isEmpty());
         assertEquals("List page 1 does not contains 1 entrie", Integer.valueOf(1), Integer.valueOf(response.size()));
@@ -166,10 +158,9 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "?from=0&limit=5&orderBy=id&orderDir=asc")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonShow> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "?from=0&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No tvshow found", response.isEmpty());
         assertEquals("List page 1 does not contains 5 entries", Integer.valueOf(5), Integer.valueOf(response.size()));
@@ -186,18 +177,16 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonShow> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "?from=6&limit=5&orderBy=id&orderDir=asc")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonShow> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "?from=6&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No tvshow found", response.isEmpty());
         assertEquals("List page 2 does not contains 2 entries", Integer.valueOf(2), Integer.valueOf(response.size()));
     }
 
     /**
-     * Test for /services/tvshows/addtocollec POST Test OK
-     * update
+     * Test for /services/tvshows/addtocollec POST Test OK update
      * 
      * @throws Exception
      */
@@ -207,29 +196,27 @@ public class TVShowServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonMyShow show = new JsonMyShow(2, 1, 4, "");
 
-
-		@SuppressWarnings("unchecked")
-		List<JsonShow> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        @SuppressWarnings("unchecked")
+        List<JsonShow> listbefore = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         int sizebefore = listbefore.size();
-        
+
         JsonSimpleResponse response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/addtocollec")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(show, MediaType.APPLICATION_JSON), JsonSimpleResponse.class);
         assertEquals("true", response.getOk());
 
-		@SuppressWarnings("unchecked")
-		List<JsonShow> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        @SuppressWarnings("unchecked")
+        List<JsonShow> listafter = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=t.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         int sizeafter = listafter.size();
-        assertTrue("not added correctly : "+sizebefore+" | "+sizeafter, (sizebefore+1)==sizeafter);
+        assertTrue("not added correctly : " + sizebefore + " | " + sizeafter, (sizebefore + 1) == sizeafter);
     }
-	
+
 }

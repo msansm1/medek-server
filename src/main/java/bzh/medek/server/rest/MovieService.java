@@ -25,7 +25,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -54,96 +54,90 @@ import bzh.medek.server.utils.Constants;
 public class MovieService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(MovieService.class);
-    
+
     @Inject
     MovieDAO movieDao;
     @Inject
     SupportDAO supportDAO;
     @Inject
     StorygenreDAO storygenreDAO;
-	@Inject
-	Conf conf;
-	@Inject
-	UsermovieDAO usermovieDAO;
-	@Inject
-	UserDAO userDAO;
-	
-	public MovieService () {
-	}
+    @Inject
+    Conf conf;
+    @Inject
+    UsermovieDAO usermovieDAO;
+    @Inject
+    UserDAO userDAO;
+
+    public MovieService() {
+    }
 
     /**
-     *  GET /movies/loguser/{id} : retrieve all movies with logged user
+     * GET /movies/loguser/{id} : retrieve all movies with logged user
      * 
      * @return
      */
     @GET
-	@Path(value = "loguser/{id}")
+    @Path(value = "loguser/{id}")
     public List<JsonMovie> getAll(@PathParam(value = "id") Integer userId) {
-    	List<Movie> movies = movieDao.getMovies();
-    	LOGGER.info("find "+movies.size()+" movies in the database");
-    	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
-		String artistName = "";
-		Integer artistId = 0;
-    	for (Movie m : movies) {
-			if (!m.getMovieartists().isEmpty()) {
-				artistName = m.getMovieartists().get(0).getArtistBean()
-						.getName()
-						+ " "
-						+ m.getMovieartists().get(0).getArtistBean()
-								.getFirstname();
-				artistId = m.getMovieartists().get(0).getArtistBean().getId();
-			} else {
-				artistName = "";
-				artistId = 0;
-			}
-			Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
-			lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
-					m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
-					m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
-					artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
-					(mym!=null)?true:false, (mym!=null)?mym.getRating():0));
-    	}
-    	return lm;
+        List<Movie> movies = movieDao.getMovies();
+        LOGGER.info("find " + movies.size() + " movies in the database");
+        ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
+        String artistName = "";
+        Integer artistId = 0;
+        for (Movie m : movies) {
+            if (!m.getMovieartists().isEmpty()) {
+                artistName = m.getMovieartists().get(0).getArtistBean().getName() + " "
+                        + m.getMovieartists().get(0).getArtistBean().getFirstname();
+                artistId = m.getMovieartists().get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
+            lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(), m.getReleasedate(), m.getCover(),
+                    m.getSupportBean().getName(), m.getSupportBean().getId(), m.getStorygenre().getName(),
+                    m.getStorygenre().getId(), m.getLength(), m.getIscollector(), artistName, artistId, "", null, "",
+                    null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(), (mym != null) ? true : false,
+                    (mym != null) ? mym.getRating() : 0));
+        }
+        return lm;
     }
 
     /**
-     *  GET /movies : retrieve all movies
+     * GET /movies : retrieve all movies
      * 
      * @return
      */
     @GET
-    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, 
-			@QueryParam("from") int from, @QueryParam("limit") int limit,
-			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
-		List<Movie> movies = movieDao.getMoviesForList(from, limit, orderBy, orderDir);
-    	LOGGER.info("find "+movies.size()+" movies in the database");
-    	ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
-		String artistName = "";
-		Integer artistId = 0;
-    	for (Movie m : movies) {
-			if (!m.getMovieartists().isEmpty()) {
-				artistName = m.getMovieartists().get(0).getArtistBean()
-						.getName()
-						+ " "
-						+ m.getMovieartists().get(0).getArtistBean()
-								.getFirstname();
-				artistId = m.getMovieartists().get(0).getArtistBean().getId();
-			} else {
-				artistName = "";
-				artistId = 0;
-			}
-			Usermovie mym = usermovieDAO.getUsermovie(m.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
-			lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(),
-					m.getReleasedate(), m.getCover(), m.getSupportBean().getName(), m.getSupportBean().getId(),
-					m.getStorygenre().getName(), m.getStorygenre().getId(), m.getLength(), m.getIscollector(), 
-					artistName, artistId, "", null, "", null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(),
-					(mym!=null)?true:false, (mym!=null)?mym.getRating():0));
-    	}
-    	return lm;
+    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
+            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
+            @QueryParam("orderDir") String orderDir) {
+        List<Movie> movies = movieDao.getMoviesForList(from, limit, orderBy, orderDir);
+        LOGGER.info("find " + movies.size() + " movies in the database");
+        ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
+        String artistName = "";
+        Integer artistId = 0;
+        for (Movie m : movies) {
+            if (!m.getMovieartists().isEmpty()) {
+                artistName = m.getMovieartists().get(0).getArtistBean().getName() + " "
+                        + m.getMovieartists().get(0).getArtistBean().getFirstname();
+                artistId = m.getMovieartists().get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            Usermovie mym = usermovieDAO.getUsermovie(m.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
+            lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(), m.getReleasedate(), m.getCover(),
+                    m.getSupportBean().getName(), m.getSupportBean().getId(), m.getStorygenre().getName(),
+                    m.getStorygenre().getId(), m.getLength(), m.getIscollector(), artistName, artistId, "", null, "",
+                    null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(), (mym != null) ? true : false,
+                    (mym != null) ? mym.getRating() : 0));
+        }
+        return lm;
     }
 
     /**
-     *  GET /movies/{id}/loguser/{userid} : retrieve one movie
+     * GET /movies/{id}/loguser/{userid} : retrieve one movie
      * 
      * @param id
      * @return
@@ -151,93 +145,90 @@ public class MovieService extends Application {
     @GET
     @Path(value = "/{id}/loguser/{userid}")
     public JsonMovie getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
-    	JsonMovie jm = movieDao.getJsonMovie(id);
-    	LOGGER.info("find "+jm.getTitle()+" movie in the database");
-    	Movie m = movieDao.getMovie(id);
-    	List<JsonLang> ll = new ArrayList<JsonLang>();
-    	for (Lang l:m.getLangs2()) {
-    		ll.add(new JsonLang(l.getId(), l.getName()));
-    	}
-    	jm.setLangs(ll);
-    	List<JsonLang> ls = new ArrayList<JsonLang>();
-    	for (Lang l:m.getLangs1()) {
-    		ls.add(new JsonLang(l.getId(), l.getName()));
-    	}
-    	jm.setSubtitles(ls);
-		Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
-    	jm.setMycollec((mym!=null)?true:false);
-    	jm.setRating((mym!=null)?mym.getRating():0);
-    	return jm;
+        JsonMovie jm = movieDao.getJsonMovie(id);
+        LOGGER.info("find " + jm.getTitle() + " movie in the database");
+        Movie m = movieDao.getMovie(id);
+        List<JsonLang> ll = new ArrayList<JsonLang>();
+        for (Lang l : m.getLangs2()) {
+            ll.add(new JsonLang(l.getId(), l.getName()));
+        }
+        jm.setLangs(ll);
+        List<JsonLang> ls = new ArrayList<JsonLang>();
+        for (Lang l : m.getLangs1()) {
+            ls.add(new JsonLang(l.getId(), l.getName()));
+        }
+        jm.setSubtitles(ls);
+        Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
+        jm.setMycollec((mym != null) ? true : false);
+        jm.setRating((mym != null) ? mym.getRating() : 0);
+        return jm;
     }
 
     /**
-     *  POST /movies : create / update one movie
+     * POST /movies : create / update one movie
      * 
      * @param id
      * @return
      */
     @POST
     public JsonMovie createUpdateOne(JsonMovie movie) {
-    	JsonMovie jmovie = movie;
-    	if (movie.getId() == null) {
-    		Movie m = new Movie();
-    		m.setTitle(movie.getTitle());
-    		m.setDescription(movie.getDescription());
-    		m.setReleasedate(movie.getReleaseDate());
-    		m.setLength(movie.getLength());
-    		m.setIscollector(movie.getIsCollector());
-    		m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
-    		m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
-    		movieDao.saveMovie(m);
-	    	jmovie.setId(m.getId());
-    	} else {
-        	Movie m = movieDao.getMovie(movie.getId());
-    		m.setTitle(movie.getTitle());
-    		m.setDescription(movie.getDescription());
-    		m.setReleasedate(movie.getReleaseDate());
-    		m.setLength(movie.getLength());
-    		m.setIscollector(movie.getIsCollector());
-    		m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
-    		m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
-    		movieDao.updateMovie(m);
-    	}
-    	return jmovie;
+        JsonMovie jmovie = movie;
+        if (movie.getId() == null) {
+            Movie m = new Movie();
+            m.setTitle(movie.getTitle());
+            m.setDescription(movie.getDescription());
+            m.setReleasedate(movie.getReleaseDate());
+            m.setLength(movie.getLength());
+            m.setIscollector(movie.getIsCollector());
+            m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
+            m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
+            movieDao.saveMovie(m);
+            jmovie.setId(m.getId());
+        } else {
+            Movie m = movieDao.getMovie(movie.getId());
+            m.setTitle(movie.getTitle());
+            m.setDescription(movie.getDescription());
+            m.setReleasedate(movie.getReleaseDate());
+            m.setLength(movie.getLength());
+            m.setIscollector(movie.getIsCollector());
+            m.setSupportBean(supportDAO.getSupport(movie.getSupportId()));
+            m.setStorygenre(storygenreDAO.getStorygenre(movie.getGenreId()));
+            movieDao.updateMovie(m);
+        }
+        return jmovie;
     }
 
     /**
-     *  GET /movies/user : retrieve movie for one user
+     * GET /movies/user : retrieve movie for one user
      * 
-     * @param id - user ID
+     * @param id
+     *            - user ID
      * @return
      */
     @GET
     @Path(value = "user")
-    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, 
-			@QueryParam("from") int from, @QueryParam("limit") int limit,
-			@QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir,
-			@QueryParam("userId") Integer userId) {
-		List<JsonMovie> movies = movieDao.getUserMovies(from, limit, orderBy, orderDir, userId);
-    	LOGGER.info("find "+movies.size()+" movies in the database");
-		String artistName = "";
-		Integer artistId = 0;
-		List<Movieartist> martists = null;
-    	for (JsonMovie m : movies) {
-			martists = movieDao.getMovieArtists(m.getId());
-			if (!martists.isEmpty()) {
-				artistName = martists.get(0).getArtistBean()
-						.getName()
-						+ " "
-						+ martists.get(0).getArtistBean()
-								.getFirstname();
-				artistId = martists.get(0).getArtistBean().getId();
-			} else {
-				artistName = "";
-				artistId = 0;
-			}
-			m.setRealisator(artistName);
-			m.setRealisatorId(artistId);
-    	}
-    	return movies;
+    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
+            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
+            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
+        List<JsonMovie> movies = movieDao.getUserMovies(from, limit, orderBy, orderDir, userId);
+        LOGGER.info("find " + movies.size() + " movies in the database");
+        String artistName = "";
+        Integer artistId = 0;
+        List<Movieartist> martists = null;
+        for (JsonMovie m : movies) {
+            martists = movieDao.getMovieArtists(m.getId());
+            if (!martists.isEmpty()) {
+                artistName = martists.get(0).getArtistBean().getName() + " "
+                        + martists.get(0).getArtistBean().getFirstname();
+                artistId = martists.get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            m.setRealisator(artistName);
+            m.setRealisatorId(artistId);
+        }
+        return movies;
     }
 
     /**
@@ -271,22 +262,20 @@ public class MovieService extends Application {
                 File pathtest = new File(path);
                 if (!pathtest.exists()) {
                     if (!pathtest.mkdirs()) {
-                        LOGGER.error("While saving cover : "
-                                + "unable to create repository tmp dir => " + path);
+                        LOGGER.error("While saving cover : " + "unable to create repository tmp dir => " + path);
                     }
                 }
                 File up = new File(path + filename);
                 if (!up.createNewFile()) {
-                	if (up.exists()) {
-                		up.delete();
-                		if (!up.createNewFile()) {
+                    if (up.exists()) {
+                        up.delete();
+                        if (!up.createNewFile()) {
                             LOGGER.error("While saving cover : " + "unable to overwrite existing file => "
                                     + up.getAbsolutePath());
-                		}
-                	} else {
-                    LOGGER.error("While saving cover : " + "unable to create new file => "
-                            + up.getAbsolutePath());
-                	}
+                        }
+                    } else {
+                        LOGGER.error("While saving cover : " + "unable to create new file => " + up.getAbsolutePath());
+                    }
                 }
                 out = new FileOutputStream(up);
 
@@ -321,26 +310,25 @@ public class MovieService extends Application {
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
 
-	/**
-	 * POST /addtocollec : add movie to user's collection
-	 * 
-	 * @return
-	 */
-	@POST
-	@Path("addtocollec")
-	public Response addToCollection(JsonMyMovie movie) {
-		Usermovie um = new Usermovie();
-		UsermoviePK umid = new UsermoviePK();
-		umid.setMovie(movie.getMovieId().intValue());
-		umid.setUser(movie.getUserId().intValue());
-		um.setId(umid);
-		um.setMovieBean(movieDao.getMovie(movie.getMovieId()));
-		um.setUserBean(userDAO.getUser(movie.getUserId()));
-		um.setComment(movie.getComment());
-		um.setRating(movie.getRating());
-		usermovieDAO.saveUsermovie(um);
-		return Response.ok(new JsonSimpleResponse(true),
-				MediaType.APPLICATION_JSON).build();
-	}
-    
+    /**
+     * POST /addtocollec : add movie to user's collection
+     * 
+     * @return
+     */
+    @POST
+    @Path("addtocollec")
+    public Response addToCollection(JsonMyMovie movie) {
+        Usermovie um = new Usermovie();
+        UsermoviePK umid = new UsermoviePK();
+        umid.setMovie(movie.getMovieId().intValue());
+        umid.setUser(movie.getUserId().intValue());
+        um.setId(umid);
+        um.setMovieBean(movieDao.getMovie(movie.getMovieId()));
+        um.setUserBean(userDAO.getUser(movie.getUserId()));
+        um.setComment(movie.getComment());
+        um.setRating(movie.getRating());
+        usermovieDAO.saveUsermovie(um);
+        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
+    }
+
 }

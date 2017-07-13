@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.artist.JsonArtisttype;
 import bzh.medek.server.persistence.dao.ArtisttypeDAO;
@@ -30,31 +30,31 @@ import bzh.medek.server.utils.Constants;
 public class ArtistTypeService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(ArtistTypeService.class);
-    
+
     @Inject
     ArtisttypeDAO artisttypeDao;
-	
-	public ArtistTypeService () {
-	}
+
+    public ArtistTypeService() {
+    }
 
     /**
-     *  GET /artisttypes : retrieve all artisttypes
+     * GET /artisttypes : retrieve all artisttypes
      * 
      * @return
      */
     @GET
     public List<JsonArtisttype> getAll() {
-    	List<Artisttype> artisttypes = artisttypeDao.getArtisttypes();
-    	LOGGER.info("find "+artisttypes.size()+" artisttypes in the database");
-    	ArrayList<JsonArtisttype> ll = new ArrayList<JsonArtisttype>();
-    	for (Artisttype l:artisttypes) {
-    		ll.add(new JsonArtisttype(l.getId(), l.getName()));
-    	}
-    	return ll;
+        List<Artisttype> artisttypes = artisttypeDao.getArtisttypes();
+        LOGGER.info("find " + artisttypes.size() + " artisttypes in the database");
+        ArrayList<JsonArtisttype> ll = new ArrayList<JsonArtisttype>();
+        for (Artisttype l : artisttypes) {
+            ll.add(new JsonArtisttype(l.getId(), l.getName()));
+        }
+        return ll;
     }
 
     /**
-     *  GET /artisttypes/{id} : retrieve one artisttype
+     * GET /artisttypes/{id} : retrieve one artisttype
      * 
      * @param id
      * @return
@@ -62,35 +62,36 @@ public class ArtistTypeService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonArtisttype getOne(@PathParam(value = "id") Integer id) {
-    	Artisttype l = artisttypeDao.getArtisttype(id);
-    	LOGGER.info("find "+l.getName()+" artisttype in the database");
-    	return new JsonArtisttype(l.getId(), l.getName());
+        Artisttype l = artisttypeDao.getArtisttype(id);
+        LOGGER.info("find " + l.getName() + " artisttype in the database");
+        return new JsonArtisttype(l.getId(), l.getName());
     }
 
     /**
-     *  POST /artisttypes : create / update one artisttype
+     * POST /artisttypes : create / update one artisttype
      * 
-     * @param JsonArtisttype artisttype
+     * @param JsonArtisttype
+     *            artisttype
      * @return
      */
     @POST
     public JsonArtisttype createUpdateOne(JsonArtisttype artisttype) {
-    	JsonArtisttype jartisttype = artisttype;
-    	if (artisttype.getId() == null) {
-	    	Artisttype l = new Artisttype();
-	    	l.setName(artisttype.getName());
-	    	artisttypeDao.saveArtisttype(l);
-	    	jartisttype.setId(l.getId());
-    	} else {
-    		if (artisttype.getName().equalsIgnoreCase(Constants.DELETED)) {
-    			artisttypeDao.removeArtisttype(artisttypeDao.getArtisttype(artisttype.getId()));
-    		} else {
-	        	Artisttype l = artisttypeDao.getArtisttype(artisttype.getId());
-		    	l.setName(artisttype.getName());
-	        	artisttypeDao.updateArtisttype(l);
-    		}
-    	}
-    	return jartisttype;
+        JsonArtisttype jartisttype = artisttype;
+        if (artisttype.getId() == null) {
+            Artisttype l = new Artisttype();
+            l.setName(artisttype.getName());
+            artisttypeDao.saveArtisttype(l);
+            jartisttype.setId(l.getId());
+        } else {
+            if (artisttype.getName().equalsIgnoreCase(Constants.DELETED)) {
+                artisttypeDao.removeArtisttype(artisttypeDao.getArtisttype(artisttype.getId()));
+            } else {
+                Artisttype l = artisttypeDao.getArtisttype(artisttype.getId());
+                l.setName(artisttype.getName());
+                artisttypeDao.updateArtisttype(l);
+            }
+        }
+        return jartisttype;
     }
-	
+
 }

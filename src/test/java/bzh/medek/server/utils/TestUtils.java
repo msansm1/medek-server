@@ -32,7 +32,7 @@ public class TestUtils {
     public static synchronized WebArchive getWarFile(String warName) {
         // The library included via the maven resolver of Shrinkwrap
         File[] libsConf = Maven.resolver()  
-                    .loadPomFromFile("pom.xml").resolve("commons-configuration:commons-configuration")  
+                    .loadPomFromFile("pom.xml").resolve("org.apache.commons:commons-configuration2")  
                     .withTransitivity().asFile();
         
         // creation of the war for testing

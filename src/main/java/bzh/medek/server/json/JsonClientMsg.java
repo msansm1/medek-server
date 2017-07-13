@@ -3,7 +3,7 @@ package bzh.medek.server.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 public class JsonClientMsg extends JsonResponse {
 
@@ -90,7 +90,7 @@ public class JsonClientMsg extends JsonResponse {
         StringBuilder str = new StringBuilder();
         str.append("JsonErrorMsg [" + erreurs + "=");
         for (String s : erreurs) {
-            str.append(s+" ;");
+            str.append(s + " ;");
         }
         str.append("]");
         return str.toString();

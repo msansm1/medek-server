@@ -8,11 +8,11 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -32,7 +32,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class AuthServiceTest {
     private static final Logger LOGGER = Logger.getLogger(AuthServiceTest.class);
@@ -69,8 +69,7 @@ public class AuthServiceTest {
     }
 
     /**
-     * Test for /services/auth/login Test NOK => 401
-     * wrong password
+     * Test for /services/auth/login Test NOK => 401 wrong password
      * 
      * @throws Exception
      */
@@ -81,14 +80,12 @@ public class AuthServiceTest {
         JsonLogin login = new JsonLogin("msansm1", "tototest");
 
         Response response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/login")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(login, MediaType.APPLICATION_JSON));
+                .request(MediaType.APPLICATION_JSON).post(Entity.entity(login, MediaType.APPLICATION_JSON));
         assertEquals(401, response.getStatus());
     }
 
     /**
-     * Test for /services/auth/login Test NOK => 401
-     * wrong login
+     * Test for /services/auth/login Test NOK => 401 wrong login
      * 
      * @throws Exception
      */
@@ -99,8 +96,7 @@ public class AuthServiceTest {
         JsonLogin login = new JsonLogin("myop", "tototest");
 
         Response response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/login")
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(login, MediaType.APPLICATION_JSON));
+                .request(MediaType.APPLICATION_JSON).post(Entity.entity(login, MediaType.APPLICATION_JSON));
         assertEquals(401, response.getStatus());
     }
 
@@ -116,11 +112,9 @@ public class AuthServiceTest {
         JsonAuth login = new JsonAuth(2, "testarq", "", "", "", "", "");
 
         Response response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/logout")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(login, MediaType.APPLICATION_JSON));
         assertEquals(200, response.getStatus());
     }
 
-	
 }

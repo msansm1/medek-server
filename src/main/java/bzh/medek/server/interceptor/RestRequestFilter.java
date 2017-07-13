@@ -9,11 +9,10 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.utils.Constants;
-
 
 @Provider
 @PreMatching
@@ -45,12 +44,12 @@ public class RestRequestFilter implements ContainerRequestFilter {
             // if it isn't valid, just kick them out.
             if (userId == null) {
                 requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-            } 
-//            else {
-//                if (!userDao.isAdmin(userId)) {
-//                    requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-//                }
-//            }
+            }
+            // else {
+            // if (!userDao.isAdmin(userId)) {
+            // requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+            // }
+            // }
         } else if (!path.equals("/auth/login") && !path.equals("/auth/lostpasswd")) {
             String authToken = requestCtx.getHeaderString(Constants.HTTP_HEADER_TOKEN);
             Integer userId = userDao.tokenExists(authToken);

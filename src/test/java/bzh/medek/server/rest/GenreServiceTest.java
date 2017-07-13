@@ -10,11 +10,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -33,7 +33,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class GenreServiceTest {
     private static final Logger LOGGER = Logger.getLogger(GenreServiceTest.class);
@@ -63,9 +63,8 @@ public class GenreServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonGenre> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonGenre> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No genre found", response.isEmpty());
     }
@@ -81,15 +80,13 @@ public class GenreServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         JsonGenre response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonGenre.class);
         assertEquals("Metal", response.getName());
     }
 
     /**
-     * Test for /services/genres POST Test OK
-     * creation
+     * Test for /services/genres POST Test OK creation
      * 
      * @throws Exception
      */
@@ -100,15 +97,13 @@ public class GenreServiceTest {
         JsonGenre genre = new JsonGenre(null, "testrest");
 
         JsonGenre response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(genre, MediaType.APPLICATION_JSON), JsonGenre.class);
         assertEquals("testrest", response.getName());
     }
 
     /**
-     * Test for /services/genres POST Test OK
-     * update
+     * Test for /services/genres POST Test OK update
      * 
      * @throws Exception
      */
@@ -119,15 +114,13 @@ public class GenreServiceTest {
         JsonGenre genre = new JsonGenre(1, "msansm1");
 
         JsonGenre response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(genre, MediaType.APPLICATION_JSON), JsonGenre.class);
         assertEquals("msansm1", response.getName());
     }
 
     /**
-     * Test for /services/genres POST Test OK
-     * delete
+     * Test for /services/genres POST Test OK delete
      * 
      * @throws Exception
      */
@@ -137,26 +130,22 @@ public class GenreServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonGenre> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonGenre> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
-        
+
         JsonGenre genre = new JsonGenre(3, Constants.DELETED);
         JsonGenre response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(genre, MediaType.APPLICATION_JSON), JsonGenre.class);
         assertEquals(Constants.DELETED, response.getName());
 
         @SuppressWarnings("unchecked")
-		List<JsonGenre> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonGenre> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
 
-        assertEquals(listbefore.size()-1, listafter.size());
+        assertEquals(listbefore.size() - 1, listafter.size());
     }
 
-	
 }

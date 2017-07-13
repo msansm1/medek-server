@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.auth.JsonAuth;
 import bzh.medek.server.json.user.JsonUser;
@@ -31,31 +31,31 @@ import bzh.medek.server.utils.Crypt;
 public class UserService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(UserService.class);
-    
+
     @Inject
     UserDAO userDao;
-	
-	public UserService () {
-	}
+
+    public UserService() {
+    }
 
     /**
-     *  GET /users : retrieve all users
+     * GET /users : retrieve all users
      * 
      * @return
      */
     @GET
     public List<JsonUser> getAll() {
-    	List<User> users = userDao.getUsers();
-    	LOGGER.info("find "+users.size()+" users in the database");
-    	ArrayList<JsonUser> lu = new ArrayList<JsonUser>();
-    	for (User u:users) {
-    		lu.add(new JsonUser(u.getId(), u.getLogin(), u.getEmail()));
-    	}
-    	return lu;
+        List<User> users = userDao.getUsers();
+        LOGGER.info("find " + users.size() + " users in the database");
+        ArrayList<JsonUser> lu = new ArrayList<JsonUser>();
+        for (User u : users) {
+            lu.add(new JsonUser(u.getId(), u.getLogin(), u.getEmail()));
+        }
+        return lu;
     }
 
     /**
-     *  GET /users/{id} : retrieve one user
+     * GET /users/{id} : retrieve one user
      * 
      * @param id
      * @return
@@ -63,53 +63,55 @@ public class UserService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonUser getOne(@PathParam(value = "id") Integer id) {
-    	User u = userDao.getUser(id);
-    	LOGGER.info("find "+u.getLogin()+" user in the database");
-    	return new JsonUser(u.getId(), u.getLogin(), u.getEmail());
+        User u = userDao.getUser(id);
+        LOGGER.info("find " + u.getLogin() + " user in the database");
+        return new JsonUser(u.getId(), u.getLogin(), u.getEmail());
     }
 
     /**
-     *  POST /users : create / update one user
+     * POST /users : create / update one user
      * 
-     * @param JsonUser user
+     * @param JsonUser
+     *            user
      * @return
      */
     @POST
     public JsonUser createUpdateOne(JsonUser user) {
-    	JsonUser juser = user;
-    	if (user.getId() == null) {
-	    	User u = new User();
-	    	u.setEmail(user.getMail());
-	    	u.setLogin(user.getLogin());
-	    	u.setPassword(Crypt.crypt(user.getLogin(), "password"));
-	    	userDao.saveUser(u);
-	    	juser.setId(u.getId());
-    	} else {
-        	User u = userDao.getUser(user.getId());
-        	u.setEmail(user.getMail());
-        	u.setLogin(user.getLogin());
-        	userDao.updateUser(u);
-    	}
-    	return juser;
+        JsonUser juser = user;
+        if (user.getId() == null) {
+            User u = new User();
+            u.setEmail(user.getMail());
+            u.setLogin(user.getLogin());
+            u.setPassword(Crypt.crypt(user.getLogin(), "password"));
+            userDao.saveUser(u);
+            juser.setId(u.getId());
+        } else {
+            User u = userDao.getUser(user.getId());
+            u.setEmail(user.getMail());
+            u.setLogin(user.getLogin());
+            userDao.updateUser(u);
+        }
+        return juser;
     }
 
     /**
-     *  POST /users/profile : update logged user
+     * POST /users/profile : update logged user
      * 
-     * @param JsonAuth user
+     * @param JsonAuth
+     *            user
      * @return
      */
     @POST
     @Path(value = "/profile")
     public JsonAuth updateLogged(JsonAuth user) {
-    	JsonAuth juser = user;
-    	User u = userDao.getUser(user.getId());
-    	u.setEmail(user.getEmail());
-		if (Crypt.crypt(juser.getLogin(), juser.getOldpassword()).equals(u.getPassword())) {
-			u.setPassword(Crypt.crypt(user.getLogin(), user.getNewpassword()));
-		}
-    	userDao.updateUser(u);
-    	return juser;
+        JsonAuth juser = user;
+        User u = userDao.getUser(user.getId());
+        u.setEmail(user.getEmail());
+        if (Crypt.crypt(juser.getLogin(), juser.getOldpassword()).equals(u.getPassword())) {
+            u.setPassword(Crypt.crypt(user.getLogin(), user.getNewpassword()));
+        }
+        userDao.updateUser(u);
+        return juser;
     }
-	
+
 }

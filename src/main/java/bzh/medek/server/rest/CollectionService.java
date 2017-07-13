@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.book.JsonCollection;
 import bzh.medek.server.persistence.dao.CollectionDAO;
@@ -30,31 +30,31 @@ import bzh.medek.server.utils.Constants;
 public class CollectionService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(CollectionService.class);
-    
+
     @Inject
     CollectionDAO collectionDao;
-	
-	public CollectionService () {
-	}
+
+    public CollectionService() {
+    }
 
     /**
-     *  GET /collections : retrieve all collections
+     * GET /collections : retrieve all collections
      * 
      * @return
      */
     @GET
     public List<JsonCollection> getAll() {
-    	List<Collection> collections = collectionDao.getCollections();
-    	LOGGER.info("find "+collections.size()+" collections in the database");
-    	ArrayList<JsonCollection> ll = new ArrayList<JsonCollection>();
-    	for (Collection l:collections) {
-    		ll.add(new JsonCollection(l.getId(), l.getName()));
-    	}
-    	return ll;
+        List<Collection> collections = collectionDao.getCollections();
+        LOGGER.info("find " + collections.size() + " collections in the database");
+        ArrayList<JsonCollection> ll = new ArrayList<JsonCollection>();
+        for (Collection l : collections) {
+            ll.add(new JsonCollection(l.getId(), l.getName()));
+        }
+        return ll;
     }
 
     /**
-     *  GET /collections/{id} : retrieve one collection
+     * GET /collections/{id} : retrieve one collection
      * 
      * @param id
      * @return
@@ -62,35 +62,36 @@ public class CollectionService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonCollection getOne(@PathParam(value = "id") Integer id) {
-    	Collection l = collectionDao.getCollection(id);
-    	LOGGER.info("find "+l.getName()+" collection in the database");
-    	return new JsonCollection(l.getId(), l.getName());
+        Collection l = collectionDao.getCollection(id);
+        LOGGER.info("find " + l.getName() + " collection in the database");
+        return new JsonCollection(l.getId(), l.getName());
     }
 
     /**
-     *  POST /collections : create / update one collection
+     * POST /collections : create / update one collection
      * 
-     * @param JsonCollection collection
+     * @param JsonCollection
+     *            collection
      * @return
      */
     @POST
     public JsonCollection createUpdateOne(JsonCollection collection) {
-    	JsonCollection jcollection = collection;
-    	if (collection.getId() == null) {
-	    	Collection l = new Collection();
-	    	l.setName(collection.getName());
-	    	collectionDao.saveCollection(l);
-	    	jcollection.setId(l.getId());
-    	} else {
-    		if (collection.getName().equalsIgnoreCase(Constants.DELETED)) {
-    			collectionDao.removeCollection(collectionDao.getCollection(collection.getId()));
-    		} else {
-	        	Collection l = collectionDao.getCollection(collection.getId());
-		    	l.setName(collection.getName());
-	        	collectionDao.updateCollection(l);
-    		}
-    	}
-    	return jcollection;
+        JsonCollection jcollection = collection;
+        if (collection.getId() == null) {
+            Collection l = new Collection();
+            l.setName(collection.getName());
+            collectionDao.saveCollection(l);
+            jcollection.setId(l.getId());
+        } else {
+            if (collection.getName().equalsIgnoreCase(Constants.DELETED)) {
+                collectionDao.removeCollection(collectionDao.getCollection(collection.getId()));
+            } else {
+                Collection l = collectionDao.getCollection(collection.getId());
+                l.setName(collection.getName());
+                collectionDao.updateCollection(l);
+            }
+        }
+        return jcollection;
     }
-	
+
 }

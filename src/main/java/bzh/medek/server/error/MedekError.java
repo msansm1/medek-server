@@ -1,6 +1,6 @@
 package bzh.medek.server.error;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 /**
  * Model class for software errors (can be throw to GUI) Ex of error thrown :
@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
  */
 public class MedekError extends Exception {
 
-	private static final long serialVersionUID = -1123914675710006975L;
+    private static final long serialVersionUID = -1123914675710006975L;
 
-	private static final Logger LOGGER = Logger.getLogger(MedekError.class);
+    private static final Logger LOGGER = Logger.getLogger(MedekError.class);
 
     private final int errorId;
     private final String[] params;

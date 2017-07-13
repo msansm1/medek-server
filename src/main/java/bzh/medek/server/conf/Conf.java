@@ -3,7 +3,7 @@ package bzh.medek.server.conf;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.persistence.dao.ConfigurationDAO;
 
@@ -16,7 +16,7 @@ import bzh.medek.server.persistence.dao.ConfigurationDAO;
 @Stateless
 public class Conf {
     private static final Logger LOGGER = Logger.getLogger(Conf.class.getName());
-    
+
     private static final String PARAM_FS = "filesystem";
     private static final String FS_ALBUM = "album";
     private static final String FS_BOOK = "book";
@@ -24,7 +24,7 @@ public class Conf {
     private static final String FS_TVSHOW = "tvshows";
     private static final String PARAM_CLIENT_ID = "clientId";
     private static final String PARAM_CLIENT_TAG = "clientTag";
-    
+
     @Inject
     private ConfigurationDAO configurationDAO;
 
@@ -87,5 +87,5 @@ public class Conf {
         String tag = configurationDAO.getConfiguration(PARAM_CLIENT_TAG).getValue();
         return tag;
     }
-    
+
 }

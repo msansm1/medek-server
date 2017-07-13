@@ -11,11 +11,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -34,7 +34,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class AdminUserServiceTest {
     private static final Logger LOGGER = Logger.getLogger(AdminUserServiceTest.class);
@@ -64,9 +64,8 @@ public class AdminUserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonAdminUser> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonAdminUser> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No user found", response.isEmpty());
     }
@@ -82,15 +81,13 @@ public class AdminUserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         JsonAdminUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonAdminUser.class);
         assertEquals("msansm1", response.getLogin());
     }
 
     /**
-     * Test for /services/admin/users POST Test OK
-     * creation
+     * Test for /services/admin/users POST Test OK creation
      * 
      * @throws Exception
      */
@@ -101,15 +98,13 @@ public class AdminUserServiceTest {
         JsonAdminUser user = new JsonAdminUser(null, "testrest", "mail", "pwd");
 
         JsonAdminUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonAdminUser.class);
         assertNotNull(response.getId());
     }
 
     /**
-     * Test for /services/admin/users POST Test OK
-     * update
+     * Test for /services/admin/users POST Test OK update
      * 
      * @throws Exception
      */
@@ -120,11 +115,9 @@ public class AdminUserServiceTest {
         JsonAdminUser user = new JsonAdminUser(3, "testrest", "top@mail", "");
 
         JsonAdminUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonAdminUser.class);
         assertEquals("top@mail", response.getEmail());
     }
 
-	
 }

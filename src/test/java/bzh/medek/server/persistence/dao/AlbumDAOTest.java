@@ -5,15 +5,18 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import org.junit.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.Swarm;
+import org.wildfly.swarm.arquillian.CreateSwarm;
+import org.wildfly.swarm.datasources.DatasourcesFraction;
 
 import bzh.medek.server.json.album.JsonAlbum;
 import bzh.medek.server.json.home.AlbumStats;
@@ -29,17 +32,12 @@ import bzh.medek.server.persistence.entities.Album;
 public class AlbumDAOTest {
     private static final Logger LOGGER = Logger.getLogger(AlbumDAOTest.class.getName());
 
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        final WebArchive war = ShrinkWrap.create(WebArchive.class, "albumdao.war")
-        		.addClass(AlbumDAO.class)
-        		.addClass(JsonAlbum.class)
-                .addClass(Dao.class)
-                .addPackage(Album.class.getPackage())
-                .addClass(AlbumStats.class)
-                .addAsResource("drop.sql", "drop.sql")
-                .addAsResource("create.sql", "create.sql")
-                .addAsResource("load.sql", "load.sql")
+        final WebArchive war = ShrinkWrap.create(WebArchive.class, "albumdao.war").addClass(AlbumDAO.class)
+                .addClass(JsonAlbum.class).addClass(Dao.class).addPackage(Album.class.getPackage())
+                .addClass(AlbumStats.class).addAsResource("drop.sql", "drop.sql")
+                .addAsResource("create.sql", "create.sql").addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
@@ -48,13 +46,28 @@ public class AlbumDAOTest {
         return war;
     }
 
+    @CreateSwarm
+    public static Swarm newContainer() throws Exception {
+        Swarm swarm = new Swarm().fraction(new DatasourcesFraction().jdbcDriver("h2", (d) -> {
+            d.driverClassName("org.h2.Driver");
+            d.xaDatasourceClass("org.h2.jdbcx.JdbcDataSource");
+            d.driverModuleName("com.h2database.h2");
+        }).dataSource("medekserver", (ds) -> {
+            ds.driverName("h2");
+            ds.connectionUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+            ds.userName("foo");
+            ds.password("bar");
+        }));
+        return swarm;
+    }
+
     @Inject
     private AlbumDAO dao;
 
     final Album album = new Album();
 
     public void saveAlbumTest() {
-    	album.setTitle("test album");
+        album.setTitle("test album");
         album.setCover("YOUHOU");
         dao.saveAlbum(album);
         Assert.assertNotNull("Album is not created", album.getId());
@@ -67,8 +80,8 @@ public class AlbumDAOTest {
     }
 
     public void updateAlbumTest() {
-    	Album updated = dao.getAlbum(album.getId());
-    	updated.setCover("changed :)");
+        Album updated = dao.getAlbum(album.getId());
+        updated.setCover("changed :)");
         dao.updateAlbum(updated);
         Assert.assertTrue("Album is not updated",
                 dao.getAlbum(album.getId()).getCover().equalsIgnoreCase("changed :)"));
@@ -102,5 +115,5 @@ public class AlbumDAOTest {
         List<JsonAlbum> l = dao.getUsersAlbums(1);
         Assert.assertFalse("No user Album found", l.isEmpty());
     }
-    
+
 }

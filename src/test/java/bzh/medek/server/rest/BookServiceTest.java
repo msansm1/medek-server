@@ -11,11 +11,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -36,7 +36,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class BookServiceTest {
     private static final Logger LOGGER = Logger.getLogger(BookServiceTest.class);
@@ -66,9 +66,8 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No book found", response.isEmpty());
     }
@@ -84,15 +83,13 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         JsonBook response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1/loguser/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonBook.class);
         assertEquals("The Hobbit", response.getTitle());
     }
 
     /**
-     * Test for /services/books POST Test OK
-     * creation
+     * Test for /services/books POST Test OK creation
      * 
      * @throws Exception
      */
@@ -103,15 +100,13 @@ public class BookServiceTest {
         JsonBook book = new JsonBook(null, "Rainbow Six", "Tom Clancy", "Poche");
 
         JsonBook response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(book, MediaType.APPLICATION_JSON), JsonBook.class);
         assertEquals("Rainbow Six", response.getTitle());
     }
 
     /**
-     * Test for /services/books POST Test OK
-     * update
+     * Test for /services/books POST Test OK update
      * 
      * @throws Exception
      */
@@ -122,15 +117,13 @@ public class BookServiceTest {
         JsonBook book = new JsonBook(1, "Silmarillion", null, null);
 
         JsonBook response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(book, MediaType.APPLICATION_JSON), JsonBook.class);
         assertEquals("Silmarillion", response.getTitle());
     }
 
     /**
-     * Test for /services/books GET with params
-     * Page 1
+     * Test for /services/books GET with params Page 1
      * 
      * @throws Exception
      */
@@ -140,18 +133,16 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "?from=0&limit=5&orderBy=id&orderDir=asc")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonBook> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "?from=0&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No book found", response.isEmpty());
         assertEquals("List page 1 does not contains 5 entries", Integer.valueOf(5), Integer.valueOf(response.size()));
     }
 
     /**
-     * Test for /services/books GET with params
-     * Page 2
+     * Test for /services/books GET with params Page 2
      * 
      * @throws Exception
      */
@@ -161,10 +152,9 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "?from=6&limit=5&orderBy=id&orderDir=asc")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonBook> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "?from=6&limit=5&orderBy=id&orderDir=asc")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No book found", response.isEmpty());
         assertEquals("List page 2 does not contains 2 entries", Integer.valueOf(2), Integer.valueOf(response.size()));
@@ -181,18 +171,17 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonBook> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonBook> response = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No book found", response.isEmpty());
         assertEquals("List page 1 does not contains 2 entry", Integer.valueOf(2), Integer.valueOf(response.size()));
     }
 
     /**
-     * Test for /services/books/addtocollec POST Test OK
-     * update
+     * Test for /services/books/addtocollec POST Test OK update
      * 
      * @throws Exception
      */
@@ -202,30 +191,27 @@ public class BookServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonMyBook book = new JsonMyBook(4, 1, 4, "", false);
 
-
-		@SuppressWarnings("unchecked")
-		List<JsonBook> listbefore = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        @SuppressWarnings("unchecked")
+        List<JsonBook> listbefore = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         int sizebefore = listbefore.size();
-        
+
         JsonSimpleResponse response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/addtocollec")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(book, MediaType.APPLICATION_JSON), JsonSimpleResponse.class);
         assertEquals("true", response.getOk());
 
-		@SuppressWarnings("unchecked")
-		List<JsonBook> listafter = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root 
-				+ "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        @SuppressWarnings("unchecked")
+        List<JsonBook> listafter = client
+                .target(TestConstants.SERVER_ROOT + APP_NAME + svc_root
+                        + "/user?from=0&limit=5&orderBy=b.id&orderDir=asc&userId=1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         int sizeafter = listafter.size();
-        assertTrue("not added correctly : "+sizebefore+" | "+sizeafter, (sizebefore+1)==sizeafter);
+        assertTrue("not added correctly : " + sizebefore + " | " + sizeafter, (sizebefore + 1) == sizeafter);
     }
 
-	
 }

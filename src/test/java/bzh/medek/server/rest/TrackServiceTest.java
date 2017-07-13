@@ -10,11 +10,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -33,7 +33,7 @@ import bzh.medek.server.utils.TestUtils;
  *
  */
 @RunWith(Arquillian.class)
-//Run the tests of the class as a client
+// Run the tests of the class as a client
 @RunAsClient
 public class TrackServiceTest {
     private static final Logger LOGGER = Logger.getLogger(TrackServiceTest.class);
@@ -63,9 +63,8 @@ public class TrackServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-		List<JsonTrack> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/album/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        List<JsonTrack> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/album/1")
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No track found", response.isEmpty());
     }
@@ -81,15 +80,13 @@ public class TrackServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         JsonTrack response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonTrack.class);
         assertEquals("Master of Puppets", response.getTitle());
     }
 
     /**
-     * Test for /services/tracks POST Test OK
-     * creation
+     * Test for /services/tracks POST Test OK creation
      * 
      * @throws Exception
      */
@@ -100,15 +97,13 @@ public class TrackServiceTest {
         JsonTrack track = new JsonTrack(null, 1, "Welcome Home", 5, "7:00", "Metallica", 1);
 
         JsonTrack response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(track, MediaType.APPLICATION_JSON), JsonTrack.class);
         assertEquals("Welcome Home", response.getTitle());
     }
 
     /**
-     * Test for /services/tracks POST Test OK
-     * update
+     * Test for /services/tracks POST Test OK update
      * 
      * @throws Exception
      */
@@ -119,11 +114,9 @@ public class TrackServiceTest {
         JsonTrack track = new JsonTrack(1, 1, "Battery", 3, "5:10", "Metallica", 1);
 
         JsonTrack response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON)
-                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(track, MediaType.APPLICATION_JSON), JsonTrack.class);
         assertEquals("Battery", response.getTitle());
     }
 
-	
 }

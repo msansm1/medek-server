@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.JsonSupport;
 import bzh.medek.server.persistence.dao.SupportDAO;
@@ -30,31 +30,31 @@ import bzh.medek.server.utils.Constants;
 public class SupportService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(SupportService.class);
-    
+
     @Inject
     SupportDAO supportDao;
-	
-	public SupportService () {
-	}
+
+    public SupportService() {
+    }
 
     /**
-     *  GET /supports : retrieve all supports
+     * GET /supports : retrieve all supports
      * 
      * @return
      */
     @GET
     public List<JsonSupport> getAll() {
-    	List<Support> supports = supportDao.getSupports();
-    	LOGGER.info("find "+supports.size()+" supports in the database");
-    	ArrayList<JsonSupport> ls = new ArrayList<JsonSupport>();
-    	for (Support s:supports) {
-    		ls.add(new JsonSupport(s.getId(), s.getName()));
-    	}
-    	return ls;
+        List<Support> supports = supportDao.getSupports();
+        LOGGER.info("find " + supports.size() + " supports in the database");
+        ArrayList<JsonSupport> ls = new ArrayList<JsonSupport>();
+        for (Support s : supports) {
+            ls.add(new JsonSupport(s.getId(), s.getName()));
+        }
+        return ls;
     }
 
     /**
-     *  GET /supports/{id} : retrieve one support
+     * GET /supports/{id} : retrieve one support
      * 
      * @param id
      * @return
@@ -62,35 +62,36 @@ public class SupportService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonSupport getOne(@PathParam(value = "id") Integer id) {
-    	Support s = supportDao.getSupport(id);
-    	LOGGER.info("find "+s.getName()+" support in the database");
-    	return new JsonSupport(s.getId(), s.getName());
+        Support s = supportDao.getSupport(id);
+        LOGGER.info("find " + s.getName() + " support in the database");
+        return new JsonSupport(s.getId(), s.getName());
     }
 
     /**
-     *  POST /supports : create / update one support
+     * POST /supports : create / update one support
      * 
-     * @param JsonSupport support
+     * @param JsonSupport
+     *            support
      * @return
      */
     @POST
     public JsonSupport createUpdateOne(JsonSupport support) {
-    	JsonSupport jsupport = support;
-    	if (support.getId() == null) {
-	    	Support s = new Support();
-	    	s.setName(support.getName());
-	    	supportDao.saveSupport(s);
-	    	jsupport.setId(s.getId());
-    	} else {
-    		if (support.getName().equalsIgnoreCase(Constants.DELETED)) {
-    			supportDao.removeSupport(supportDao.getSupport(support.getId()));
-    		} else {
-	        	Support s = supportDao.getSupport(support.getId());
-		    	s.setName(support.getName());
-	        	supportDao.updateSupport(s);
-    		}
-    	}
-    	return jsupport;
+        JsonSupport jsupport = support;
+        if (support.getId() == null) {
+            Support s = new Support();
+            s.setName(support.getName());
+            supportDao.saveSupport(s);
+            jsupport.setId(s.getId());
+        } else {
+            if (support.getName().equalsIgnoreCase(Constants.DELETED)) {
+                supportDao.removeSupport(supportDao.getSupport(support.getId()));
+            } else {
+                Support s = supportDao.getSupport(support.getId());
+                s.setName(support.getName());
+                supportDao.updateSupport(s);
+            }
+        }
+        return jsupport;
     }
-	
+
 }

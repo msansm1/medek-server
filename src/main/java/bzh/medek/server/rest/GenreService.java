@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.album.JsonGenre;
 import bzh.medek.server.persistence.dao.GenreDAO;
@@ -30,31 +30,31 @@ import bzh.medek.server.utils.Constants;
 public class GenreService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(GenreService.class);
-    
+
     @Inject
     GenreDAO genreDao;
-	
-	public GenreService () {
-	}
+
+    public GenreService() {
+    }
 
     /**
-     *  GET /genres : retrieve all genres
+     * GET /genres : retrieve all genres
      * 
      * @return
      */
     @GET
     public List<JsonGenre> getAll() {
-    	List<Genre> genres = genreDao.getGenres();
-    	LOGGER.info("find "+genres.size()+" genres in the database");
-    	ArrayList<JsonGenre> ls = new ArrayList<JsonGenre>();
-    	for (Genre s:genres) {
-    		ls.add(new JsonGenre(s.getId(), s.getName()));
-    	}
-    	return ls;
+        List<Genre> genres = genreDao.getGenres();
+        LOGGER.info("find " + genres.size() + " genres in the database");
+        ArrayList<JsonGenre> ls = new ArrayList<JsonGenre>();
+        for (Genre s : genres) {
+            ls.add(new JsonGenre(s.getId(), s.getName()));
+        }
+        return ls;
     }
 
     /**
-     *  GET /genres/{id} : retrieve one genre
+     * GET /genres/{id} : retrieve one genre
      * 
      * @param id
      * @return
@@ -62,35 +62,36 @@ public class GenreService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonGenre getOne(@PathParam(value = "id") Integer id) {
-    	Genre s = genreDao.getGenre(id);
-    	LOGGER.info("find "+s.getName()+" genre in the database");
-    	return new JsonGenre(s.getId(), s.getName());
+        Genre s = genreDao.getGenre(id);
+        LOGGER.info("find " + s.getName() + " genre in the database");
+        return new JsonGenre(s.getId(), s.getName());
     }
 
     /**
-     *  POST /genres : create / update one genre
+     * POST /genres : create / update one genre
      * 
-     * @param JsonGenre genre
+     * @param JsonGenre
+     *            genre
      * @return
      */
     @POST
     public JsonGenre createUpdateOne(JsonGenre genre) {
-    	JsonGenre jgenre = genre;
-    	if (genre.getId() == null) {
-	    	Genre s = new Genre();
-	    	s.setName(genre.getName());
-	    	genreDao.saveGenre(s);
-	    	jgenre.setId(s.getId());
-    	} else {
-    		if (genre.getName().equalsIgnoreCase(Constants.DELETED)) {
-    			genreDao.removeGenre(genreDao.getGenre(genre.getId()));
-    		} else {
-	        	Genre s = genreDao.getGenre(genre.getId());
-		    	s.setName(genre.getName());
-	        	genreDao.updateGenre(s);
-    		}
-    	}
-    	return jgenre;
+        JsonGenre jgenre = genre;
+        if (genre.getId() == null) {
+            Genre s = new Genre();
+            s.setName(genre.getName());
+            genreDao.saveGenre(s);
+            jgenre.setId(s.getId());
+        } else {
+            if (genre.getName().equalsIgnoreCase(Constants.DELETED)) {
+                genreDao.removeGenre(genreDao.getGenre(genre.getId()));
+            } else {
+                Genre s = genreDao.getGenre(genre.getId());
+                s.setName(genre.getName());
+                genreDao.updateGenre(s);
+            }
+        }
+        return jgenre;
     }
-	
+
 }

@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import bzh.medek.server.json.artist.JsonArtist;
 import bzh.medek.server.persistence.dao.ArtistDAO;
@@ -30,35 +30,34 @@ import bzh.medek.server.persistence.entities.Artist;
 public class ArtistService extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(ArtistService.class);
-    
+
     @Inject
     ArtistDAO artistDao;
     @Inject
     ArtisttypeDAO artisttypeDAO;
-	
-	public ArtistService () {
-	}
+
+    public ArtistService() {
+    }
 
     /**
-     *  GET /artists : retrieve all artists
+     * GET /artists : retrieve all artists
      * 
      * @return
      */
     @GET
     public List<JsonArtist> getAll() {
-    	List<Artist> artists = artistDao.getArtists();
-    	LOGGER.info("find "+artists.size()+" artists in the database");
-    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
-    	for (Artist a:artists) {
-    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-    				a.getNationality(), a.getBiolink()));
-    	}
-    	return la;
+        List<Artist> artists = artistDao.getArtists();
+        LOGGER.info("find " + artists.size() + " artists in the database");
+        ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+        for (Artist a : artists) {
+            la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                    a.getArtisttype().getId(), a.getNationality(), a.getBiolink()));
+        }
+        return la;
     }
 
     /**
-     *  GET /artists/{id} : retrieve one artist
+     * GET /artists/{id} : retrieve one artist
      * 
      * @param id
      * @return
@@ -66,121 +65,117 @@ public class ArtistService extends Application {
     @GET
     @Path(value = "/{id}")
     public JsonArtist getOne(@PathParam(value = "id") Integer id) {
-    	Artist a = artistDao.getArtist(id);
-    	LOGGER.info("find "+a.getName()+" artist in the database");
-    	return new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-				a.getNationality(), a.getBiolink());
+        Artist a = artistDao.getArtist(id);
+        LOGGER.info("find " + a.getName() + " artist in the database");
+        return new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                a.getArtisttype().getId(), a.getNationality(), a.getBiolink());
     }
 
     /**
-     *  POST /artists : create / update one artist
+     * POST /artists : create / update one artist
      * 
-     * @param JsonArtist artist
+     * @param JsonArtist
+     *            artist
      * @return
      */
     @POST
     public JsonArtist createUpdateOne(JsonArtist artist) {
-    	JsonArtist jartist = artist;
-    	if (artist.getId() == null) {
-	    	Artist a = new Artist();
-	    	a.setName(artist.getName());
-	    	a.setFirstname(artist.getFirstname());
-	    	a.setBiolink(artist.getBiolink());
-	    	a.setNationality(artist.getNationality());
-	    	if (artist.getTypeId() != null) {
-	    		a.setArtisttype(artisttypeDAO.getArtisttype(artist.getTypeId()));
-	    	}
-	    	artistDao.saveArtist(a);
-	    	jartist.setId(a.getId());
-    	} else {
-        	Artist a = artistDao.getArtist(artist.getId());
-	    	a.setName(artist.getName());
-	    	a.setFirstname(artist.getFirstname());
-	    	a.setBiolink(artist.getBiolink());
-	    	a.setNationality(artist.getNationality());
-	    	if (artist.getTypeId() != null) {
-	    		a.setArtisttype(artisttypeDAO.getArtisttype(artist.getTypeId()));
-	    	}
-        	artistDao.updateArtist(a);
-    	}
-    	return jartist;
+        JsonArtist jartist = artist;
+        if (artist.getId() == null) {
+            Artist a = new Artist();
+            a.setName(artist.getName());
+            a.setFirstname(artist.getFirstname());
+            a.setBiolink(artist.getBiolink());
+            a.setNationality(artist.getNationality());
+            if (artist.getTypeId() != null) {
+                a.setArtisttype(artisttypeDAO.getArtisttype(artist.getTypeId()));
+            }
+            artistDao.saveArtist(a);
+            jartist.setId(a.getId());
+        } else {
+            Artist a = artistDao.getArtist(artist.getId());
+            a.setName(artist.getName());
+            a.setFirstname(artist.getFirstname());
+            a.setBiolink(artist.getBiolink());
+            a.setNationality(artist.getNationality());
+            if (artist.getTypeId() != null) {
+                a.setArtisttype(artisttypeDAO.getArtisttype(artist.getTypeId()));
+            }
+            artistDao.updateArtist(a);
+        }
+        return jartist;
     }
 
     /**
-     *  GET /artists : retrieve all album artists
+     * GET /artists : retrieve all album artists
      * 
      * @return
      */
     @GET
-	@Path("/albums")
+    @Path("/albums")
     public List<JsonArtist> getAllForAlbums() {
-    	List<Artist> artists = artistDao.getArtistsForAlbum();
-    	LOGGER.info("find "+artists.size()+" album artists in the database");
-    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
-    	for (Artist a:artists) {
-    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-    				a.getNationality(), a.getBiolink()));
-    	}
-    	return la;
+        List<Artist> artists = artistDao.getArtistsForAlbum();
+        LOGGER.info("find " + artists.size() + " album artists in the database");
+        ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+        for (Artist a : artists) {
+            la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                    a.getArtisttype().getId(), a.getNationality(), a.getBiolink()));
+        }
+        return la;
     }
 
     /**
-     *  GET /books : retrieve all book artists
+     * GET /books : retrieve all book artists
      * 
      * @return
      */
     @GET
-	@Path("/books")
+    @Path("/books")
     public List<JsonArtist> getAllForBooks() {
-    	List<Artist> artists = artistDao.getArtistsForBook();
-    	LOGGER.info("find "+artists.size()+" book artists in the database");
-    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
-    	for (Artist a:artists) {
-    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-    				a.getNationality(), a.getBiolink()));
-    	}
-    	return la;
+        List<Artist> artists = artistDao.getArtistsForBook();
+        LOGGER.info("find " + artists.size() + " book artists in the database");
+        ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+        for (Artist a : artists) {
+            la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                    a.getArtisttype().getId(), a.getNationality(), a.getBiolink()));
+        }
+        return la;
     }
 
     /**
-     *  GET /movies : retrieve all movie artists
+     * GET /movies : retrieve all movie artists
      * 
      * @return
      */
     @GET
-	@Path("/movies")
+    @Path("/movies")
     public List<JsonArtist> getAllForMovies() {
-    	List<Artist> artists = artistDao.getArtistsForMovie();
-    	LOGGER.info("find "+artists.size()+" movi artists in the database");
-    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
-    	for (Artist a:artists) {
-    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-    				a.getNationality(), a.getBiolink()));
-    	}
-    	return la;
+        List<Artist> artists = artistDao.getArtistsForMovie();
+        LOGGER.info("find " + artists.size() + " movi artists in the database");
+        ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+        for (Artist a : artists) {
+            la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                    a.getArtisttype().getId(), a.getNationality(), a.getBiolink()));
+        }
+        return la;
     }
 
     /**
-     *  GET /series : retrieve all book artists
+     * GET /series : retrieve all book artists
      * 
      * @return
      */
     @GET
-	@Path("/series")
+    @Path("/series")
     public List<JsonArtist> getAllForSeries() {
-    	List<Artist> artists = artistDao.getArtistsForSeries();
-    	LOGGER.info("find "+artists.size()+" series artists in the database");
-    	ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
-    	for (Artist a:artists) {
-    		la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), 
-    				a.getArtisttype().getName(), a.getArtisttype().getId(), 
-    				a.getNationality(), a.getBiolink()));
-    	}
-    	return la;
+        List<Artist> artists = artistDao.getArtistsForSeries();
+        LOGGER.info("find " + artists.size() + " series artists in the database");
+        ArrayList<JsonArtist> la = new ArrayList<JsonArtist>();
+        for (Artist a : artists) {
+            la.add(new JsonArtist(a.getId(), a.getName(), a.getFirstname(), a.getArtisttype().getName(),
+                    a.getArtisttype().getId(), a.getNationality(), a.getBiolink()));
+        }
+        return la;
     }
-	
+
 }
