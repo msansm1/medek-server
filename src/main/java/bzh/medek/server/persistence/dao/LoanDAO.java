@@ -37,4 +37,18 @@ public class LoanDAO extends Dao {
 	public Loan getLoan(Integer id) {
 		return em.find(Loan.class, id);
 	}
+
+	public List<Loan> getLoansForList(Integer userId, int from, int limit, String orderBy, String orderDir) {
+		String dir = "DESC";
+		if (orderDir != null) {
+			dir = orderDir;
+		}
+		return em.createQuery("from Loan l "
+				+ "where l.user2.id=:userId"
+				+ " ORDER BY "+orderBy+" "+dir, Loan.class)
+				.setParameter("userId", userId)
+				.setFirstResult(from)
+				.setMaxResults(limit)
+				.getResultList();
+	}
 }

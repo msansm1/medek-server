@@ -80,47 +80,6 @@ public class BookService extends Application {
     }
 
     /**
-     * GET /books/loguser/{id} : retrieve all books with logged user
-     * 
-     * @return
-     */
-    @GET
-    @Path(value = "loguser/{id}")
-    public List<JsonBook> getAll(@PathParam(value = "id") Integer userId) {
-        List<Book> books = bookDao.getBooks();
-        LOGGER.info("find " + books.size() + " books in the database");
-        ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
-        String artistName = "";
-        Integer artistId = 0;
-        for (Book b : books) {
-            if (!b.getBookartists().isEmpty()) {
-                artistName = b.getBookartists().get(0).getArtistBean().getName() + " "
-                        + b.getBookartists().get(0).getArtistBean().getFirstname();
-                artistId = b.getBookartists().get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            Userbook myb = userbookDAO.getUserbook(b.getId(), userId);
-            lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
-                    (b.getEditorBean() != null) ? b.getEditorBean().getName() : "",
-                    (b.getEditorBean() != null) ? b.getEditorBean().getId() : 0,
-                    (b.getCollectionBean() != null) ? b.getCollectionBean().getName() : "",
-                    (b.getCollectionBean() != null) ? b.getCollectionBean().getId() : 0, b.getCover(),
-                    b.getDescription(), b.getPublicationdate(),
-                    (b.getStorygenre() != null) ? b.getStorygenre().getName() : "",
-                    (b.getStorygenre() != null) ? b.getStorygenre().getId() : 0,
-                    (b.getBooktype() != null) ? b.getBooktype().getName() : "",
-                    (b.getBooktype() != null) ? b.getBooktype().getId() : 0,
-                    (b.getBooktype() != null) ? b.getLangBean().getName() : "",
-                    (b.getBooktype() != null) ? b.getLangBean().getId() : 0, b.getSeries(), b.getBooknb(),
-                    b.getIsseriedone(), (myb != null) ? true : false, (myb != null) ? myb.getRating() : 0,
-                    (myb != null) ? myb.getIssigned() : false));
-        }
-        return lb;
-    }
-
-    /**
      * GET /books : retrieve all books
      * 
      * @return
@@ -131,9 +90,9 @@ public class BookService extends Application {
             @QueryParam("orderDir") String orderDir) {
         List<Book> books = bookDao.getBooksForList(from, limit, orderBy, orderDir);
         LOGGER.info("find " + books.size() + " books in the database");
-        ArrayList<JsonBook> lb = new ArrayList<JsonBook>();
-        String artistName = "";
-        Integer artistId = 0;
+        ArrayList<JsonBook> lb = new ArrayList<>();
+        String artistName;
+        Integer artistId;
         for (Book b : books) {
             if (!b.getBookartists().isEmpty()) {
                 artistName = b.getBookartists().get(0).getArtistBean().getName() + " "
@@ -144,35 +103,92 @@ public class BookService extends Application {
                 artistId = 0;
             }
             Userbook myb = userbookDAO.getUserbook(b.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
-            lb.add(new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
-                    (b.getEditorBean() != null) ? b.getEditorBean().getName() : "",
-                    (b.getEditorBean() != null) ? b.getEditorBean().getId() : 0,
-                    (b.getCollectionBean() != null) ? b.getCollectionBean().getName() : "",
-                    (b.getCollectionBean() != null) ? b.getCollectionBean().getId() : 0, b.getCover(),
-                    b.getDescription(), b.getPublicationdate(),
-                    (b.getStorygenre() != null) ? b.getStorygenre().getName() : "",
-                    (b.getStorygenre() != null) ? b.getStorygenre().getId() : 0,
-                    (b.getBooktype() != null) ? b.getBooktype().getName() : "",
-                    (b.getBooktype() != null) ? b.getBooktype().getId() : 0,
-                    (b.getBooktype() != null) ? b.getLangBean().getName() : "",
-                    (b.getBooktype() != null) ? b.getLangBean().getId() : 0, b.getSeries(), b.getBooknb(),
-                    b.getIsseriedone(), (myb != null) ? true : false, (myb != null) ? myb.getRating() : 0,
-                    (myb != null) ? myb.getIssigned() : false));
+            JsonBook jb = new JsonBook().setId(b.getId()).setTitle(b.getTitle()).setCover(b.getCover())
+                    .setPublicationDate(b.getPublicationdate()).setAuthor(artistName).setAuthorId(artistId)
+                    .setDescription(b.getDescription()).setSeries(b.getSeries()).setIsSerieDone(b.getIsseriedone())
+                    .setBookNb(b.getBooknb());
+            if (b.getEditorBean() != null) {
+                jb.setEditor(b.getEditorBean().getName()).setEditorId(b.getEditorBean().getId());
+            } else {
+                jb.setEditor("").setEditorId(null);
+            }
+            if (b.getCollectionBean() != null) {
+                jb.setCollection(b.getCollectionBean().getName()).setCollectionId(b.getCollectionBean().getId());
+            } else {
+                jb.setCollection("").setCollectionId(null);
+            }
+            if (b.getStorygenre() != null) {
+                jb.setGenre(b.getStorygenre().getName()).setGenreId(b.getStorygenre().getId());
+            } else {
+                jb.setGenre("").setGenreId(null);
+            }
+            if (b.getBooktype() != null) {
+                jb.setType(b.getBooktype().getName()).setTypeId(b.getBooktype().getId());
+            } else {
+                jb.setType("").setTypeId(null);
+            }
+            if (b.getLangBean() != null) {
+                jb.setLang(b.getLangBean().getName()).setLangId(b.getLangBean().getId());
+            } else {
+                jb.setLang("").setLangId(null);
+            }
+            if (myb != null) {
+                jb.setMycollec(true).setRating(myb.getRating()).setSigned(myb.getIssigned());
+            } else {
+                jb.setMycollec(false).setRating(0).setSigned(false);
+            }
+            lb.add(jb);
         }
         return lb;
     }
 
     /**
-     * GET /books/{id}/loguser/{userid} : retrieve one book
+     * GET /books/user : retrieve books for one user
+     * 
+     * @return
+     */
+    @GET
+    @Path(value = "user")
+    public List<JsonBook> getUserBooks(@Context HttpServletRequest request, @QueryParam("from") int from,
+            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
+            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
+        List<JsonBook> books = bookDao.getUserBooksForList(from, limit, orderBy, orderDir, userId);
+        LOGGER.info("find " + books.size() + " books in the database");
+        String artistName = "";
+        Integer artistId = 0;
+        List<Bookartist> bartists = null;
+        for (JsonBook b : books) {
+            bartists = bookDao.getBookArtists(b.getId());
+            if (!bartists.isEmpty()) {
+                artistName = bartists.get(0).getArtistBean().getName() + " "
+                        + bartists.get(0).getArtistBean().getFirstname();
+                artistId = bartists.get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            if (bookDao.getBook(b.getId()).getCollectionBean() != null) {
+                Collection c = bookDao.getBook(b.getId()).getCollectionBean();
+                b.setCollection(c.getName());
+                b.setCollectionId(c.getId());
+            }
+            b.setAuthor(artistName);
+            b.setAuthorId(artistId);
+        }
+        return books;
+    }
+
+    /**
+     * GET /books/{id} : retrieve one book
      * 
      * @param id
      * @return
      */
     @GET
-    @Path(value = "/{id}/loguser/{userid}")
-    public JsonBook getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
+    @Path(value = "{id}")
+    public JsonBook getOne(@Context HttpServletRequest request, @PathParam(value = "id") Integer id) {
         Book b = bookDao.getBook(id);
-        LOGGER.info("find " + b.getTitle() + " book in the database");
+        LOGGER.info("find " + b.getTitle() + " in the database");
         String artistName = "";
         Integer artistId = 0;
         if (!b.getBookartists().isEmpty()) {
@@ -180,24 +196,46 @@ public class BookService extends Application {
                     + b.getBookartists().get(0).getArtistBean().getFirstname();
             artistId = b.getBookartists().get(0).getArtistBean().getId();
         }
-        Userbook myb = userbookDAO.getUserbook(id, userId);
-        return new JsonBook(b.getId(), b.getTitle(), artistName, artistId,
-                (b.getEditorBean() != null) ? b.getEditorBean().getName() : "",
-                (b.getEditorBean() != null) ? b.getEditorBean().getId() : 0,
-                (b.getCollectionBean() != null) ? b.getCollectionBean().getName() : "",
-                (b.getCollectionBean() != null) ? b.getCollectionBean().getId() : 0, b.getCover(), b.getDescription(),
-                b.getPublicationdate(), (b.getStorygenre() != null) ? b.getStorygenre().getName() : "",
-                (b.getStorygenre() != null) ? b.getStorygenre().getId() : 0,
-                (b.getBooktype() != null) ? b.getBooktype().getName() : "",
-                (b.getBooktype() != null) ? b.getBooktype().getId() : 0,
-                (b.getBooktype() != null) ? b.getLangBean().getName() : "",
-                (b.getBooktype() != null) ? b.getLangBean().getId() : 0, b.getSeries(), b.getBooknb(),
-                b.getIsseriedone(), (myb != null) ? true : false, (myb != null) ? myb.getRating() : 0,
-                (myb != null) ? myb.getIssigned() : false);
+        Userbook myb = userbookDAO.getUserbook(b.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
+        JsonBook jb = new JsonBook().setId(b.getId()).setTitle(b.getTitle()).setCover(b.getCover())
+                .setPublicationDate(b.getPublicationdate()).setAuthor(artistName).setAuthorId(artistId)
+                .setDescription(b.getDescription()).setSeries(b.getSeries()).setIsSerieDone(b.getIsseriedone())
+                .setBookNb(b.getBooknb());
+        if (b.getEditorBean() != null) {
+            jb.setEditor(b.getEditorBean().getName()).setEditorId(b.getEditorBean().getId());
+        } else {
+            jb.setEditor("").setEditorId(null);
+        }
+        if (b.getCollectionBean() != null) {
+            jb.setCollection(b.getCollectionBean().getName()).setCollectionId(b.getCollectionBean().getId());
+        } else {
+            jb.setCollection("").setCollectionId(null);
+        }
+        if (b.getStorygenre() != null) {
+            jb.setGenre(b.getStorygenre().getName()).setGenreId(b.getStorygenre().getId());
+        } else {
+            jb.setGenre("").setGenreId(null);
+        }
+        if (b.getBooktype() != null) {
+            jb.setType(b.getBooktype().getName()).setTypeId(b.getBooktype().getId());
+        } else {
+            jb.setType("").setTypeId(null);
+        }
+        if (b.getLangBean() != null) {
+            jb.setLang(b.getLangBean().getName()).setLangId(b.getLangBean().getId());
+        } else {
+            jb.setLang("").setLangId(null);
+        }
+        if (myb != null) {
+            jb.setMycollec(true).setRating(myb.getRating()).setSigned(myb.getIssigned());
+        } else {
+            jb.setMycollec(false).setRating(0).setSigned(false);
+        }
+        return jb;
     }
 
     /**
-     * POST /movies : create / update one movie
+     * POST /books : create / update one book
      * 
      * @param id
      * @return
@@ -258,42 +296,6 @@ public class BookService extends Application {
             bookDao.updateBook(b);
         }
         return jbook;
-    }
-
-    /**
-     * GET /books/user : retrieve books for one user
-     * 
-     * @return
-     */
-    @GET
-    @Path(value = "user")
-    public List<JsonBook> getUserBooks(@Context HttpServletRequest request, @QueryParam("from") int from,
-            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
-            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
-        List<JsonBook> books = bookDao.getUserBooksForList(from, limit, orderBy, orderDir, userId);
-        LOGGER.info("find " + books.size() + " books in the database");
-        String artistName = "";
-        Integer artistId = 0;
-        List<Bookartist> bartists = null;
-        for (JsonBook b : books) {
-            bartists = bookDao.getBookArtists(b.getId());
-            if (!bartists.isEmpty()) {
-                artistName = bartists.get(0).getArtistBean().getName() + " "
-                        + bartists.get(0).getArtistBean().getFirstname();
-                artistId = bartists.get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            if (bookDao.getBook(b.getId()).getCollectionBean() != null) {
-                Collection c = bookDao.getBook(b.getId()).getCollectionBean();
-                b.setCollection(c.getName());
-                b.setCollectionId(c.getId());
-            }
-            b.setAuthor(artistName);
-            b.setAuthorId(artistId);
-        }
-        return books;
     }
 
     /**
@@ -394,6 +396,28 @@ public class BookService extends Application {
         ub.setComment(book.getComment());
         ub.setRating(book.getRating());
         userbookDAO.saveUserbook(ub);
+        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
+    }
+
+    /**
+     * POST /removefromcollec : remove book from user's collection
+     * 
+     * @return
+     */
+    @POST
+    @Path("removefromcollec")
+    public Response removeFromCollection(JsonMyBook book) {
+        Userbook ub = new Userbook();
+        UserbookPK ubid = new UserbookPK();
+        ubid.setBook(book.getBookId().intValue());
+        ubid.setUser(book.getUserId().intValue());
+        ub.setId(ubid);
+        ub.setBookBean(bookDao.getBook(book.getBookId()));
+        ub.setUserBean(userDAO.getUser(book.getUserId()));
+        ub.setIssigned(book.getSigned());
+        ub.setComment(book.getComment());
+        ub.setRating(book.getRating());
+        userbookDAO.removeUserbook(ub);
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
 

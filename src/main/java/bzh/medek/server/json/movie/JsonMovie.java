@@ -125,168 +125,189 @@ public class JsonMovie {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public JsonMovie setId(Integer id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public JsonMovie setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public JsonMovie setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public Date getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	public JsonMovie setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+		return this;
 	}
 
 	public String getCover() {
 		return cover;
 	}
 
-	public void setCover(String cover) {
+	public JsonMovie setCover(String cover) {
 		this.cover = cover;
+		return this;
 	}
 
 	public String getSupport() {
 		return support;
 	}
 
-	public void setSupport(String support) {
+	public JsonMovie setSupport(String support) {
 		this.support = support;
+		return this;
 	}
 
 	public Integer getSupportId() {
 		return supportId;
 	}
 
-	public void setSupportId(Integer supportId) {
+	public JsonMovie setSupportId(Integer supportId) {
 		this.supportId = supportId;
+		return this;
 	}
 
 	public String getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public JsonMovie setGenre(String genre) {
 		this.genre = genre;
+		return this;
 	}
 
 	public Integer getGenreId() {
 		return genreId;
 	}
 
-	public void setGenreId(Integer genreId) {
+	public JsonMovie setGenreId(Integer genreId) {
 		this.genreId = genreId;
+		return this;
 	}
 
 	public String getLength() {
 		return length;
 	}
 
-	public void setLength(String length) {
+	public JsonMovie setLength(String length) {
 		this.length = length;
+		return this;
 	}
 
 	public Boolean getIsCollector() {
 		return isCollector;
 	}
 
-	public void setIsCollector(Boolean isCollector) {
+	public JsonMovie setIsCollector(Boolean isCollector) {
 		this.isCollector = isCollector;
+		return this;
 	}
 
 	public List<JsonLang> getLangs() {
 		return langs;
 	}
 
-	public void setLangs(List<JsonLang> langs) {
+	public JsonMovie setLangs(List<JsonLang> langs) {
 		this.langs = langs;
+		return this;
 	}
 
 	public List<JsonLang> getSubtitles() {
 		return subtitles;
 	}
 
-	public void setSubtitles(List<JsonLang> subtitles) {
+	public JsonMovie setSubtitles(List<JsonLang> subtitles) {
 		this.subtitles = subtitles;
+		return this;
 	}
 
 	public String getRealisator() {
 		return realisator;
 	}
 
-	public void setRealisator(String realisator) {
+	public JsonMovie setRealisator(String realisator) {
 		this.realisator = realisator;
+		return this;
 	}
 
 	public Integer getRealisatorId() {
 		return realisatorId;
 	}
 
-	public void setRealisatorId(Integer realisatorId) {
+	public JsonMovie setRealisatorId(Integer realisatorId) {
 		this.realisatorId = realisatorId;
+		return this;
 	}
 
 	public String getProducer() {
 		return producer;
 	}
 
-	public void setProducer(String producer) {
+	public JsonMovie setProducer(String producer) {
 		this.producer = producer;
+		return this;
 	}
 
 	public Integer getProducerId() {
 		return producerId;
 	}
 
-	public void setProducerId(Integer producerId) {
+	public JsonMovie setProducerId(Integer producerId) {
 		this.producerId = producerId;
+		return this;
 	}
 
 	public String getScenarist() {
 		return scenarist;
 	}
 
-	public void setScenarist(String scenarist) {
+	public JsonMovie setScenarist(String scenarist) {
 		this.scenarist = scenarist;
+		return this;
 	}
 
 	public Integer getScenaristId() {
 		return scenaristId;
 	}
 
-	public void setScenaristId(Integer scenaristId) {
+	public JsonMovie setScenaristId(Integer scenaristId) {
 		this.scenaristId = scenaristId;
+		return this;
 	}
 
 	public Boolean getMycollec() {
 		return mycollec;
 	}
 
-	public void setMycollec(Boolean mycollec) {
+	public JsonMovie setMycollec(Boolean mycollec) {
 		this.mycollec = mycollec;
+		return this;
 	}
 
 	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public JsonMovie setRating(Integer rating) {
 		this.rating = rating;
+		return this;
 	}
 
 }

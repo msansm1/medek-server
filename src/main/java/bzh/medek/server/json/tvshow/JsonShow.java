@@ -101,136 +101,153 @@ public class JsonShow {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public JsonShow setId(Integer id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public JsonShow setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 
 	public String getCover() {
 		return cover;
 	}
 
-	public void setCover(String cover) {
+	public JsonShow setCover(String cover) {
 		this.cover = cover;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public JsonShow setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public Date getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	public JsonShow setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+		return this;
 	}
 
 	public String getSupport() {
 		return support;
 	}
 
-	public void setSupport(String support) {
+	public JsonShow setSupport(String support) {
 		this.support = support;
+		return this;
 	}
 
 	public Integer getSupportId() {
 		return supportId;
 	}
 
-	public void setSupportId(Integer supportId) {
+	public JsonShow setSupportId(Integer supportId) {
 		this.supportId = supportId;
+		return this;
 	}
 
 	public String getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public JsonShow setGenre(String genre) {
 		this.genre = genre;
+		return this;
 	}
 
 	public Integer getGenreId() {
 		return genreId;
 	}
 
-	public void setGenreId(Integer genreId) {
+	public JsonShow setGenreId(Integer genreId) {
 		this.genreId = genreId;
+		return this;
 	}
 
 	public String getLength() {
 		return length;
 	}
 
-	public void setLength(String length) {
+	public JsonShow setLength(String length) {
 		this.length = length;
+		return this;
 	}
 
 	public Integer getSeason() {
 		return season;
 	}
 
-	public void setSeason(Integer season) {
+	public JsonShow setSeason(Integer season) {
 		this.season = season;
+		return this;
 	}
 
 	public String getSeries() {
 		return series;
 	}
 
-	public void setSeries(String series) {
+	public JsonShow setSeries(String series) {
 		this.series = series;
+		return this;
 	}
 
 	public Boolean getIsSeriesDone() {
 		return isSeriesDone;
 	}
 
-	public void setIsSeriesDone(Boolean isSeriesDone) {
+	public JsonShow setIsSeriesDone(Boolean isSeriesDone) {
 		this.isSeriesDone = isSeriesDone;
+		return this;
 	}
 
 	public List<JsonLang> getLangs() {
 		return langs;
 	}
 
-	public void setLangs(List<JsonLang> langs) {
+	public JsonShow setLangs(List<JsonLang> langs) {
 		this.langs = langs;
+		return this;
 	}
 
 	public List<JsonLang> getSubtitles() {
 		return subtitles;
 	}
 
-	public void setSubtitles(List<JsonLang> subtitles) {
+	public JsonShow setSubtitles(List<JsonLang> subtitles) {
 		this.subtitles = subtitles;
+		return this;
 	}
 
 	public Boolean getMycollec() {
 		return mycollec;
 	}
 
-	public void setMycollec(Boolean mycollec) {
+	public JsonShow setMycollec(Boolean mycollec) {
 		this.mycollec = mycollec;
+		return this;
 	}
 
 	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public JsonShow setRating(Integer rating) {
 		this.rating = rating;
+		return this;
 	}
 
 }

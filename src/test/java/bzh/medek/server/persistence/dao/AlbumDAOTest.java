@@ -35,7 +35,7 @@ public class AlbumDAOTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         final WebArchive war = ShrinkWrap.create(WebArchive.class, "albumdao.war").addClass(AlbumDAO.class)
-                .addClass(JsonAlbum.class).addClass(Dao.class).addPackage(Album.class.getPackage())
+                .addPackage(JsonAlbum.class.getPackage()).addClass(Dao.class).addPackage(Album.class.getPackage())
                 .addClass(AlbumStats.class).addAsResource("drop.sql", "drop.sql")
                 .addAsResource("create.sql", "create.sql").addAsResource("load.sql", "load.sql")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")

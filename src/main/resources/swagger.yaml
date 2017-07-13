@@ -1,0 +1,387 @@
+# SWAGGER API for Medek
+swagger: '2.0'
+info:
+  title: Medek API
+  description: Medek API description
+  version: "1.0.0"
+host: medek.yourdomain.com
+schemes:
+  - https
+basePath: /services/v1
+produces:
+  - application/json
+paths:
+  /albums:
+    get:
+      summary: Albums available
+      description: This endpoint returns the albums available in database with pagination and sorting parameters.
+      parameters:
+        - name: from
+          in: query
+          description: Start index for pagination.
+          required: true
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Number of items per page.
+          required: true
+          type: integer
+          format: int32
+        - name: orderBy
+          in: query
+          description: Ordering parameter name.
+          required: true
+          type: string
+        - name: orderDir
+          in: query
+          description: Direction for ordering.
+          required: true
+          type: string
+          enum: 
+            - asc
+            - desc
+      tags:
+        - Albums
+      responses:
+        200:
+          description: An array of albums
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Album'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a new album
+      description: Create a new album.
+      parameters:
+        - name: album
+          in: body
+          description: Album to create.
+          required: true
+          schema: 
+            $ref: '#/definitions/Album'
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Created album
+          schema:
+            $ref: '#/definitions/Album'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Update an album
+      description: Update an album.
+      parameters:
+        - name: album
+          in: body
+          description: Album to update.
+          required: true
+          schema: 
+            $ref: '#/definitions/Album'
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Updated album
+          schema:
+            $ref: '#/definitions/Album'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/user:
+    get:
+      summary: Albums collection of an user.
+      description: This endpoint returns the albums available in the collection of an user.
+      parameters:
+        - name: from
+          in: query
+          description: Start index for pagination.
+          required: true
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Number of items per page.
+          required: true
+          type: integer
+          format: int32
+        - name: orderBy
+          in: query
+          description: Ordering parameter name.
+          required: true
+          type: string
+        - name: orderDir
+          in: query
+          description: Direction for ordering.
+          required: true
+          type: string
+          enum: 
+            - asc
+            - desc
+        - name: userId
+          in: query
+          description: ID of the user owner of the collection.
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Albums
+        - User
+      responses:
+        200:
+          description: An array of albums
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Album'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/{id}:
+    get:
+      summary: Get one album
+      description: Get one album details.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the album to retreive.
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Details of an album.
+          schema:
+            $ref: '#/definitions/Album'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/{id}/tracks:
+    get:
+      summary: Get one album tracks
+      description: Get one album tracks details.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the album to retreive its associated tracks.
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Array of tracks of the album.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Track'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/{id}/coverupload:
+    post:
+      summary: Upload one album cover
+      description: Upload one album cover
+      parameters:
+        - name: id
+          in: path
+          description: ID of the album.
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Result confirmation.
+          schema:
+            type: string
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/addtocollec:
+    post:
+      summary: Add one album to user's collection
+      description: Add one album to user's collection
+      parameters:
+        - name: album
+          in: body
+          description: Album to add.
+          required: true
+          schema: 
+            $ref: '#/definitions/MyAlbum'
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Result confirmation.
+          schema:
+            type: string
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /albums/removefromcollec:
+    post:
+      summary: Remove one album from user's collection
+      description: Remove one album from user's collection
+      parameters:
+        - name: album
+          in: body
+          description: Album to remove.
+          required: true
+          schema: 
+            $ref: '#/definitions/MyAlbum'
+      tags:
+        - Albums
+      responses:
+        200:
+          description: Result confirmation.
+          schema:
+            type: string
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Album:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Album ID
+      title:
+        type: string
+        description: Title of the Album.
+      cover:
+        type: string
+        description: URL of the cover image.
+      releaseDate:
+        type: string
+        format: date
+        description: Release date of the album (ISO 8601).
+      cds:
+        type: integer
+        format: int32
+        description: Number of CDs in the album.
+      genre:
+        type: string
+        description: Name of the music genre.
+      genreId:
+        type: integer
+        format: int32
+        description: ID of the music genre.
+      nbTracks:
+        type: integer
+        format: int32
+        description: Number of tracks of the album.
+      support:
+        type: string
+        description: Name of the support of the album.
+      supportId:
+        type: integer
+        format: int32
+        description: ID of the support of the album.
+      artist:
+        type: string
+        description: Name of the artist of the album.
+      artistId:
+        type: integer
+        format: int32
+        description: ID of the artist of the album.
+      mycollec:
+        type: boolean
+        description: Is the album inside user's collection ?
+      rating:
+        type: integer
+        format: int32
+        description: Rating note of the album (from 0 to 5).
+      signed:
+        type: boolean
+        description: Is the user's album signed ?
+      tracks:
+        type: array
+        description: Tracks of the album.
+        items:
+          $ref: '#/definitions/Track'
+  Track:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Track ID
+      albumId:
+        type: integer
+        format: int32
+        description: Album ID of the track.
+      title:
+        type: string
+        description: Title of th track.
+      trackNb:
+        type: integer
+        format: int32
+        description: Track number on the CD.
+      cd:
+        type: integer
+        format: int32
+        description: Number of the CD of the album.
+      length:
+        type: string
+        description: Length of the track (mm:ss).
+      artist:
+        type: string
+        description: Name of the artist of the album.
+      artistId:
+        type: integer
+        format: int32
+        description: ID of the artist of the album.
+  MyAlbum:
+    type: object
+    properties:
+      albumId:
+        type: integer
+        format: int32
+        description: Album ID
+      userId:
+        type: integer
+        format: int32
+        description: User ID
+      rating:
+        type: integer
+        format: int32
+        description: Rating note of the album (from 0 to 5).
+      comment:
+        type: string
+        description: User comment on album.
+      signed:
+        type: boolean
+        description: Is the user's album signed ?
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+

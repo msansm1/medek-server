@@ -2,16 +2,16 @@ angular.module('medekApp.services').service('AlbumService', [
 '$http', 
 '$rootScope', 
 function($http, $rootScope) {
-    this.albums = function() {
-        return $http.get('services/albums/loguser/'+$rootScope.user.id);
-    };
-
     this.albumlist = function(from, limit, orderBy, orderDir) {
         return $http.get('services/albums?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir);
     };
+
+    this.userAlbumlist = function(from, limit, orderBy, orderDir, userId) {
+        return $http.get('services/albums/user?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir+'&userId='+userId);
+    };
     
     this.album = function(id) {
-        return $http.get('services/albums/'+id+'/loguser/'+$rootScope.user.id);
+        return $http.get('services/albums/'+id);
     };
     
     this.saveAlbum = function(album) {
@@ -24,9 +24,5 @@ function($http, $rootScope) {
     
     this.addAlbumToCollection = function(album) {
         return $http.post('services/albums/addtocollec', album);
-    };
-
-    this.userAlbumlist = function(from, limit, orderBy, orderDir, userId) {
-        return $http.get('services/albums/user?from='+from+'&limit='+limit+'&orderBy='+orderBy+'&orderDir='+orderDir+'&userId='+userId);
     };
 } ]);

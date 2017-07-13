@@ -17,6 +17,7 @@
 	"ok": "OK",
 	"cancel": "Annuler",
 	"friends": "Amis",
+	"loans": "Emprunts",
 	
 	"home" : "Accueil",
 	"books": "Livres",
@@ -53,7 +54,6 @@
 	"publicationDate": "Date de publication",
 	"type": "Type",
 	"lang": "Langue",
-	"series": "Série",
 	"bookNb": "Numéro du livre",
 	"isSerieDone": "Série terminée",
 	"description": "Description",

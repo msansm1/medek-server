@@ -72,38 +72,6 @@ public class MovieService extends Application {
     }
 
     /**
-     * GET /movies/loguser/{id} : retrieve all movies with logged user
-     * 
-     * @return
-     */
-    @GET
-    @Path(value = "loguser/{id}")
-    public List<JsonMovie> getAll(@PathParam(value = "id") Integer userId) {
-        List<Movie> movies = movieDao.getMovies();
-        LOGGER.info("find " + movies.size() + " movies in the database");
-        ArrayList<JsonMovie> lm = new ArrayList<JsonMovie>();
-        String artistName = "";
-        Integer artistId = 0;
-        for (Movie m : movies) {
-            if (!m.getMovieartists().isEmpty()) {
-                artistName = m.getMovieartists().get(0).getArtistBean().getName() + " "
-                        + m.getMovieartists().get(0).getArtistBean().getFirstname();
-                artistId = m.getMovieartists().get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
-            lm.add(new JsonMovie(m.getId(), m.getTitle(), m.getDescription(), m.getReleasedate(), m.getCover(),
-                    m.getSupportBean().getName(), m.getSupportBean().getId(), m.getStorygenre().getName(),
-                    m.getStorygenre().getId(), m.getLength(), m.getIscollector(), artistName, artistId, "", null, "",
-                    null, new ArrayList<JsonLang>(), new ArrayList<JsonLang>(), (mym != null) ? true : false,
-                    (mym != null) ? mym.getRating() : 0));
-        }
-        return lm;
-    }
-
-    /**
      * GET /movies : retrieve all movies
      * 
      * @return
@@ -137,14 +105,47 @@ public class MovieService extends Application {
     }
 
     /**
-     * GET /movies/{id}/loguser/{userid} : retrieve one movie
+     * GET /movies/user : retrieve movie for one user
+     * 
+     * @param id
+     *            - user ID
+     * @return
+     */
+    @GET
+    @Path(value = "user")
+    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
+            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
+            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
+        List<JsonMovie> movies = movieDao.getUserMovies(from, limit, orderBy, orderDir, userId);
+        LOGGER.info("find " + movies.size() + " movies in the database");
+        String artistName = "";
+        Integer artistId = 0;
+        List<Movieartist> martists = null;
+        for (JsonMovie m : movies) {
+            martists = movieDao.getMovieArtists(m.getId());
+            if (!martists.isEmpty()) {
+                artistName = martists.get(0).getArtistBean().getName() + " "
+                        + martists.get(0).getArtistBean().getFirstname();
+                artistId = martists.get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            m.setRealisator(artistName);
+            m.setRealisatorId(artistId);
+        }
+        return movies;
+    }
+
+    /**
+     * GET /movies/{id} : retrieve one movie
      * 
      * @param id
      * @return
      */
     @GET
-    @Path(value = "/{id}/loguser/{userid}")
-    public JsonMovie getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
+    @Path(value = "/{id}")
+    public JsonMovie getOne(@PathParam(value = "id") Integer id) {
         JsonMovie jm = movieDao.getJsonMovie(id);
         LOGGER.info("find " + jm.getTitle() + " movie in the database");
         Movie m = movieDao.getMovie(id);
@@ -158,9 +159,6 @@ public class MovieService extends Application {
             ls.add(new JsonLang(l.getId(), l.getName()));
         }
         jm.setSubtitles(ls);
-        Usermovie mym = usermovieDAO.getUsermovie(m.getId(), userId);
-        jm.setMycollec((mym != null) ? true : false);
-        jm.setRating((mym != null) ? mym.getRating() : 0);
         return jm;
     }
 
@@ -196,39 +194,6 @@ public class MovieService extends Application {
             movieDao.updateMovie(m);
         }
         return jmovie;
-    }
-
-    /**
-     * GET /movies/user : retrieve movie for one user
-     * 
-     * @param id
-     *            - user ID
-     * @return
-     */
-    @GET
-    @Path(value = "user")
-    public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
-            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
-            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
-        List<JsonMovie> movies = movieDao.getUserMovies(from, limit, orderBy, orderDir, userId);
-        LOGGER.info("find " + movies.size() + " movies in the database");
-        String artistName = "";
-        Integer artistId = 0;
-        List<Movieartist> martists = null;
-        for (JsonMovie m : movies) {
-            martists = movieDao.getMovieArtists(m.getId());
-            if (!martists.isEmpty()) {
-                artistName = martists.get(0).getArtistBean().getName() + " "
-                        + martists.get(0).getArtistBean().getFirstname();
-                artistId = martists.get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            m.setRealisator(artistName);
-            m.setRealisatorId(artistId);
-        }
-        return movies;
     }
 
     /**
@@ -328,6 +293,27 @@ public class MovieService extends Application {
         um.setComment(movie.getComment());
         um.setRating(movie.getRating());
         usermovieDAO.saveUsermovie(um);
+        return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
+    }
+
+    /**
+     * POST /removefromcollec : remove movie from user's collection
+     * 
+     * @return
+     */
+    @POST
+    @Path("removefromcollec")
+    public Response removeFromCollection(JsonMyMovie movie) {
+        Usermovie um = new Usermovie();
+        UsermoviePK umid = new UsermoviePK();
+        umid.setMovie(movie.getMovieId().intValue());
+        umid.setUser(movie.getUserId().intValue());
+        um.setId(umid);
+        um.setMovieBean(movieDao.getMovie(movie.getMovieId()));
+        um.setUserBean(userDAO.getUser(movie.getUserId()));
+        um.setComment(movie.getComment());
+        um.setRating(movie.getRating());
+        usermovieDAO.removeUsermovie(um);
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
 

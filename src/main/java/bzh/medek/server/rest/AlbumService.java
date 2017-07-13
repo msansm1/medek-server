@@ -41,15 +41,20 @@ import bzh.medek.server.json.album.JsonTrack;
 import bzh.medek.server.persistence.dao.AlbumDAO;
 import bzh.medek.server.persistence.dao.AlbumartistDAO;
 import bzh.medek.server.persistence.dao.ArtistDAO;
+import bzh.medek.server.persistence.dao.ArtisttypeDAO;
 import bzh.medek.server.persistence.dao.GenreDAO;
 import bzh.medek.server.persistence.dao.SupportDAO;
 import bzh.medek.server.persistence.dao.TrackDAO;
+import bzh.medek.server.persistence.dao.TrackartistDAO;
 import bzh.medek.server.persistence.dao.UserDAO;
 import bzh.medek.server.persistence.dao.UseralbumDAO;
 import bzh.medek.server.persistence.entities.Album;
 import bzh.medek.server.persistence.entities.Albumartist;
 import bzh.medek.server.persistence.entities.AlbumartistPK;
+import bzh.medek.server.persistence.entities.Artist;
 import bzh.medek.server.persistence.entities.Track;
+import bzh.medek.server.persistence.entities.Trackartist;
+import bzh.medek.server.persistence.entities.TrackartistPK;
 import bzh.medek.server.persistence.entities.Useralbum;
 import bzh.medek.server.persistence.entities.UseralbumPK;
 import bzh.medek.server.utils.Constants;
@@ -81,44 +86,12 @@ public class AlbumService extends Application {
     UserDAO userDAO;
     @Inject
     UseralbumDAO useralbumDao;
+    @Inject
+    ArtisttypeDAO artisttypeDAO;
+    @Inject
+    TrackartistDAO trackartistDAO;
 
     public AlbumService() {
-    }
-
-    /**
-     * GET /albums/loguser/{id} : retrieve all albums with logged user
-     * 
-     * @return
-     */
-    @GET
-    @Path(value = "loguser/{id}")
-    public List<JsonAlbum> getAll(@PathParam(value = "id") Integer userId) {
-        List<Album> albums = albumDao.getAlbums();
-        LOGGER.info("find " + albums.size() + " albums in the database");
-        ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
-        String artistName = "";
-        Integer artistId = 0;
-        for (Album a : albums) {
-            if (!a.getAlbumartists().isEmpty()) {
-                artistName = a.getAlbumartists().get(0).getArtistBean().getName();
-                if (a.getAlbumartists().get(0).getArtistBean().getFirstname() != null) {
-                    artistName += " " + a.getAlbumartists().get(0).getArtistBean().getFirstname();
-                }
-                artistId = a.getAlbumartists().get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            Useralbum mya = useralbumDao.getUseralbum(a.getId(), userId);
-            la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a.getReleasedate(),
-                    (a.getGenreBean() != null) ? a.getGenreBean().getName() : "",
-                    (a.getGenreBean() != null) ? a.getGenreBean().getId() : null, a.getNbtracks(),
-                    (a.getSupportBean() != null) ? a.getSupportBean().getName() : "",
-                    (a.getSupportBean() != null) ? a.getSupportBean().getId() : null, artistName, artistId,
-                    (mya != null) ? true : false, (mya != null) ? mya.getRating() : 0,
-                    (mya != null) ? mya.getIssigned() : false, new ArrayList<JsonTrack>()));
-        }
-        return la;
     }
 
     /**
@@ -133,9 +106,9 @@ public class AlbumService extends Application {
             @QueryParam("orderDir") String orderDir) {
         List<Album> albums = albumDao.getAlbumsForList(from, limit, orderBy, orderDir);
         LOGGER.info("find " + albums.size() + " albums in the database");
-        ArrayList<JsonAlbum> la = new ArrayList<JsonAlbum>();
-        String artistName = "";
-        Integer artistId = 0;
+        ArrayList<JsonAlbum> la = new ArrayList<>();
+        String artistName;
+        Integer artistId;
         for (Album a : albums) {
             if (!a.getAlbumartists().isEmpty()) {
                 artistName = a.getAlbumartists().get(0).getArtistBean().getName();
@@ -148,31 +121,93 @@ public class AlbumService extends Application {
                 artistId = 0;
             }
             Useralbum mya = useralbumDao.getUseralbum(a.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
-            la.add(new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a.getReleasedate(),
-                    (a.getGenreBean() != null) ? a.getGenreBean().getName() : "",
-                    (a.getGenreBean() != null) ? a.getGenreBean().getId() : null, a.getNbtracks(),
-                    (a.getSupportBean() != null) ? a.getSupportBean().getName() : "",
-                    (a.getSupportBean() != null) ? a.getSupportBean().getId() : null, artistName, artistId,
-                    (mya != null) ? true : false, (mya != null) ? mya.getRating() : 0,
-                    (mya != null) ? mya.getIssigned() : false, new ArrayList<JsonTrack>()));
+            List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
+            List<JsonTrack> lt = new ArrayList<>();
+            for (Track t : tracks) {
+                lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t.getNumber(), t.getLength(),
+                        t.getTrackartists().get(0).getArtistBean().getName(),
+                        t.getTrackartists().get(0).getArtistBean().getId()));
+            }
+            JsonAlbum ja = new JsonAlbum().setId(a.getId()).setTitle(a.getTitle()).setCover(a.getCover())
+                    .setReleaseDate(a.getReleasedate()).setCds(a.getCds()).setNbTracks(tracks.size()).setTracks(lt)
+                    .setArtist(artistName).setArtistId(artistId);
+            if (a.getGenreBean() != null) {
+                ja.setGenre(a.getGenreBean().getName()).setGenreId(a.getGenreBean().getId());
+            } else {
+                ja.setGenre("").setGenreId(null);
+            }
+            if (a.getSupportBean() != null) {
+                ja.setSupport(a.getSupportBean().getName()).setSupportId(a.getSupportBean().getId());
+            } else {
+                ja.setSupport("").setSupportId(null);
+            }
+            if (mya != null) {
+                ja.setMycollec(true).setRating(mya.getRating()).setSigned(mya.getIssigned());
+            } else {
+                ja.setMycollec(false).setRating(0).setSigned(false);
+            }
+            la.add(ja);
         }
         return la;
     }
 
     /**
-     * GET /albums/{id}/loguser/{userid} : retrieve one album
+     * GET /albums/user : retrieve albums for one user
+     * 
+     * 
+     * @return
+     */
+    @GET
+    @Path(value = "user")
+    public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, @QueryParam("from") int from,
+            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
+            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
+        List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
+        LOGGER.info("find " + albums.size() + " albums in the database");
+        String artistName;
+        Integer artistId;
+        List<Albumartist> aartists;
+        for (JsonAlbum a : albums) {
+            a.setMycollec(true);
+            aartists = albumDao.getAlbumArtists(a.getId());
+            if (!aartists.isEmpty()) {
+                artistName = aartists.get(0).getArtistBean().getName();
+                if (aartists.get(0).getArtistBean().getFirstname() != null) {
+                    artistName += " " + aartists.get(0).getArtistBean().getFirstname();
+                }
+                artistId = aartists.get(0).getArtistBean().getId();
+            } else {
+                artistName = "";
+                artistId = 0;
+            }
+            a.setArtist(artistName);
+            a.setArtistId(artistId);
+            List<Track> tracks = trackDao.getTracksForAlbum(a.getId());
+            List<JsonTrack> lt = new ArrayList<>();
+            for (Track t : tracks) {
+                lt.add(new JsonTrack(t.getId(), a.getId(), t.getTitle(), t.getNumber(), t.getLength(),
+                        t.getTrackartists().get(0).getArtistBean().getName(),
+                        t.getTrackartists().get(0).getArtistBean().getId()));
+            }
+            a.setTracks(lt);
+        }
+        return albums;
+    }
+
+    /**
+     * GET /albums/{id} : retrieve one album
      * 
      * @param id
      * @return
      */
     @GET
-    @Path(value = "{id}/loguser/{userid}")
-    public JsonAlbum getOne(@PathParam(value = "id") Integer id, @PathParam(value = "userid") Integer userId) {
+    @Path(value = "{id}")
+    public JsonAlbum getOne(@Context HttpServletRequest request, @PathParam(value = "id") Integer id) {
         Album a = albumDao.getAlbum(id);
         LOGGER.info("find " + a.getTitle() + " album in the database");
         List<Track> tracks = trackDao.getTracksForAlbum(id);
         LOGGER.info("find " + tracks.size() + " tracks for album : " + id);
-        List<JsonTrack> lt = new ArrayList<JsonTrack>();
+        List<JsonTrack> lt = new ArrayList<>();
         for (Track t : tracks) {
             lt.add(new JsonTrack(t.getId(), id, t.getTitle(), t.getNumber(), t.getLength(),
                     t.getTrackartists().get(0).getArtistBean().getName(),
@@ -187,14 +222,26 @@ public class AlbumService extends Application {
             }
             artistId = a.getAlbumartists().get(0).getArtistBean().getId();
         }
-        Useralbum mya = useralbumDao.getUseralbum(id, userId);
-        return new JsonAlbum(a.getId(), a.getTitle(), a.getCover(), a.getReleasedate(),
-                (a.getGenreBean() != null) ? a.getGenreBean().getName() : "",
-                (a.getGenreBean() != null) ? a.getGenreBean().getId() : null, tracks.size(),
-                (a.getSupportBean() != null) ? a.getSupportBean().getName() : "",
-                (a.getSupportBean() != null) ? a.getSupportBean().getId() : null, artistName, artistId,
-                (mya != null) ? true : false, (mya != null) ? mya.getRating() : 0,
-                (mya != null) ? mya.getIssigned() : false, lt);
+        Useralbum mya = useralbumDao.getUseralbum(a.getId(), request.getHeader(Constants.HTTP_HEADER_TOKEN));
+        JsonAlbum ja = new JsonAlbum().setId(a.getId()).setTitle(a.getTitle()).setCover(a.getCover())
+                .setReleaseDate(a.getReleasedate()).setCds(a.getCds()).setNbTracks(tracks.size()).setTracks(lt)
+                .setArtist(artistName).setArtistId(artistId);
+        if (a.getGenreBean() != null) {
+            ja.setGenre(a.getGenreBean().getName()).setGenreId(a.getGenreBean().getId());
+        } else {
+            ja.setGenre("").setGenreId(null);
+        }
+        if (a.getSupportBean() != null) {
+            ja.setSupport(a.getSupportBean().getName()).setSupportId(a.getSupportBean().getId());
+        } else {
+            ja.setSupport("").setSupportId(null);
+        }
+        if (mya != null) {
+            ja.setMycollec(true).setRating(mya.getRating()).setSigned(mya.getIssigned());
+        } else {
+            ja.setMycollec(false).setRating(0).setSigned(false);
+        }
+        return ja;
     }
 
     /**
@@ -211,6 +258,7 @@ public class AlbumService extends Application {
             a.setTitle(album.getTitle());
             a.setCover(album.getCover());
             a.setReleasedate(album.getReleaseDate());
+            a.setCds(ja.getCds());
             if (album.getGenreId() != null) {
                 a.setGenreBean(genreDAO.getGenre(album.getGenreId()));
             }
@@ -221,14 +269,76 @@ public class AlbumService extends Application {
             Albumartist aa = new Albumartist();
             AlbumartistPK aaid = new AlbumartistPK();
             aaid.setAlbum(a.getId().intValue());
-            aaid.setArtist(album.getArtistId().intValue());
-            aa.setId(aaid);
-            aa.setAlbumBean(a);
-            aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+            Artist albumArtist = artistDao.findArtistByName(ja.getArtist());
+            if (ja.getArtistId() != null) {
+                albumArtist = artistDao.getArtist(album.getArtistId());
+                aaid.setArtist(album.getArtistId().intValue());
+                aa.setId(aaid);
+                aa.setAlbumBean(a);
+                aa.setArtistBean(artistDao.getArtist(album.getArtistId()));
+            } else {
+                if (albumArtist == null) {
+                    albumArtist = new Artist();
+                    albumArtist.setName(ja.getArtist());
+                    albumArtist.setArtisttype(artisttypeDAO.getArtisttype(1));
+                    artistDao.saveArtist(albumArtist);
+                }
+                aaid.setArtist(albumArtist.getId().intValue());
+                aa.setId(aaid);
+                aa.setAlbumBean(a);
+                aa.setArtistBean(albumArtist);
+            }
             albumArtistDao.saveAlbumartist(aa);
             a.addAlbumartist(aa);
             albumDao.updateAlbum(a);
             ja.setId(a.getId());
+            for (JsonTrack t : ja.getTracks()) {
+                Track track = new Track();
+                track.setCd(t.getCd());
+                track.setTitle(t.getTitle());
+                track.setAlbumBean(a);
+                track.setLength(t.getLength());
+                track.setNumber(t.getTrackNb());
+                trackDao.saveTrack(track);
+                Trackartist ta = new Trackartist();
+                TrackartistPK taid = new TrackartistPK();
+                taid.setTrack(track.getId().intValue());
+                if (t.getArtistId() != null) {
+                    taid.setArtist(t.getArtistId().intValue());
+                    ta.setId(taid);
+                    ta.setTrackBean(track);
+                    ta.setArtistBean(artistDao.getArtist(album.getArtistId()));
+                } else {
+                    if (!t.getArtist().isEmpty()) {
+                        if (t.getArtist().equalsIgnoreCase(albumArtist.getName())) {
+                            taid.setArtist(albumArtist.getId().intValue());
+                            ta.setId(taid);
+                            ta.setTrackBean(track);
+                            ta.setArtistBean(albumArtist);
+                        } else {
+                            Artist artist = artistDao.findArtistByName(t.getArtist());
+                            if (artist == null) {
+                                artist = new Artist();
+                                artist.setName(t.getArtist());
+                                artist.setArtisttype(artisttypeDAO.getArtisttype(1));
+                                artistDao.saveArtist(artist);
+                            }
+                            taid.setArtist(artist.getId().intValue());
+                            ta.setId(taid);
+                            ta.setTrackBean(track);
+                            ta.setArtistBean(artist);
+                        }
+                    } else {
+                        taid.setArtist(albumArtist.getId().intValue());
+                        ta.setId(taid);
+                        ta.setTrackBean(track);
+                        ta.setArtistBean(albumArtist);
+                    }
+                }
+                trackartistDAO.saveTrackartist(ta);
+                track.addTrackartist(ta);
+                trackDao.updateTrack(track);
+            }
         } else {
             Album a = albumDao.getAlbum(album.getId());
             LOGGER.info("find " + a.getTitle() + " album in the database to update");
@@ -257,41 +367,6 @@ public class AlbumService extends Application {
             albumDao.updateAlbum(a);
         }
         return ja;
-    }
-
-    /**
-     * GET /albums/user : retrieve albums for one user
-     * 
-     * 
-     * @return
-     */
-    @GET
-    @Path(value = "user")
-    public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, @QueryParam("from") int from,
-            @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
-            @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
-        List<JsonAlbum> albums = albumDao.getUserAlbumsForList(from, limit, orderBy, orderDir, userId);
-        LOGGER.info("find " + albums.size() + " albums in the database");
-        String artistName = "";
-        Integer artistId = 0;
-        List<Albumartist> aartists = null;
-        for (JsonAlbum a : albums) {
-            aartists = albumDao.getAlbumArtists(a.getId());
-            if (!aartists.isEmpty()) {
-                artistName = aartists.get(0).getArtistBean().getName();
-                if (aartists.get(0).getArtistBean().getFirstname() != null) {
-                    artistName += " " + aartists.get(0).getArtistBean().getFirstname();
-                }
-                artistId = aartists.get(0).getArtistBean().getId();
-            } else {
-                artistName = "";
-                artistId = 0;
-            }
-            a.setArtist(artistName);
-            a.setArtistId(artistId);
-            a.setTracks(new ArrayList<JsonTrack>());
-        }
-        return albums;
     }
 
     /**
@@ -393,13 +468,13 @@ public class AlbumService extends Application {
     }
 
     /**
-     * POST /addtocollec : add album to user's collection
+     * POST /removefromcollec : remove album from user's collection
      * 
      * @return
      */
     @POST
-    @Path("addtocollec")
-    public Response addToCollection(JsonMyAlbum album) {
+    @Path("removefromcollec")
+    public Response removeFromCollection(JsonMyAlbum album) {
         Useralbum ua = new Useralbum();
         UseralbumPK uaid = new UseralbumPK();
         uaid.setAlbum(album.getAlbumId().intValue());
@@ -410,7 +485,7 @@ public class AlbumService extends Application {
         ua.setIssigned(album.getSigned());
         ua.setComment(album.getComment());
         ua.setRating(album.getRating());
-        useralbumDao.saveUseralbum(ua);
+        useralbumDao.removeUseralbum(ua);
         return Response.ok(new JsonSimpleResponse(true), MediaType.APPLICATION_JSON).build();
     }
 

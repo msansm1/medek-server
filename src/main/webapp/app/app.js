@@ -169,6 +169,28 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
                 templateUrl : 'app/views/artists/editartist.html',
                 controller : 'ArtistController'
             })
+            // FRIENDS
+            .state('friends', {
+            	abstract: true,
+                url: '/friends',
+                templateUrl : 'app/views/friend/friends.html',
+            })
+            .state('friends.me', {
+                url: '/me',
+                templateUrl : 'app/views/friend/friendslist.html',
+                controller : 'FriendsController'
+            })
+            // FRIENDS
+            .state('loans', {
+            	abstract: true,
+                url: '/loans',
+                templateUrl : 'app/views/loan/loans.html',
+            })
+            .state('loans.me', {
+                url: '/me',
+                templateUrl : 'app/views/loan/loanslist.html',
+                controller : 'LoansController'
+            })
             // ADMIN
             .state('admin', {
                 url: '/admin',
@@ -192,7 +214,7 @@ angular.module('medekApp', ['ui.router', 'medekApp.controllers',
             })
             .state('admin.config', {
                 url: '/config',
-                templateUrl : 'app/views/admin/config.html',
+                templateUrl : 'app/views/admin/config/config.html',
                 controller : 'ConfigController'
             })
             // OTHERS

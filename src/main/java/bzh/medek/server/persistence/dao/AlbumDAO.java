@@ -66,7 +66,7 @@ public class AlbumDAO extends Dao {
         return em
                 .createQuery("SELECT NEW bzh.medek.server.json.album.JsonAlbum(a.id, a.title, "
                         + "a.cover, a.releasedate, a.genreBean.name, a.genreBean.id, "
-                        + "a.supportBean.name, a.supportBean.id, a.nbtracks, true, ua.rating, ua.issigned) "
+                        + "a.supportBean.name, a.supportBean.id, a.nbtracks, a.cds, ua.rating, ua.issigned) "
                         + "FROM Album a INNER JOIN a.useralbums ua " + "where ua.id.user=:param1 ORDER BY " + orderBy
                         + " " + dir, JsonAlbum.class)
                 .setParameter("param1", userId).setFirstResult(index).setMaxResults(limit).getResultList();

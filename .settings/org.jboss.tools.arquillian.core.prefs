@@ -1,4 +1,5 @@
 .deploymentMethodHasToBeStaticAndPublic=warning
+.invalidArchiveFileLocation=warning
 eclipse.preferences.version=1
 enableArquillianValidator=true
 org.jboss.tools.arquillian.core.deploymentArchiveCannotBeCreated=warning

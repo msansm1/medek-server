@@ -50,7 +50,8 @@ public class RestRequestFilter implements ContainerRequestFilter {
             // requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             // }
             // }
-        } else if (!path.equals("/auth/login") && !path.equals("/auth/lostpasswd")) {
+        } else if (!path.equals("/auth/login") && !path.equals("/auth/login/mobile")
+                && !path.equals("/auth/lostpasswd")) {
             String authToken = requestCtx.getHeaderString(Constants.HTTP_HEADER_TOKEN);
             Integer userId = userDao.tokenExists(authToken);
 

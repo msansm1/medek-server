@@ -87,7 +87,7 @@ public class BookDAO extends Dao {
 				+ "b.series, b.booknb, b.isseriedone, "
 				+ "true, ub.rating, ub.issigned) "
 				+ "FROM Book b INNER JOIN b.userbooks ub "
-				+ "WHERE ub.userBean.id=:param1 ORDER BY "+orderBy+" "+dir, JsonBook.class)
+				+ "WHERE ub.id.user=:param1 ORDER BY "+orderBy+" "+dir, JsonBook.class)
 				.setParameter("param1", userId)
 				.setFirstResult(index)
 				.setMaxResults(limit)
