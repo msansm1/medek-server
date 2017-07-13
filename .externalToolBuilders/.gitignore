@@ -1,0 +1,5 @@
+/org.eclipse.wst.common.project.facet.core.builder.launch
+/org.jboss.tools.arquillian.core.arquillianBuilder.launch
+/org.jboss.tools.cdi.core.cdibuilder.launch
+/org.jboss.tools.jst.web.kb.kbbuilder.launch
+/org.jboss.tools.ws.jaxrs.metamodelBuilder.launch
