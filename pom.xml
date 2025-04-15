@@ -11,7 +11,7 @@
 		<version.arquillian_core>1.1.9.Final</version.arquillian_core>
 		<version.shrinkwrap_resolver>2.2.0</version.shrinkwrap_resolver>
 		<version.resteasy>3.0.13.Final</version.resteasy>
-		<version.wildfly>10.0.0.CR4</version.wildfly>
+		<version.wildfly>23.0.2.Final</version.wildfly>
 		<version.surefire.plugin>2.18.1</version.surefire.plugin>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 	</properties>
